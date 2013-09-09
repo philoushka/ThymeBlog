@@ -1,0 +1,21 @@
+﻿@using System.Configuration;
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title - @ConfigurationManager.AppSettings["BlogTitle"]</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    @RenderSection("Styles", false)
+</head>
+<body>
+    <div id="title"><a href="@Url.RouteUrl("Front" )"><h1>DevTxt</h1></a></div>
+    <div class="container">
+        @RenderBody()
+        <br />
+        <hr />
+        <br />
+        <footer>
+           @DateTime.Now.Year - Phil Campbell @@DevTxt
+        </footer>
+    </div>
+</body>
+</html>
