@@ -14,24 +14,22 @@ namespace Thyme.Web.Controllers
         {
             using (var repo = new BlogPostRepo())
             {
-                return View("Front", new Front_vm { RecentBlogPosts = repo.ListRecentBlogPosts(10).ToList() });
+                return View("Front", new Front_vm { RecentBlogPosts = repo.ListRecentBlogPosts(Helpers.Config.NumPostsFrontPage) });
             }
         }
 
         public ActionResult About() { return View(); }
-
-        public ActionResult Contact() { return View(); }
+         
 
         public ActionResult ViewPost(string slug)
         {
-            BlogPost bp = new BlogPost();
+            BlogPost bp;
             using (var repo = new BlogPostRepo())
             {
                 bp = repo.GetPost(slug);
             }
 
             return View(new BlogPost_vm { BlogPost = bp });
-
         }
 
     }

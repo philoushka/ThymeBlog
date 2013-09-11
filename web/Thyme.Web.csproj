@@ -151,10 +151,12 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Extensions\DateTime.cs" />
     <Compile Include="Extensions\Strings.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Config.cs" />
     <Compile Include="Helpers\MarkdownHelper.cs" />
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\BlogPostRepo.cs" />
@@ -187,13 +189,11 @@
     <Content Include="Views\Home\Front.cshtml" />
     <Content Include="Views\Home\ViewPost.cshtml" />
   </ItemGroup>
-  
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
-  
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

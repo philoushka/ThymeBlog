@@ -7,14 +7,14 @@
     @RenderSection("Styles", false)
 </head>
 <body>
-    <div id="title"><a href="@Url.RouteUrl("Front" )"><h1>DevTxt</h1></a><h3  ><a href="http://twitter.com/@ConfigurationManager.AppSettings["TwitterAcct"]">twitter</a>  | @Html.RouteLink("about","about")</h3></div>
+    <div id="title"><a href="@Url.RouteUrl("Front" )"><h1>DevTxt</h1></a><h3  ><a href="http://twitter.com/@(ConfigurationManager.AppSettings["TwitterAcct"])">twitter</a>  | @Html.RouteLink("about","about")</h3></div>
     <div class="container">
         @RenderBody()
         <br />
         <hr />
         <br />
         <footer>
-           @DateTime.Now.Year - Phil Campbell @@DevTxt
+           @DateTime.Now.Year - Phil Campbell - DevTxt.com
         </footer>
     </div>
 </body>
