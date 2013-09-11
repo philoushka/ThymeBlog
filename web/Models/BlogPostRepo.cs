@@ -63,22 +63,29 @@ namespace Thyme.Web.Models
                 {
                     CloneRepo();
                 }
-                
+
             }
         }
 
         public IEnumerable<BlogPost> ListRecentBlogPosts(int getNumRecent)
         {
-            var recentMarkdowns = new DirectoryInfo(LocalRepoPath)
-                .EnumerateFiles("*.md", SearchOption.AllDirectories)
-                .OrderByDescending(x => x.CreationTime)
-                .Take(getNumRecent);
+            var allMarkDowns = new DirectoryInfo(LocalRepoPath)
+                .EnumerateFiles("*.md", SearchOption.TopDirectoryOnly);
 
-            foreach (var mdFile in recentMarkdowns)
+            var recentMarkdowns = ConvertMarkdownsToBlogPosts(allMarkDowns)
+                                  .OrderByDescending(x => x.PublishedOn)
+                                  .Take(getNumRecent);
+
+            return recentMarkdowns;
+
+        }
+
+        public IEnumerable<BlogPost> ConvertMarkdownsToBlogPosts(IEnumerable<FileInfo> markdownFiles)
+        {
+            foreach (var markdown in markdownFiles)
             {
-                yield return ConvertFileToBlogPost(mdFile);
+                yield return ConvertFileToBlogPost(markdown);
             }
-
         }
 
         public BlogPost ConvertFileToBlogPost(FileInfo file)
@@ -91,21 +98,29 @@ namespace Thyme.Web.Models
             {
                 UrlSlug = Path.GetFileNameWithoutExtension(file.FullName),
                 CreatedOn = file.CreationTime,
-                PublishedOn = DateTime.Parse(metaProps.PublishedOn),
+                PublishedOn = (metaProps.PublishedOn.HasValue())?DateTime.Parse(metaProps.PublishedOn):new Nullable<DateTime>(),
                 Title = metaProps.Title,
                 Intro = metaProps.Intro,
-                Body = File.ReadAllText(file.FullName) 
+                Body = File.ReadAllText(file.FullName)
             };
             return bp;
         }
 
         private BlogPostMetaProperties ParseValuesFromComment(string input)
         {
-            input = input.Replace("<!--", string.Empty).Replace("-->", string.Empty);
-            if (input.HasValue())
-                return Newtonsoft.Json.JsonConvert.DeserializeObject<BlogPostMetaProperties>(input);
-            else
-                return new BlogPostMetaProperties { Title="Blog Post", Intro="Blog Intro", PublishedOn=DateTime.Now.ToString()  };
+            try
+            {
+                input = input.Replace("<!--", string.Empty).Replace("-->", string.Empty);
+                if (input.HasValue())
+                    return Newtonsoft.Json.JsonConvert.DeserializeObject<BlogPostMetaProperties>(input);
+                else
+                    return new BlogPostMetaProperties { Title = "Blog Post", Intro = "Blog Intro", PublishedOn = DateTime.Now.ToString() };
+            }
+            catch (Exception)
+            {
+                return new BlogPostMetaProperties { Title = "Blog Post", Intro = "Blog Intro", PublishedOn = DateTime.Now.ToString() };
+            }
+
         }
 
         public bool CachedRepoIsStale
@@ -118,7 +133,7 @@ namespace Thyme.Web.Models
         }
 
         private bool RepoIsOnDisk()
-        {            
+        {
             return System.IO.Directory.Exists(LocalRepoPath);
         }
         private void CloneRepo()

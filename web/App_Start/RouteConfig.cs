@@ -16,7 +16,8 @@ namespace Thyme.Web
             routes.MapRoute(name:"BlogPost",url: "blog/{slug}", defaults:new { controller="Home", action="ViewPost" , slug=""});
             routes.MapRoute("refreshposts", "refreshposts", new {controller="Home", action = "refreshposts" });
             routes.MapRoute("Front", "", new { controller = "Home", action = "Index" });
-            
+            routes.MapRoute("about", "about", new { controller = "Home", action = "About" });
+             
             routes.MapRoute(name: "Default", url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );

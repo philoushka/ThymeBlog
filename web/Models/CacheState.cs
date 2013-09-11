@@ -21,5 +21,7 @@ namespace Thyme.Web.Models
             }
             set { HttpRuntime.Cache[RepoRefreshDate] = value.Value.Ticks; }
         }
+
+    
     }
 }

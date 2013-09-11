@@ -35,3 +35,4 @@ h1, h2, h3 {
         width: 1024px;
         margin: 0 auto;
     }
+ #title h3 {margin-top:20px; margin-right:15px; top:0;right:0; display:inline; position: absolute; }
