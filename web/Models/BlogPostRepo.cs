@@ -1,20 +1,14 @@
-﻿using System;
+﻿using NGit.Api;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using NGit.Api;
 using System.Configuration;
-using NGit;
 using System.IO;
-using Thyme.Web;
-using Newtonsoft.Json.Linq;
-using System.Web.Mvc;
+using System.Linq;
 
 namespace Thyme.Web.Models
 {
     public class BlogPostRepo : IDisposable
     {
-
         Git Repo;
         public void Dispose()
         {
@@ -28,7 +22,6 @@ namespace Thyme.Web.Models
             try
             {
                 Repo = Git.Open(LocalRepoPath);
-
                 RefreshRepoIfReqd();
             }
             catch (NGit.Errors.RepositoryNotFoundException) { CloneRepo(); }
@@ -63,7 +56,6 @@ namespace Thyme.Web.Models
                 {
                     CloneRepo();
                 }
-
             }
         }
 
@@ -73,11 +65,11 @@ namespace Thyme.Web.Models
                 .EnumerateFiles("*.md", SearchOption.TopDirectoryOnly);
 
             var recentMarkdowns = ConvertMarkdownsToBlogPosts(allMarkDowns)
+                                  .Where(x => x.PublishedOn.HasValue)
                                   .OrderByDescending(x => x.PublishedOn)
                                   .Take(getNumRecent);
 
             return recentMarkdowns;
-
         }
 
         public IEnumerable<BlogPost> ConvertMarkdownsToBlogPosts(IEnumerable<FileInfo> markdownFiles)
@@ -91,14 +83,13 @@ namespace Thyme.Web.Models
         public BlogPost ConvertFileToBlogPost(FileInfo file)
         {
             string[] fileText = File.ReadAllLines(file.FullName);
-
             string firstLineComment = fileText.First();
             var metaProps = ParseValuesFromComment(firstLineComment);
             var bp = new BlogPost
             {
                 UrlSlug = Path.GetFileNameWithoutExtension(file.FullName),
                 CreatedOn = file.CreationTime,
-                PublishedOn = (metaProps.PublishedOn.HasValue())?DateTime.Parse(metaProps.PublishedOn):new Nullable<DateTime>(),
+                PublishedOn = (metaProps.PublishedOn.HasValue()) ? DateTime.Parse(metaProps.PublishedOn) : new Nullable<DateTime>(),
                 Title = metaProps.Title,
                 Intro = metaProps.Intro,
                 Body = File.ReadAllText(file.FullName)
@@ -116,10 +107,8 @@ namespace Thyme.Web.Models
                 else
                     return new BlogPostMetaProperties { Title = "Blog Post", Intro = "Blog Intro", PublishedOn = DateTime.Now.ToString() };
             }
-            catch (Exception)
-            {
-                return new BlogPostMetaProperties { Title = "Blog Post", Intro = "Blog Intro", PublishedOn = DateTime.Now.ToString() };
-            }
+            catch (Exception) { }
+            return new BlogPostMetaProperties { Title = "Blog Post", Intro = "Blog Intro", PublishedOn = DateTime.Now.ToString() };
 
         }
 
