@@ -13,7 +13,8 @@ namespace Thyme.Web.Helpers
             {
                 try
                 {
-                    return int.Parse(System.Configuration.ConfigurationManager.AppSettings["FrontPageShowNumberPosts"].ToString());
+                    int numPosts = int.Parse(System.Configuration.ConfigurationManager.AppSettings["FrontPageShowNumberPosts"].ToString());
+                    return (numPosts>0)?numPosts:int.MaxValue;
                 }
                 catch (Exception) { return 0; }
             }
