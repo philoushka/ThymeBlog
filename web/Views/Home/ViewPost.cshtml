@@ -6,7 +6,7 @@
 @section Styles{
     <link href="@Url.Content("~/Content/Post.css")" type="text/css" rel="stylesheet" />
 }
-<h1>@Model.BlogPost.Title</h1>
+<h1>@Html.RouteLink(Model.BlogPost.Title, "BlogPost", new { slug = Model.BlogPost.UrlSlug })</h1>
 <h4>@Model.BlogPost.PublishedOn.PrettyFormat()</h4><br />
 <p>
     @Html.Markdown(Model.BlogPost.Body)
