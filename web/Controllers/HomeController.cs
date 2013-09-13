@@ -19,8 +19,13 @@ namespace Thyme.Web.Controllers
         }
 
         public ActionResult About() { return View(); }
-         
 
+        public ActionResult ForceRepoRefresh()
+        {
+            var repo = new BlogPostRepo();
+            repo.RefreshRepo();
+            return RedirectToAction("Index");
+        }
         public ActionResult ViewPost(string slug)
         {
             BlogPost bp;

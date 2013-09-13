@@ -48,14 +48,19 @@ namespace Thyme.Web.Models
         {
             if (CachedRepoIsStale)
             {
-                try
-                {
-                    PullRepo();
-                }
-                catch (Exception)
-                {
-                    CloneRepo();
-                }
+                RefreshRepo();
+            }
+        }
+
+        public void RefreshRepo()
+        {
+            try
+            {
+                PullRepo();
+            }
+            catch (Exception)
+            {
+                CloneRepo();
             }
         }
 
@@ -128,6 +133,7 @@ namespace Thyme.Web.Models
         private void CloneRepo()
         {
             var clone = Git.CloneRepository().SetDirectory(LocalRepoPath).SetURI(GitRepoUri);
+
             Repo = clone.Call();
             CacheState.LastRepoRefreshDate = DateTime.UtcNow;
         }

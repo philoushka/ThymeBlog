@@ -14,7 +14,7 @@ namespace Thyme.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(name:"BlogPost",url: "blog/{slug}", defaults:new { controller="Home", action="ViewPost" , slug=""});
-            routes.MapRoute("refreshposts", "refreshposts", new {controller="Home", action = "refreshposts" });
+            routes.MapRoute("ForceRepoRefresh", "ForceRepoRefresh", new { controller = "Home", action = "ForceRepoRefresh" });
             routes.MapRoute("Front", "", new { controller = "Home", action = "Index" });
             routes.MapRoute("about", "about", new { controller = "Home", action = "About" });
              
