@@ -10,7 +10,7 @@ namespace Thyme.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult About() { return View("AboutMe"); }
+        public ActionResult About() { return View(); }
         
     }
 }
