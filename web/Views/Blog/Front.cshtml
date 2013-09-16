@@ -1,11 +1,9 @@
 ﻿@model Thyme.Web.ViewModels.Front_vm
  
 @{
-    //ViewBag.Title = "";  
+    ViewBag.Title = "Tech Blog - Phil Campbell";  
 }
-@section Styles{
-    <link href="@Url.Content("~/Content/Front.css")" type="text/css" rel="stylesheet" />
-}
+
 <ul class="postList">
     @foreach (var item in Model.RecentBlogPosts){
     <li><span class="blogPostTitle">@Html.RouteLink(item.Title, "BlogPost", new { slug = item.UrlSlug })</span><br />

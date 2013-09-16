@@ -132,8 +132,10 @@ namespace Thyme.Web.Models
         }
         private void CloneRepo()
         {
+            System.IO.Directory.Delete(LocalRepoPath, true);
+            System.IO.Directory.CreateDirectory(LocalRepoPath);
             var clone = Git.CloneRepository().SetDirectory(LocalRepoPath).SetURI(GitRepoUri);
-
+            
             Repo = clone.Call();
             CacheState.LastRepoRefreshDate = DateTime.UtcNow;
         }

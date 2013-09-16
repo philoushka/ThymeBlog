@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Extensions\DateTime.cs" />
     <Compile Include="Extensions\Strings.cs" />
@@ -159,18 +160,18 @@
     <Compile Include="Helpers\Config.cs" />
     <Compile Include="Helpers\MarkdownHelper.cs" />
     <Compile Include="Models\BlogPost.cs" />
-    <Compile Include="Models\BlogPostRepo.cs" />
-    <Compile Include="Models\CacheState.cs" />
+    <Compile Include="Data\BlogPostRepo.cs" />
+    <Compile Include="Helpers\CacheState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BlogPost_vm.cs" />
     <Compile Include="ViewModels\Front_vm.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Post.css" />
-    <Content Include="Content\Front.css" />
-    <Content Include="favicon.ico" />
+    <Content Include="Styles\Post.css" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Styles\iPad.css" />
+    <Content Include="Styles\Site.css" />
+    <Content Include="robots.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -185,14 +186,16 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Front.cshtml" />
-    <Content Include="Views\Home\ViewPost.cshtml" />
+    <Content Include="Views\Blog\Front.cshtml" />
+    <Content Include="Views\Blog\ViewPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\AboutMe.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
