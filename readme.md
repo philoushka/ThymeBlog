@@ -3,7 +3,7 @@ Thyme Blog
 
 ###What Is This?###
 
-This is a blog engine that reads a Git repo full of yoru blog posts in Markdown format.
+This is a blog engine that reads a Git repo full of your blog posts in Markdown format.
 
 ###Technologies Used###
 
@@ -41,3 +41,15 @@ The Markdown file is assumed to have a bit of serialized JSON in an HTML comment
          PublishedOn:"2010-08-20 07:17", 
          Intro:"Some description about your post. A teaser, if you will."-->
 
+####Windows Azure####
+Unless you have a Windows machine with IIS at your disposal, you're probably thinking you need some hosting. Just use [Windows Azure](http://www.windowsazure.com/en-us/pricing/free-trial/). It's sooo much cheaper than regular shared hosting.
+
+![](http://i.imgur.com/0mtNlWa.png)
+
+<img src="http://i.imgur.com/bNyHELF.png" style="border:1px solid black"  >
+ 
+ 
+
+<img src="http://i.imgur.com/SohJzlF.png" style="border:1px solid black"  >
+
+<img src="http://i.imgur.com/EKXP4qm.png" style="border:1px solid black"  >
