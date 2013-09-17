@@ -2,9 +2,11 @@ Thyme Blog
 ---------------
 
 ###What Is This?###
-This is a blog engine that reads your git repo full of markdown  files.
 
-###Technologies###
+This is a blog engine that reads a Git repo full of yoru blog posts in Markdown format.
+
+###Technologies Used###
+
 * ASP.NET MVC
 * Markdown
 * Windows Azure websites (optional)
@@ -33,8 +35,9 @@ This blog engine assumes that:
 ####Dirty Details On Your Markdown Files####
 The blog engine converts your Markdown files to HTML as they're requested by the browser.
 
-The Markdown file is assumed to have a bit of serialized JSON in an HTML comment as the first line in the Markdown file. Here it reads meta data about the blog post.
+The Markdown file is assumed to have a bit of serialized JSON in an HTML comment as the first line in the Markdown file. Here it reads meta data about the blog post. This meta data is used when listing your posts on the website's front page.
 
     <!-- Title:"Your Blog Post Click Bait Headline",
          PublishedOn:"2010-08-20 07:17", 
          Intro:"Some description about your post. A teaser, if you will."-->
+
