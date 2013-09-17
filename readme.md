@@ -48,8 +48,6 @@ Unless you have a Windows machine with IIS at your disposal, you're probably thi
 
 <img src="http://i.imgur.com/bNyHELF.png" style="border:1px solid black"  >
  
- 
-
 <img src="http://i.imgur.com/SohJzlF.png" style="border:1px solid black"  >
 
 <img src="http://i.imgur.com/EKXP4qm.png" style="border:1px solid black"  >
