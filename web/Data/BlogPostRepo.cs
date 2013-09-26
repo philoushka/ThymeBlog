@@ -87,8 +87,10 @@ namespace Thyme.Web.Models
 
         public BlogPost ConvertFileToBlogPost(FileInfo file)
         {
-            string[] fileText = File.ReadAllLines(file.FullName);
+            List<string> fileText = File.ReadAllLines(file.FullName).ToList();
             string firstLineComment = fileText.First();
+            fileText.RemoveAt(0);
+            if(fileText.First().Trim()==string.Empty)            {fileText.RemoveAt(0);}
             var metaProps = ParseValuesFromComment(firstLineComment);
             var bp = new BlogPost
             {
@@ -97,7 +99,8 @@ namespace Thyme.Web.Models
                 PublishedOn = (metaProps.PublishedOn.HasValue()) ? DateTime.Parse(metaProps.PublishedOn) : new Nullable<DateTime>(),
                 Title = metaProps.Title,
                 Intro = metaProps.Intro,
-                Body = File.ReadAllText(file.FullName)
+                Body = string.Join(Environment.NewLine,fileText.ToArray()) 
+             //   Body = File.ReadAllText(file.FullName)
             };
             return bp;
         }
@@ -132,7 +135,11 @@ namespace Thyme.Web.Models
         }
         private void CloneRepo()
         {
-            System.IO.Directory.Delete(LocalRepoPath, true);
+            try
+            {
+                System.IO.Directory.Delete(LocalRepoPath, true);
+            }
+            catch (DirectoryNotFoundException) { }
             System.IO.Directory.CreateDirectory(LocalRepoPath);
             var clone = Git.CloneRepository().SetDirectory(LocalRepoPath).SetURI(GitRepoUri);
             
