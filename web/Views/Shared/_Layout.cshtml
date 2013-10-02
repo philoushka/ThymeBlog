@@ -2,20 +2,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>@ViewBag.Title ; @ConfigurationManager.AppSettings["BlogTitle"]</title>
+    <title>@ViewBag.Title - @ViewBag.SiteName</title>
     <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
     @*<link href="~/Styles/iPad.css" rel="stylesheet" type="text/css" media="only screen and (max-device-width: 1024px)" />*@
     @RenderSection("Styles", false)
 </head>
 <body>
-    <div id="title"><a href="@Url.RouteUrl("Front" )"><h1>DevTxt</h1></a><h3  ><a href="http://twitter.com/@(ConfigurationManager.AppSettings["TwitterAcct"])">twitter</a>  | @Html.RouteLink("about","about")</h3></div>
+    <div id="title"><a href="@Url.RouteUrl("Front" )"><h1>@ViewBag.SiteName</h1></a><h3  ><a href="http://twitter.com/@(ViewBag.TwitterAccountName)">twitter</a>  | @Html.RouteLink("about","about")</h3></div>
     <div class="container">
         @RenderBody()
         <br />
         <hr />
         <br />
         <footer>
-           @DateTime.Now.Year - Phil Campbell - DevTxt.com
+           @DateTime.Now.Year - @ViewBag.MyName
         </footer>
     </div>
 </body>

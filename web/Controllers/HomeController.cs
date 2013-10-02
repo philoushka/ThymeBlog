@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Configuration;
 using System.Web.Mvc;
-using Thyme.Web.Models;
-using Thyme.Web.ViewModels;
 
 namespace Thyme.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ThymeBaseController
     {
-        public ActionResult About() { return View(); }
+        public ActionResult About() {
+            ViewBag.StackOverflowUserNumber = ConfigurationManager.AppSettings["StackOverflowUserNumber"];
+            return View(); 
+        }
         
     }
 }
