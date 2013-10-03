@@ -17,6 +17,7 @@ namespace Thyme.Web.Controllers
 
         public ActionResult ForceRepoRefresh()
         {
+            
             var repo = new BlogPostRepo();
             repo.RefreshRepo();
             return RedirectToAction("Index");
