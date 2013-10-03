@@ -7,20 +7,22 @@ namespace Thyme.Web.Controllers
     public class BlogController : ThymeBaseController
     {
          
-        public ActionResult Index()
+        public ActionResult ListRecentPosts(bool showAll=false)
         {
             using (var repo = new BlogPostRepo())
-            {                
-                return View("Front", new Front_vm { RecentBlogPosts = repo.ListRecentBlogPosts(Helpers.Config.NumPostsFrontPage) });
+            {
+                int numPosts = showAll ? int.MaxValue : Helpers.Config.NumPostsFrontPage;
+                return View("Front", new Front_vm { RecentBlogPosts = repo.ListRecentBlogPosts(numPosts) });
             }
         }
 
         public ActionResult ForceRepoRefresh()
         {
-            
-            var repo = new BlogPostRepo();
-            repo.RefreshRepo();
-            return RedirectToAction("Index");
+            using (var repo = new BlogPostRepo())
+            {
+                repo.RefreshRepo();
+                return RedirectToAction("Index");
+            }
         }
         public ActionResult ViewPost(string slug)
         {

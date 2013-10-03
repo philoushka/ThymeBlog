@@ -21,7 +21,12 @@ namespace Thyme.Web.Models
         {
             try
             {
+                if (RepoIsOnDisk() == false)
+                {
+                    CloneRepo();
+                }
                 Repo = Git.Open(LocalRepoPath);
+
                 RefreshRepoIfReqd();
             }
             catch (NGit.Errors.RepositoryNotFoundException) { CloneRepo(); }
@@ -64,15 +69,14 @@ namespace Thyme.Web.Models
             }
         }
 
-        public IEnumerable<BlogPost> ListRecentBlogPosts(int getNumRecent)
+        public IEnumerable<BlogPost> ListRecentBlogPosts(int numToTake)
         {
-            var allMarkDowns = new DirectoryInfo(LocalRepoPath)
-                .EnumerateFiles("*.md", SearchOption.TopDirectoryOnly);
-
+            var allMarkDowns = new DirectoryInfo(LocalRepoPath).EnumerateFiles("*.md", SearchOption.TopDirectoryOnly);
+            
             var recentMarkdowns = ConvertMarkdownsToBlogPosts(allMarkDowns)
                                   .Where(x => x.PublishedOn.HasValue)
                                   .OrderByDescending(x => x.PublishedOn)
-                                  .Take(getNumRecent);
+                                  .Take(numToTake);
 
             return recentMarkdowns;
         }
@@ -135,16 +139,12 @@ namespace Thyme.Web.Models
         }
         private void CloneRepo()
         {
-            try
+            if (RepoIsOnDisk())
             {
-                System.IO.Directory.Delete(LocalRepoPath, true);
+                System.IO.Directory.CreateDirectory(LocalRepoPath);
             }
-            catch (DirectoryNotFoundException) { }
-            catch (UnauthorizedAccessException) { }
 
-            System.IO.Directory.CreateDirectory(LocalRepoPath);
             var clone = Git.CloneRepository().SetDirectory(LocalRepoPath).SetURI(GitRepoUri);
-
             Repo = clone.Call();
             CacheState.LastRepoRefreshDate = DateTime.UtcNow;
         }
