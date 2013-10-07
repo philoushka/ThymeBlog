@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using Thyme.Web.Models;
 using Thyme.Web.ViewModels;
 
@@ -6,8 +8,7 @@ namespace Thyme.Web.Controllers
 {
     public class BlogController : ThymeBaseController
     {
-         
-        public ActionResult ListRecentPosts(bool showAll=false)
+        public ActionResult ListRecentPosts(bool showAll = false)
         {
             using (var repo = new BlogPostRepo())
             {
@@ -21,34 +22,38 @@ namespace Thyme.Web.Controllers
             using (var repo = new BlogPostRepo())
             {
                 repo.RefreshRepo();
-                return RedirectToAction("Index");
+                return RedirectToRoute("Front");
             }
         }
         public ActionResult ViewPost(string slug)
-        {
-            BlogPost bp;
+        {            
             using (var repo = new BlogPostRepo())
             {
-                bp = repo.GetPost(slug);
+                BlogPost bp = repo.GetPost(slug); 
+                return View(new BlogPost_vm { BlogPost = bp });
             }
-            
-            return View(new BlogPost_vm { BlogPost = bp });
         }
 
         [HttpPost]
-        public ActionResult Search(string searchKeywords)
-        {
-            //TODO implement this with Post Redirect Get pattern
-            return RedirectToAction("Search", new { keyphrase = searchKeywords });
+        public ActionResult PostSearch()
+        {            
+            string searchTerms = Request.Form["searchText"].ToString().Trim().CreateSlug();
+            if (searchTerms.HasValue())
+                return RedirectToRoute("SearchBlogPosts", new { keywords = searchTerms }); 
+            else
+                return RedirectToRoute("Front");
         }
 
         [HttpGet]
-        public ActionResult SearchPosts(string keywords)
+        public ActionResult SearchBlogPosts(string keywords)
         {
-            //TODO implement this with Post Redirect Get pattern
-            ViewBag.SearchKeywords = keywords;
-            return View();
+            using (var repo = new BlogPostRepo())
+            {
+                keywords = keywords.RemoveSlugSeparators();
+                IEnumerable<BlogPost> matchingPosts = repo.SearchPosts(keywords.Split(' '));
+                ViewBag.SearchKeywords = keywords;
+                return View("SearchResults",new Search_vm { SearchKeywords = keywords, MatchingBlogPosts = matchingPosts });
+            }
         }
-
     }
 }

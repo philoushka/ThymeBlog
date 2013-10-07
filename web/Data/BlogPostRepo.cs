@@ -69,16 +69,28 @@ namespace Thyme.Web.Models
             }
         }
 
+        private const string AllMarkdownFiles = "*.md";
+        private IEnumerable<FileInfo> RepoMarkdownFiles
+        {
+            get
+            {
+                return new DirectoryInfo(LocalRepoPath).EnumerateFiles(AllMarkdownFiles, SearchOption.TopDirectoryOnly);
+            }
+        }
         public IEnumerable<BlogPost> ListRecentBlogPosts(int numToTake)
         {
-            var allMarkDowns = new DirectoryInfo(LocalRepoPath).EnumerateFiles("*.md", SearchOption.TopDirectoryOnly);
-            
-            var recentMarkdowns = ConvertMarkdownsToBlogPosts(allMarkDowns)
+            return ConvertMarkdownsToBlogPosts(RepoMarkdownFiles)
                                   .Where(x => x.PublishedOn.HasValue)
                                   .OrderByDescending(x => x.PublishedOn)
                                   .Take(numToTake);
+        }
 
-            return recentMarkdowns;
+        public IEnumerable<BlogPost> SearchPosts(string[] keywords)
+        {
+            return ConvertMarkdownsToBlogPosts(RepoMarkdownFiles)
+                                  .Where(x => x.PublishedOn.HasValue)
+                                  .Where(x => keywords.Any(k => x.Body.Contains(k)))
+                                  .OrderByDescending(x => x.PublishedOn);
         }
 
         public IEnumerable<BlogPost> ConvertMarkdownsToBlogPosts(IEnumerable<FileInfo> markdownFiles)
@@ -104,7 +116,6 @@ namespace Thyme.Web.Models
                 Title = metaProps.Title,
                 Intro = metaProps.Intro,
                 Body = string.Join(Environment.NewLine, fileText.ToArray())
-                //   Body = File.ReadAllText(file.FullName)
             };
             return bp;
         }

@@ -4,18 +4,23 @@
 <head>
     <title>@ViewBag.Title - @ViewBag.SiteName</title>
     <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
-    @*<link href="~/Styles/iPad.css" rel="stylesheet" type="text/css" media="only screen and (max-device-width: 1024px)" />*@
     @RenderSection("Styles", false)
 </head>
 <body>
-    <div id="title"><a href="@Url.RouteUrl("Front" )"><h1>@ViewBag.SiteName</h1></a><h3  ><a href="http://twitter.com/@(ViewBag.TwitterAccountName)">twitter</a>  | @Html.RouteLink("about","about")</h3></div>
+    <div id="title">
+        <a href="@Url.RouteUrl("Front" )"><h1>@ViewBag.SiteName</h1></a><h3><a href="http://twitter.com/@(ViewBag.TwitterAccountName)">twitter</a>  | @Html.RouteLink("about", "about")</h3>
+        @using (Html.BeginRouteForm("PostSearch", FormMethod.Post))
+        {
+            <input type="text" id="searchText" name="searchText" value="@ViewBag.SearchKeywords" />
+        }
+    </div>
     <div class="container">
         @RenderBody()
         <br />
         <hr />
         <br />
         <footer>
-           @DateTime.Now.Year - @ViewBag.MyName
+            @DateTime.Now.Year - @ViewBag.MyName
         </footer>
     </div>
 </body>

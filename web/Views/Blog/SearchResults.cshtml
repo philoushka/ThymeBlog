@@ -1,0 +1,15 @@
+﻿@model Thyme.Web.ViewModels.Search_vm
+ 
+@{
+    ViewBag.Title = "Search Results: '{0}' - Tech Blog - Phil Campbell".FormatWith(Model.SearchKeywords);  
+}
+@Model.MatchingBlogPosts.Count() blog posts matching your seach for '@Model.SearchKeywords'
+<br />
+<ul class="postList">
+    @foreach (var item in Model.MatchingBlogPosts){
+    <li><span class="blogPostTitle">@Html.RouteLink(item.Title, "BlogPost", new { slug = item.UrlSlug })</span><br />
+        <span class="blogPostPreview">@item.Intro</span><hr /></li>
+    }
+</ul>
+<br />
+@Html.RouteLink("View All Posts","AllPosts")
