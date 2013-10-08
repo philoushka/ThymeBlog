@@ -44,7 +44,7 @@ footer {
     }
 
     #title h3 {
-        margin-top: 20px;
+        margin-top: 5px;
         margin-right: 15px;
         top: 0;
         right: 0;
@@ -53,11 +53,12 @@ footer {
     }
 
     #title input[type=text] {
-        margin-top: 45px;
+        margin-top: 30px;
         margin-right: 15px;
         top: 0;
         right: 0;
         display: inline;
+        width:250px;
         position: absolute;
     }
 

@@ -169,6 +169,7 @@
     <Compile Include="ViewModels\Front_vm.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="devtxtfavicon.ico" />
     <Content Include="Styles\Post.css" />
     <Content Include="Global.asax" />
     <Content Include="Styles\iPad.css" />
