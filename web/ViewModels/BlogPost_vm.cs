@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Thyme.Web.Models;
+﻿using Thyme.Web.Models;
 
 namespace Thyme.Web.ViewModels
 {

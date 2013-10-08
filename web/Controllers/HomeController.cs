@@ -9,6 +9,5 @@ namespace Thyme.Web.Controllers
             ViewBag.StackOverflowUserNumber = ConfigurationManager.AppSettings["StackOverflowUserNumber"];
             return View(); 
         }
-        
     }
 }
