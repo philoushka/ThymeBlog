@@ -1,9 +1,8 @@
 ﻿@model Thyme.Web.ViewModels.Search_vm
- 
 @{
     ViewBag.Title = "Search Results: '{0}' - Tech Blog - Phil Campbell".FormatWith(Model.SearchKeywords);  
 }
-@Model.MatchingBlogPosts.Count() blog posts matching your seach for '@Model.SearchKeywords'
+@Model.MatchingBlogPosts.Count() blog posts matched your search for '@Model.SearchKeywords'
 <br />
 <ul class="postList">
     @foreach (var item in Model.MatchingBlogPosts){

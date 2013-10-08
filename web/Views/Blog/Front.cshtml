@@ -1,14 +1,12 @@
 ﻿@model Thyme.Web.ViewModels.Front_vm
- 
 @{
     ViewBag.Title = "Tech Blog - Phil Campbell";  
 }
-
 <ul class="postList">
-    @foreach (var item in Model.RecentBlogPosts){
-    <li><span class="blogPostTitle">@Html.RouteLink(item.Title, "BlogPost", new { slug = item.UrlSlug })</span><br />
-        <span class="blogPostPreview">@item.Intro</span><hr /></li>
-    }
+@foreach (var item in Model.RecentBlogPosts){
+<li><span class="blogPostTitle">@Html.RouteLink(item.Title, "BlogPost", new { slug = item.UrlSlug })</span><br />
+<span class="blogPostPreview">@item.Intro</span><hr /></li>
+}
 </ul>
 <br />
 @Html.RouteLink("View All Posts","AllPosts")
