@@ -9,6 +9,7 @@ namespace Thyme.Web.Models
 {
     public class BlogPostRepo : IDisposable
     {
+        StringComparison CaseInsensitive = StringComparison.CurrentCultureIgnoreCase;
         Git Repo;
         public void Dispose()
         {
@@ -89,7 +90,7 @@ namespace Thyme.Web.Models
         {
             return ConvertMarkdownsToBlogPosts(RepoMarkdownFiles)
                                   .Where(x => x.PublishedOn.HasValue)
-                                  .Where(x => keywords.Any(k => x.Body.Contains(k)))
+                                  .Where(x => keywords.Any(k => x.Body.Contains(k, CaseInsensitive)))
                                   .OrderByDescending(x => x.PublishedOn);
         }
 

@@ -19,6 +19,16 @@ namespace Thyme.Web
             return string.IsNullOrEmpty(input) == false;
         }
 
+        public static bool Contains(this string input, string substringToFind, StringComparison comparisonType)
+        {
+            if (input == null)
+            {
+                throw new ArgumentNullException("input");
+            }
+
+            return input.IndexOf(substringToFind, comparisonType) >= 0;
+        }
+
         private static char[] Whitespace = new char[] { ' ', '\t', '\n', '\r' };
         private const char SlugSeparator = '-';
         
