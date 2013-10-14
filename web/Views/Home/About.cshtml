@@ -4,13 +4,40 @@
 <h2>About Me</h2>
 <p>This blog is meant to exercise my writing and documentation skills. It's not meant to be read by anybody.</p>
 <p>I'm a software developer. I like learning new things and new ways of doing things.</p>
-<h3>Contributions At StackOverflow</h3>
-<p>
+<h3>Contributions/Projects</h3>
 
-    @if (ViewBag.StackOverflowUserNumber != "")
-{
-    <a href="http://stackoverflow.com/u/@(ViewBag.StackOverflowUserNumber)">
-        <img src="http://stackoverflow.com/users/flair/@(ViewBag.StackOverflowUserNumber).png" width="208" height="58">
-    </a>
-}
-</p>
+<table style="width:75%; border:none"   >
+    <tr>
+        <td>
+            <h4>StackOverflow</h4>
+            <p>
+
+                @if (ViewBag.StackOverflowUserNumber != "")
+                {
+                    <a href="http://stackoverflow.com/u/@(ViewBag.StackOverflowUserNumber)">
+                        <img src="http://stackoverflow.com/users/flair/@(ViewBag.StackOverflowUserNumber).png" width="208" height="58">
+                    </a>
+                }
+            </p>
+        </td>
+        <td>
+            <h4>Open Source Projects</h4>
+            <ul>
+                <li><a href="http://github.com/philoushka">GitHub</a></li>
+                <li><a href="http://www.codeplex.com/site/users/view/philoushka">CodePlex</a></li>
+
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h4>Extension Methods</h4>
+            I've contributed a few <a href="http://extensionmethod.net/Author/phil-campbell">extension methods at extensionmethod.net</a>
+        </td>
+        <td></td>
+    </tr>
+</table>
+
+
+
+
