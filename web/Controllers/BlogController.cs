@@ -6,6 +6,7 @@ using Thyme.Web.ViewModels;
 
 namespace Thyme.Web.Controllers
 {
+    [HandleError]
     public class BlogController : ThymeBaseController
     {
         public ActionResult ListRecentPosts(bool showAll = false)

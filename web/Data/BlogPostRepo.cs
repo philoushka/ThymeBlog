@@ -44,6 +44,7 @@ namespace Thyme.Web.Models
                 var p = new DirectoryInfo(LocalRepoPath).EnumerateFiles("*.md", SearchOption.AllDirectories).Single(x => x.Name == "{0}.md".FormatWith(slug));
                 return ConvertFileToBlogPost(p);
             }
+            catch (InvalidOperationException) { throw new System.Web.HttpException(404, "That blog post can't be found right now."); }
             catch (Exception)
             {
                 return null;

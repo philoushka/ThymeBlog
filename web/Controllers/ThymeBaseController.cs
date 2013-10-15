@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 namespace Thyme.Web.Controllers
 {
+    [HandleError]
     public class ThymeBaseController:Controller
     {
 
