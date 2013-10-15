@@ -1,17 +1,10 @@
-﻿@{
-    Layout = null;
+﻿@model System.Web.Mvc.HandleErrorInfo
+<h2>Oops. Something broke.</h2>
+@if (Model != null)
+{        
+    <p>@string.Format("{0} at {1}/{2}",Model.Exception.Message, Model.ControllerName,Model.ActionName)</p>
+    <div style="overflow:scroll">
+        <pre>@Model.Exception.StackTrace</pre>
+    </div>
 }
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
-</head>
-<body>
-    <hgroup>
-        <h1>Error.</h1>
-        <h2>An error occurred while processing your request.</h2>
-    </hgroup>
-</body>
-</html>
+ 
