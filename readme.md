@@ -35,11 +35,13 @@ This blog engine assumes that:
 ####Dirty Details On Your Markdown Files####
 The blog engine converts your Markdown files to HTML as they're requested by the browser.
 
-The Markdown file is assumed to have a bit of serialized JSON in an HTML comment as the first line in the Markdown file. Here it reads meta data about the blog post. This meta data is used when listing your posts on the website's front page.
+The Markdown file is assumed to have a bit of **serialized JSON in an HTML comment** as the first line in the Markdown file. Here it reads meta data about the blog post. This meta data is used when listing your posts on the website's front page.
 
-    <!-- Title:"Your Blog Post Click Bait Headline",
+    <!-- {Title:"Your Blog Post Click Bait Headline",
          PublishedOn:"2010-08-20 07:17", 
-         Intro:"Some description about your post. A teaser, if you will."-->
+         Intro:"Some description about your post. A teaser, if you will."}-->
+         
+**Change the above to be one line!**
 
 ####Windows Azure####
 Unless you have a Windows machine with IIS at your disposal, you're probably thinking you need some hosting. Just use [Windows Azure](http://www.windowsazure.com/en-us/pricing/free-trial/). It's sooo much cheaper than regular shared hosting.
