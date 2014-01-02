@@ -2,7 +2,7 @@
 body {
     width: 99%;
     font-family: "Open Sans", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
-    font-size: larger;
+    font-size: medium;
     padding:0 0 0 5px; 
     margin: 0 0 0 5px;
 }
@@ -61,16 +61,14 @@ footer {
         position: absolute;
     }
 
-
-ul.postList {
-    list-style: none;
-    padding: 0;
-}
+    ul.postList {
+        list-style: none;
+        padding: 0;
+    }
 
     ul.postList li span.blogPostTitle {
         color: #047;
-        font-size: 17px;
-    
+        font-size:large;
         display: inline-block;
     }
 
