@@ -10,6 +10,9 @@ namespace Thyme.Web.Models
         public string Body { get; set; }
         public string UrlSlug { get; set; }
         public string Intro { get; set; }
+        public string FileName { get; set; }
+        public string SHA { get; set; }
+        public string Url { get; set; }
     }
 
     public class BlogPostMetaProperties

@@ -1,4 +1,4 @@
-﻿using NGit.Api;
+﻿ 
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,34 +10,20 @@ namespace Thyme.Web.Models
     public class BlogPostRepo : IDisposable
     {
         StringComparison CaseInsensitive = StringComparison.CurrentCultureIgnoreCase;
-        Git Repo;
-        public void Dispose()
-        {
-            Repo.GetRepository().Close();
-            Repo.GetRepository().ObjectDatabase.Close();
-            Repo = null;
-        }
+        private const string AllMarkdownFiles = "*.md";
+
+        public string GitHubApiUri { get { return ConfigurationManager.AppSettings["GitHubRepoApiUrl"].ToString(); } }
+
+        public string LocalRepoPath { get { return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["BlogFilesDir"].ToString()); } }
+  
+      
 
         public BlogPostRepo()
         {
-            try
-            {
-                if (RepoIsOnDisk() == false)
-                {
-                    CloneRepo();
-                }
-                Repo = Git.Open(LocalRepoPath);
-
-                RefreshRepoIfReqd();
-            }
-            catch (NGit.Errors.RepositoryNotFoundException) { CloneRepo(); }
+             
         }
 
-
-        public string GitRepoUri { get { return ConfigurationManager.AppSettings["GitRepo"].ToString(); } }
-
-        public string LocalRepoPath { get { return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["BlogFilesDir"].ToString()); } }
-        public BlogPost GetPost(string slug)
+      public BlogPost GetPost(string slug)
         {
             try
             {
@@ -58,20 +44,9 @@ namespace Thyme.Web.Models
                 RefreshRepo();
             }
         }
+         
 
-        public void RefreshRepo()
-        {
-            try
-            {
-                PullRepo();
-            }
-            catch (Exception)
-            {
-                CloneRepo();
-            }
-        }
-
-        private const string AllMarkdownFiles = "*.md";
+       
         private IEnumerable<FileInfo> RepoMarkdownFiles
         {
             get
@@ -159,7 +134,7 @@ namespace Thyme.Web.Models
 
             var clone = Git.CloneRepository().SetDirectory(LocalRepoPath).SetURI(GitRepoUri);
             Repo = clone.Call();
-            CacheState.LastRepoRefreshDate = DateTime.UtcNow;
+            CacheState.LastCommitDate = DateTime.UtcNow;
         }
 
         private void PullRepo()

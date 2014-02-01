@@ -27,6 +27,12 @@ namespace Thyme.Web.Helpers
             }
         }
 
+        public static double CacheTTLHours { get { return double.Parse(ConfigurationManager.AppSettings["RepoTTLInCacheHours"]); } }
+        public static string BlogName { get { return  ConfigurationManager.AppSettings["BlogSiteName"]; } }
+
+        public static string GitHubRepo { get { return ConfigurationManager.AppSettings["GitHubRepo"]; } }
+        public static string GitHubOwner { get { return ConfigurationManager.AppSettings["GitHubOwner"]; } }
+
         /// <summary>
         /// Gets the datetime format from config. If config setting is missing, or any exception, the default MMM dd YYYY format will be returned.
         /// </summary>
