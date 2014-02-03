@@ -18,13 +18,31 @@ namespace Thyme.Web.Data
         {
             apiConn = new ApiConnection(new Connection(new ProductHeaderValue(Config.BlogName.CreateSlug())));
         }
+
+
+        public async Task<string> GetLastCommitSha() 
+        {
+            var client = new RepositoriesClient(apiConn);
+            var branches = await client.GetAllBranches(Config.GitHubOwner, Config.GitHubRepo);
+            return branches.First().Commit.Sha;
+        }
+
         public async Task<IEnumerable<BlogPost>> GetAllBlogPosts()
         {
             var treesClient = new TreesClient(apiConn);
             string masterTreeSha = await GetMasterTreeSha();
             var tree = await treesClient.Get(Config.GitHubOwner, Config.GitHubRepo, masterTreeSha);
 
-            return Task.WhenAll(tree.Tree.Select(x => await ConvertTreeItemToBlogPost(x)));
+            return ConvertTreeItemsToBlogPosts(tree.Tree);
+        }
+
+
+        public IEnumerable<BlogPost> ConvertTreeItemsToBlogPosts(IEnumerable<TreeItem> items)
+        {
+            foreach (var item in items)
+            {
+                yield return ConvertTreeItemToBlogPost(item).Result;
+            }
         }
 
         public async Task<BlogPost> ConvertTreeItemToBlogPost(TreeItem treeItem)

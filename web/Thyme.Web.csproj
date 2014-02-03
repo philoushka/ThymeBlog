@@ -132,6 +132,7 @@
     <Compile Include="Controllers\ThymeBaseController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Helpers\BlogPostParsing.cs" />
     <Compile Include="Data\GitHub.cs" />
     <Compile Include="Extensions\DateTime.cs" />
     <Compile Include="Extensions\Strings.cs" />

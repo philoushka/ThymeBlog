@@ -8,7 +8,7 @@ namespace Thyme.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            routes.MapRoute("GitHubUpdated", "blog/githubupdated", new { controller = "Blog", action = "UpdateCacheFromGitHub" } );
             routes.MapRoute("BlogPost", "blog/{slug}", new { controller="Blog", action="ViewPost" , slug=""});
             routes.MapRoute("ForceRepoRefresh", "ForceRepoRefresh", new { controller = "Blog", action = "ForceRepoRefresh" });
             routes.MapRoute("Front", "", new { controller = "Blog", action = "ListRecentPosts" });

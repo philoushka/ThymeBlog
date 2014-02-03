@@ -84,7 +84,7 @@ namespace Thyme.Web.Models
             string firstLineComment = fileText.First();
             fileText.RemoveAt(0);
             if (fileText.First().Trim() == string.Empty) { fileText.RemoveAt(0); }
-            var metaProps = ParseValuesFromComment(firstLineComment);
+            var metaProps = BlogPostParsing.ParseValuesFromComment(firstLineComment);
             var bp = new BlogPost
             {
                 UrlSlug = Path.GetFileNameWithoutExtension(file.FullName),
@@ -97,26 +97,13 @@ namespace Thyme.Web.Models
             return bp;
         }
 
-        private BlogPostMetaProperties ParseValuesFromComment(string input)
-        {
-            try
-            {
-                input = input.Replace("<!--", string.Empty).Replace("-->", string.Empty);
-                if (input.HasValue())
-                    return Newtonsoft.Json.JsonConvert.DeserializeObject<BlogPostMetaProperties>(input);
-                else
-                    return new BlogPostMetaProperties { Title = "Blog Post", Intro = "Blog Intro", PublishedOn = DateTime.Now.ToString() };
-            }
-            catch (Exception) { }
-            return new BlogPostMetaProperties { Title = "Blog Post", Intro = "Blog Intro", PublishedOn = DateTime.Now.ToString() };
-
-        }
+      
 
         public bool CachedRepoIsStale
         {
             get
             {
-                try { return DateTime.UtcNow.Subtract(CacheState.LastRepoRefreshDate.Value).TotalHours >= long.Parse(ConfigurationManager.AppSettings["RepoTTLInCacheHours"]); }
+                try { return DateTime.UtcNow.Subtract(CacheState. .Value).TotalHours >= long.Parse(ConfigurationManager.AppSettings["RepoTTLInCacheHours"]); }
                 catch (Exception) { return true; }
             }
         }

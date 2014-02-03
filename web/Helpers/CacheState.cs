@@ -29,9 +29,7 @@ namespace Thyme.Web.Models
 
         public void PutPostsToCache(IEnumerable<BlogPost> posts)
         {
-
             HttpRuntime.Cache.Add(BlogPosts, posts, null, DateTime.Now.AddHours(Config.CacheTTLHours), Cache.NoSlidingExpiration, CacheItemPriority.Normal, null);
-
         }
 
         public IEnumerable<BlogPost> GetCachedPosts()

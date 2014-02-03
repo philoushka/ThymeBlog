@@ -26,6 +26,9 @@ namespace Thyme.Web.Controllers
                 return RedirectToRoute("Front");
             }
         }
+
+        public ActionResult
+
         public ActionResult ViewPost(string slug)
         {            
             using (var repo = new BlogPostRepo())
