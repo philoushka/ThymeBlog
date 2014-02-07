@@ -5,7 +5,8 @@
 <ul class="postList">
 @foreach (var item in Model.RecentBlogPosts){
 <li><span class="blogPostTitle">@Html.RouteLink(item.Title, "BlogPost", new { slug = item.UrlSlug })</span><br />
-<span class="blogPostPreview">@item.Intro</span><hr /></li>
+    <span class="blogPostPreview"><strong>@item.PublishedOn.Value.PrettyFormat()</strong> @item.Intro</span><hr />
+</li>
 }
 </ul>
 <br />

@@ -61,6 +61,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0-beta1\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -132,6 +133,8 @@
     <Compile Include="Controllers\ThymeBaseController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Data\LocalFileCache.cs" />
+    <Compile Include="Extensions\Collections.cs" />
     <Compile Include="Helpers\BlogPostParsing.cs" />
     <Compile Include="Data\GitHub.cs" />
     <Compile Include="Extensions\DateTime.cs" />
@@ -151,9 +154,44 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="devtxtfavicon.ico" />
+    <Content Include="BlogFiles\aspnet-cookie-wrapper-class-code-garage-sale.md" />
+    <Content Include="BlogFiles\be-a-green-it-hero.md" />
+    <Content Include="BlogFiles\bing-one-month-of-success.md" />
+    <Content Include="BlogFiles\bing-switchover-one-month-or-more.md" />
+    <Content Include="BlogFiles\code-blowout.md" />
+    <Content Include="BlogFiles\count-instances-of-a-substring-in-a-sql-varchar-column.md" />
+    <Content Include="BlogFiles\dont-call-them-bugs.md" />
+    <Content Include="BlogFiles\dont-micromanage-your-latte-start-outsourcing-your-loops.md" />
+    <Content Include="BlogFiles\generating-automated-emails-close-your-mail-client-during-development.md" />
+    <Content Include="BlogFiles\google-chrome-and-windows-7-64-bit.md" />
+    <Content Include="BlogFiles\google-chrome-early-days-needs-touch-more-work.md" />
+    <Content Include="BlogFiles\hunting-the-stackoverflow-badge-named-unsung-hero.md" />
+    <Content Include="BlogFiles\linq-to-sql-changes-in-visual-studio-2010.md" />
+    <Content Include="BlogFiles\mirth-converting-hl7-v2x-to-v3.md" />
+    <Content Include="BlogFiles\neat-windows-7-productivity-enhancer-snipping-tool.md" />
+    <Content Include="BlogFiles\online-net-code-conversion-tools.md" />
+    <Content Include="BlogFiles\personal-year-in-review-2009.md" />
+    <Content Include="BlogFiles\podcast-favorites.md" />
+    <Content Include="BlogFiles\randomizing-order-of-your-list-or-array-using-linq.md" />
+    <Content Include="BlogFiles\serializing-your-poco-objects-to-string-then-to-xmldocument.md" />
+    <Content Include="BlogFiles\some neat info.md" />
+    <Content Include="BlogFiles\source-control-your-source-isnt-safe-move-onto-.md" />
+    <Content Include="BlogFiles\sql-scripts-countries-provinces-states.md" />
+    <Content Include="BlogFiles\subway-and-the-speed-of-production-communication.md" />
+    <Content Include="BlogFiles\the-seven-forms-of-waste.md" />
+    <Content Include="BlogFiles\unit-testing-.md" />
+    <Content Include="BlogFiles\unit-testing-bdd-tip-27.md" />
+    <Content Include="BlogFiles\uploading-files-to-your-aspnet-mvc-application.md" />
+    <Content Include="BlogFiles\using-systemreflection-to-output-your-poco-objects-property-names-values.md" />
+    <Content Include="BlogFiles\virtualization-the-developers-desktop-machine.md" />
+    <Content Include="BlogFiles\visual-studio-keyboard-shortcut-debug-test-in-current-context.md" />
+    <Content Include="BlogFiles\visual-studio-through-the-years-on-channel-9.md" />
+    <Content Include="BlogFiles\website-mockups-done-incredibly-easy.md" />
+    <Content Include="BlogFiles\why-i-wont-be-resubscribing-to-sql-server-magazine.md" />
+    <Content Include="BlogFiles\xml-literals-in-vb-real-world-usefulness.md" />
+    <Content Include="BlogFiles\your-facade.md" />
     <Content Include="Styles\Post.css" />
     <Content Include="Global.asax" />
-    <Content Include="Styles\iPad.css" />
     <Content Include="robots.txt" />
     <Content Include="Styles\Site.css" />
     <Content Include="Web.config" />
@@ -183,6 +221,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Blog\SearchResults.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

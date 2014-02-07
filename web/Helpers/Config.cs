@@ -9,7 +9,6 @@ namespace Thyme.Web.Helpers
     public static class Config
     {
 
-
         /// <summary>
         /// Gets the number of posts to show on the front page of the blog site. If any exception occurs, 
         /// a large number will be returned (int.maxvalue) and allow basically all posts to be shown.
@@ -32,6 +31,10 @@ namespace Thyme.Web.Helpers
 
         public static string GitHubRepo { get { return ConfigurationManager.AppSettings["GitHubRepo"]; } }
         public static string GitHubOwner { get { return ConfigurationManager.AppSettings["GitHubOwner"]; } }
+
+        public static string MyName { get { return ConfigurationManager.AppSettings["MyName"]; } }
+
+        public static string GitHubOAuthToken { get { return ConfigurationManager.AppSettings["GitHubOAuthToken"]; } }
 
         /// <summary>
         /// Gets the datetime format from config. If config setting is missing, or any exception, the default MMM dd YYYY format will be returned.

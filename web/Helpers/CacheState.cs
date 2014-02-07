@@ -7,40 +7,46 @@ using Thyme.Web.Helpers;
 
 namespace Thyme.Web.Models
 {
-    public static class CacheState
+    public class CacheState
     {
-        private const string CommitDate = "LhDate";
         private const string BlogPosts = "BlogPosts";
-        public static DateTime? LastCommitDate
-        {
-            get
-            {
-                DateTime? lastCommit = null;
-                if (HttpRuntime.Cache[CommitDate] != null)
-                {
-                    lastCommit = new DateTime(Convert.ToInt64(HttpRuntime.Cache[CommitDate]));
-                }
-
-                return lastCommit;
-            }
-            set { HttpRuntime.Cache[CommitDate] = value.Value.Ticks; }
-        }
-
+        private const string MasterSha = "MasterSha";
 
         public void PutPostsToCache(IEnumerable<BlogPost> posts)
-        {
-            HttpRuntime.Cache.Add(BlogPosts, posts, null, DateTime.Now.AddHours(Config.CacheTTLHours), Cache.NoSlidingExpiration, CacheItemPriority.Normal, null);
+        {            
+            HttpRuntime.Cache[BlogPosts] = posts.ToList();      
         }
 
         public IEnumerable<BlogPost> GetCachedPosts()
         {
             try
             {
-                return (HttpRuntime.Cache[BlogPosts] as IEnumerable<BlogPost>);
+                if (HttpRuntime.Cache.Get(BlogPosts) != null)
+                {
+                    return (HttpRuntime.Cache.Get(BlogPosts) as List<BlogPost>);
+                }
             }
-            catch (Exception) {
-                return new List<BlogPost>();
-            }
+            catch (Exception) { }
+            return Enumerable.Empty<BlogPost>();
         }
+
+        public string GetCurrentBranchSha()
+        {
+            try
+            {
+                if (HttpRuntime.Cache[MasterSha] != null)
+                {
+                    return (HttpRuntime.Cache[MasterSha] as string);
+                }
+            }
+            catch (Exception) { }
+            return string.Empty;
+        }
+
+        public void SetCurrentBranchSha(string sha)
+        {
+            HttpRuntime.Cache[MasterSha] = sha;            
+        }
+
     }
 }

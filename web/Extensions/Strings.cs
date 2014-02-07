@@ -12,7 +12,11 @@ namespace Thyme.Web
 
             return string.Format(format, args);
         }
- 
+
+        public static bool IsNullorEmpty(this string input)
+        {
+            return string.IsNullOrEmpty(input);
+        }
 
         public static bool HasValue(this string input)
         {
@@ -31,7 +35,7 @@ namespace Thyme.Web
 
         private static char[] Whitespace = new char[] { ' ', '\t', '\n', '\r' };
         private const char SlugSeparator = '-';
-        
+
         public static string RemoveSlugSeparators(this string input)
         {
             return input.Replace(SlugSeparator, ' ');
@@ -69,6 +73,16 @@ namespace Thyme.Web
             }
 
             return url.ToString();
+        }
+
+        public static string TrimStart(this string target, string trimChars)
+        {
+            return target.TrimStart(trimChars.ToCharArray());
+        }
+        
+        public static string TrimEnd(this string target, string trimChars)
+        {
+            return target.TrimEnd(trimChars.ToCharArray());
         }
 
 

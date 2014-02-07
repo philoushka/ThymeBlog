@@ -4,7 +4,7 @@ namespace Thyme.Web.Models
 {
     public class BlogPost
     {
-        public DateTime CreatedOn { get; set; }
+        
         public DateTime? PublishedOn { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }

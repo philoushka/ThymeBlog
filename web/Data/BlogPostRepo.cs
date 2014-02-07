@@ -1,34 +1,48 @@
-﻿ 
+﻿
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Thyme.Web;
 
 namespace Thyme.Web.Models
 {
     public class BlogPostRepo : IDisposable
     {
-        StringComparison CaseInsensitive = StringComparison.CurrentCultureIgnoreCase;
-        private const string AllMarkdownFiles = "*.md";
-
-        public string GitHubApiUri { get { return ConfigurationManager.AppSettings["GitHubRepoApiUrl"].ToString(); } }
-
-        public string LocalRepoPath { get { return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["BlogFilesDir"].ToString()); } }
-  
-      
+        StringComparison IgnoreCase = StringComparison.CurrentCultureIgnoreCase;
+        CacheState Cache;
 
         public BlogPostRepo()
         {
-             
+            Cache = new CacheState();
+
+            if (PublishedPosts.IsEmpty() || IsMasterBranchShaMismatch())
+            {
+                RefreshCachedBlogPosts();
+                SetMasterShaToCache();
+            }
         }
 
-      public BlogPost GetPost(string slug)
+        private void SetMasterShaToCache()
+        {
+            CacheState cache = new CacheState();
+            var github = new Data.GitHub();
+            cache.SetCurrentBranchSha(github.GetCurrentMasterSha());
+        }
+
+        public bool IsMasterBranchShaMismatch()
+        {
+            CacheState cache = new CacheState();
+            var github = new Data.GitHub();
+            return (cache.GetCurrentBranchSha() != github.GetCurrentMasterSha());
+        }
+        public BlogPost GetPost(string slug)
         {
             try
             {
-                var p = new DirectoryInfo(LocalRepoPath).EnumerateFiles("*.md", SearchOption.AllDirectories).Single(x => x.Name == "{0}.md".FormatWith(slug));
-                return ConvertFileToBlogPost(p);
+                return Cache.GetCachedPosts().SingleOrDefault(x => x.UrlSlug.Equals(slug, IgnoreCase));
             }
             catch (InvalidOperationException) { throw new System.Web.HttpException(404, "That blog post can't be found right now."); }
             catch (Exception)
@@ -37,97 +51,35 @@ namespace Thyme.Web.Models
             }
         }
 
-        public void RefreshRepoIfReqd()
+        public void RefreshCachedBlogPosts()
         {
-            if (CachedRepoIsStale)
-            {
-                RefreshRepo();
-            }
+            var github = new Data.GitHub();
+            var blogPosts = github.GetAllBlogPosts();
+            Cache.PutPostsToCache(blogPosts);
         }
-         
 
-       
-        private IEnumerable<FileInfo> RepoMarkdownFiles
-        {
-            get
-            {
-                return new DirectoryInfo(LocalRepoPath).EnumerateFiles(AllMarkdownFiles, SearchOption.TopDirectoryOnly);
-            }
-        }
         public IEnumerable<BlogPost> ListRecentBlogPosts(int numToTake)
         {
-            return ConvertMarkdownsToBlogPosts(RepoMarkdownFiles)
-                                  .Where(x => x.PublishedOn.HasValue)
-                                  .OrderByDescending(x => x.PublishedOn)
-                                  .Take(numToTake);
+            return PublishedPosts
+                    .OrderByDescending(x => x.PublishedOn)
+                    .Take(numToTake);
         }
 
         public IEnumerable<BlogPost> SearchPosts(string[] keywords)
         {
-            return ConvertMarkdownsToBlogPosts(RepoMarkdownFiles)
-                                  .Where(x => x.PublishedOn.HasValue)
-                                  .Where(x => keywords.Any(k => x.Body.Contains(k, CaseInsensitive)))
-                                  .OrderByDescending(x => x.PublishedOn);
+            return PublishedPosts
+                    .Where(x => keywords.Any(k => x.Body.Contains(k, IgnoreCase)))
+                    .OrderByDescending(x => x.PublishedOn);
         }
 
-        public IEnumerable<BlogPost> ConvertMarkdownsToBlogPosts(IEnumerable<FileInfo> markdownFiles)
-        {
-            foreach (var markdown in markdownFiles)
-            {
-                yield return ConvertFileToBlogPost(markdown);
-            }
-        }
-
-        public BlogPost ConvertFileToBlogPost(FileInfo file)
-        {
-            List<string> fileText = File.ReadAllLines(file.FullName).ToList();
-            string firstLineComment = fileText.First();
-            fileText.RemoveAt(0);
-            if (fileText.First().Trim() == string.Empty) { fileText.RemoveAt(0); }
-            var metaProps = BlogPostParsing.ParseValuesFromComment(firstLineComment);
-            var bp = new BlogPost
-            {
-                UrlSlug = Path.GetFileNameWithoutExtension(file.FullName),
-                CreatedOn = file.CreationTime,
-                PublishedOn = (metaProps.PublishedOn.HasValue()) ? DateTime.Parse(metaProps.PublishedOn) : new Nullable<DateTime>(),
-                Title = metaProps.Title,
-                Intro = metaProps.Intro,
-                Body = string.Join(Environment.NewLine, fileText.ToArray())
-            };
-            return bp;
-        }
-
-      
-
-        public bool CachedRepoIsStale
+        public IEnumerable<BlogPost> PublishedPosts
         {
             get
             {
-                try { return DateTime.UtcNow.Subtract(CacheState. .Value).TotalHours >= long.Parse(ConfigurationManager.AppSettings["RepoTTLInCacheHours"]); }
-                catch (Exception) { return true; }
+                return Cache.GetCachedPosts().Where(x => x.PublishedOn.HasValue && x.PublishedOn.Value <= DateTime.UtcNow.Date);
             }
         }
 
-        private bool RepoIsOnDisk()
-        {
-            return System.IO.Directory.Exists(LocalRepoPath);
-        }
-        private void CloneRepo()
-        {
-            if (RepoIsOnDisk())
-            {
-                System.IO.Directory.CreateDirectory(LocalRepoPath);
-            }
-
-            var clone = Git.CloneRepository().SetDirectory(LocalRepoPath).SetURI(GitRepoUri);
-            Repo = clone.Call();
-            CacheState.LastCommitDate = DateTime.UtcNow;
-        }
-
-        private void PullRepo()
-        {
-            Repo.Pull().Call();
-            CacheState.LastRepoRefreshDate = DateTime.UtcNow;
-        }
+        public void Dispose() { }
     }
 }
