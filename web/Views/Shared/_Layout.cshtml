@@ -5,25 +5,41 @@
     <title>@ViewBag.Title - @ViewBag.SiteName</title>
     <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
     <link rel="shortcut icon" href="devtxtfavicon.ico" />
-    @RenderSection("Styles", false)
-    <script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-46720433-1']);
-  _gaq.push(['_trackPageview']);
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
+    @*@RenderSection("Styles", false)*@
+    @*<script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-46720433-1']);
+          _gaq.push(['_trackPageview']);
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+        </script>*@
+    <link href="~/Styles/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
-    <div id="title">
-        <a href="@Url.RouteUrl("Front" )"><h1>@ViewBag.SiteName</h1></a><h3><a href="http://twitter.com/@(ViewBag.TwitterAccountName)">twitter</a>  | @Html.RouteLink("about", "about")</h3>
-        @using (Html.BeginRouteForm("PostSearch", FormMethod.Post))
-        {
-            <input type="text" id="searchText" name="searchText" value="@ViewBag.SearchKeywords" />
-        }
+    <div class="navbar navbar-inverse">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="@Url.RouteUrl("Front" )">@ViewBag.SiteName</a>
+        </div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
+
+            @using (Html.BeginRouteForm("PostSearch", FormMethod.Post, new { @class = "navbar-form navbar-right" }))
+            {
+                <input type="text" id="searchText" name="searchText" placeholder="Search" class="form-control col-lg-8" value="@ViewBag.SearchKeywords" />
+            }
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://twitter.com/@(ViewBag.TwitterAccountName)">twitter</a></li>
+                <li>@Html.RouteLink("about", "about")</li>
+            </ul>
+        </div>
     </div>
     <div class="container">
         @RenderBody()
@@ -33,7 +49,7 @@
         <footer>
             @DateTime.Now.Year - @ViewBag.MyName<br />
             <a href="http://creativecommons.org/licenses/by/3.0/">
-            <img alt="Creative Commons License" src="http://i.creativecommons.org/l/by/3.0/80x15.png" style="border-width: 0">
+                <img alt="Creative Commons License" src="http://i.creativecommons.org/l/by/3.0/80x15.png" style="border-width: 0">
             </a><br>This blog is licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.<br />In short, share, remix, and respin it mostly as you like, but you've got to provide attribution to me/this site.
         </footer>
     </div>

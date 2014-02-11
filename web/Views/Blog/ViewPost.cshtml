@@ -3,9 +3,6 @@
 @{
     ViewBag.Title = Model.BlogPost.Title;  
 }
-@section Styles{
-    <link href="@Url.Content("~/Styles/Post.css")" type="text/css" rel="stylesheet" />
-}
 <h1>@Html.RouteLink(Model.BlogPost.Title, "BlogPost", new { slug = Model.BlogPost.UrlSlug })</h1>
 <h4>@Model.BlogPost.PublishedOn.PrettyFormat()</h4>
 @Html.Markdown(Model.BlogPost.Body)

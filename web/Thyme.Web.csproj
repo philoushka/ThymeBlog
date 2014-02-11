@@ -154,7 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="devtxtfavicon.ico" />
-    <Content Include="Styles\Post.css" />
+    <Content Include="Styles\bootstrap.min.css" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="Styles\Site.css" />
@@ -189,6 +189,9 @@
   <ItemGroup>
     <Folder Include="BlogFiles\" />
     <Folder Include="Scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Blog\_PostList.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

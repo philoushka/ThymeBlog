@@ -1,0 +1,5 @@
+﻿@model Thyme.Web.Models.BlogPost
+<li>
+    <span class="lead">@Html.RouteLink(Model.Title, "BlogPost", new { slug = Model.UrlSlug })</span><br />
+    <span class="text-primary">@Model.PublishedOn.Value.PrettyFormat()</span>&nbsp;<span class="text-muted">@Model.Intro</span><hr />
+</li>

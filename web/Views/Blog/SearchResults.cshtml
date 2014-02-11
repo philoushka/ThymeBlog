@@ -2,13 +2,15 @@
 @{
     ViewBag.Title = "Search Results: '{0}' - Tech Blog - Phil Campbell".FormatWith(Model.SearchKeywords);  
 }
-@Model.MatchingBlogPosts.Count() blog posts matched your search for '@Model.SearchKeywords'
-<br />
+<h3>@Model.MatchingBlogPosts.Count() blog posts matched your search for '@Model.SearchKeywords'</h3>
 <ul class="postList">
-    @foreach (var item in Model.MatchingBlogPosts){
-    <li><span class="blogPostTitle">@Html.RouteLink(item.Title, "BlogPost", new { slug = item.UrlSlug })</span><br />
-        <span class="blogPostPreview">@item.Intro</span><hr /></li>
+    @foreach (var item in Model.MatchingBlogPosts)
+    {
+        @Html.Partial("_PostList",item)        
     }
 </ul>
 <br />
 @Html.RouteLink("View All Posts","AllPosts")
+<script type="text/javascript">
+    document.getElementById('searchText').select();
+</script>
