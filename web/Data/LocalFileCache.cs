@@ -23,6 +23,7 @@ namespace Thyme.Web.Data
 
         public void SaveLocalItem(SaveItem item)
         {
+            Directory.CreateDirectory(Path.Combine(LocalFileCachePath,item.Dir));
             File.WriteAllBytes(Path.Combine(LocalFileCachePath,item.Dir, item.FileName), item.Contents);
         }
 
