@@ -71,7 +71,7 @@ namespace Thyme.Web.Data
         {
             foreach (var subTree in tree.Tree.Where(x => x.Type == TreeType.Tree))
             {
-                Task.WaitAll(SaveAllItemsFromTree(subTree));
+                SaveAllItemsFromTree(subTree);
             }
         }
 
