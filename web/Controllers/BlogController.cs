@@ -22,17 +22,7 @@ namespace Thyme.Web.Controllers
                 return View("Front", new Front_vm { RecentBlogPosts = recents });
             }
         }
-
-
-        [HttpPost]
-        public ActionResult UpdateCacheFromGitHub()
-        {
-            CacheState cache = new CacheState();
-            cache.SetCurrentBranchSha(string.Empty);
-            var repo = new BlogPostRepo();//trigger a refresh.           
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
-
+        
         public ActionResult ViewPost(string slug)
         {
             using (var repo = new BlogPostRepo())

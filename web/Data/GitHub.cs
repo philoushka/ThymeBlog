@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Thyme.Web.Helpers;
@@ -16,59 +15,83 @@ namespace Thyme.Web.Data
         ApiConnection apiConn;
         public GitHub()
         {
-            apiConn = new ApiConnection(new Connection(new ProductHeaderValue(Config.BlogName.CreateSlug())));
+            apiConn = new ApiConnection(new Connection(new Octokit.ProductHeaderValue(Config.BlogName.CreateSlug())));
             apiConn.Connection.Credentials = new Credentials(Config.GitHubOAuthToken);
         }
 
         public string GetCurrentMasterSha()
         {
-            var masterTree = GetMasterTreeSha();
-            Task.WaitAll(masterTree);
-            return masterTree.Result;
+            var masterTreeSha = GetMasterTreeSha();
+            Task.WaitAll(masterTreeSha);
+            return masterTreeSha.Result;
+        }
+
+        public IEnumerable<BlogPost> GetItemsForBranchCommit(GitHubPostedCommit posted)
+        {
+            var commit = GetCommit(posted.commits.First().id);
+            var tree = GetTree(commit.Tree.Sha);
+            foreach (var item in tree.Tree.Where(x => posted.commits.First().ItemsToKeep.Contains(x.Path)))
+            {
+                yield return ConvertTreeItemToBlogPost(item).Result;
+            }
+
+            SaveTreeItemBlobsToDisk(tree);
+        }
+
+        public Commit GetCommit(string commitSha)
+        {
+            var commitClient = new CommitsClient(apiConn);
+            var commit = commitClient.Get(Config.GitHubOwner, Config.GitHubRepo, commitSha);
+            Task.WaitAll(commit);
+            return commit.Result;
+        }
+
+        public TreeResponse GetTree(string treeSha)
+        {
+            var treesClient = new TreesClient(apiConn);
+            var tree = treesClient.Get(Config.GitHubOwner, Config.GitHubRepo, treeSha);
+            Task.WaitAll(tree);
+            return tree.Result;
         }
 
         public IEnumerable<BlogPost> GetAllBlogPosts()
         {
             string masterTreeSha = GetCurrentMasterSha();
+            var tree = GetTree(masterTreeSha);
 
-            var treesClient = new TreesClient(apiConn);
-            var tree = treesClient.Get(Config.GitHubOwner, Config.GitHubRepo, masterTreeSha);
-            Task.WaitAll(tree);
-            var tree2 = tree.Result;
+            foreach (var item in tree.Tree.Where(x => x.Path.EndsWith(".md")))
+            {
+                yield return ConvertTreeItemToBlogPost(item).Result;
+            }
 
-            List<BlogPost> posts = new List<BlogPost>();
-            foreach (var item in tree2.Tree.Where(x => x.Path.EndsWith(".md")))
+            SaveTreeItemBlobsToDisk(tree);
+        }
+
+        public void SaveTreeItemBlobsToDisk(TreeResponse tree)
+        {
+            foreach (var subTree in tree.Tree.Where(x => x.Type == TreeType.Tree))
             {
-                posts.Add(ConvertTreeItemToBlogPost(item).Result);                
+                Task.WaitAll(SaveAllItemsFromTree(subTree));
             }
-            
-            foreach (var subTree in tree2.Tree.Where(x => x.Type == TreeType.Tree))
-            {
-               Task.WaitAll(SaveAllItemsFromTree(subTree));
-            }
-            return posts;
         }
 
         public async Task SaveAllItemsFromTree(TreeItem subTree)
         {
             var treesClient = new TreesClient(apiConn);
-            var tree = treesClient.Get(Config.GitHubOwner, Config.GitHubRepo, subTree.Sha);
-            Task.WaitAll(tree);
+            var tree = await treesClient.Get(Config.GitHubOwner, Config.GitHubRepo, subTree.Sha);
             LocalFileCache local = new LocalFileCache();
-            foreach (var item in tree.Result.Tree.Where(x=>local.LocalItemExists(subTree.Path, x.Path)==false))
-            {                
-                var blob = GetBlobContents(item.Sha);
-                Task.WaitAll(blob);
-                var blobItem = blob.Result;                
-                local.SaveLocalItem(new SaveItem { Contents = Convert.FromBase64String(blobItem.Content), Dir = subTree.Path, FileName = item.Path });
+            foreach (var item in tree.Tree.Where(x => local.LocalItemExists(subTree.Path, x.Path) == false))
+            {
+                var blob = await GetBlobContents(item.Sha);
+
+                local.SaveLocalItem(new SaveItem { Contents = Convert.FromBase64String(blob.Content), Dir = subTree.Path, FileName = item.Path });
             }
         }
-            
+
         public async Task<BlogPost> ConvertTreeItemToBlogPost(TreeItem treeItem)
         {
-            var blob = GetBlobContents(treeItem.Sha);
-            Task.WaitAll(blob);
-            var blobContents = blob.Result;
+            var blob = await GetBlobContents(treeItem.Sha);
+            var blobContents = blob;
 
             string fileContents = Encoding.UTF8.GetString(Convert.FromBase64String(blobContents.Content));
 
@@ -102,6 +125,5 @@ namespace Thyme.Web.Data
             Task.WaitAll(branches);
             return branches.Result.First().Commit.Sha;
         }
-
     }
 }

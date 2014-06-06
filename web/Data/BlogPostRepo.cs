@@ -21,16 +21,20 @@ namespace Thyme.Web.Models
             if (PublishedPosts.IsEmpty() || IsMasterBranchShaMismatch())
             {
                 RefreshCachedBlogPosts();
-                SetMasterShaToCache();
+                 SetMasterShaToCache();
             }
         }
 
-        private void SetMasterShaToCache()
+        private  void SetMasterShaToCache()
         {
-            CacheState cache = new CacheState();
             var github = new Data.GitHub();
-            cache.SetCurrentBranchSha(github.GetCurrentMasterSha());
+            string masterSha = github.GetCurrentMasterSha();
+            
+            CacheState cache = new CacheState();
+            cache.SetCurrentBranchSha(masterSha);
         }
+
+
 
         public bool IsMasterBranchShaMismatch()
         {
@@ -55,7 +59,7 @@ namespace Thyme.Web.Models
         {
             var github = new Data.GitHub();
             var blogPosts = github.GetAllBlogPosts();
-            Cache.PutPostsToCache(blogPosts);
+             Cache.PutPostsToCache(blogPosts);
         }
 
         public IEnumerable<BlogPost> ListRecentBlogPosts(int numToTake)

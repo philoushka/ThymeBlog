@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Caching;
-using Thyme.Web.Helpers;
 
 namespace Thyme.Web.Models
 {
@@ -13,8 +11,15 @@ namespace Thyme.Web.Models
         private const string MasterSha = "MasterSha";
 
         public void PutPostsToCache(IEnumerable<BlogPost> posts)
-        {            
-            HttpRuntime.Cache[BlogPosts] = posts.ToList();      
+        {
+            HttpRuntime.Cache[BlogPosts] = posts.ToList();
+        }
+
+        public void AddPostsToCache(IEnumerable<BlogPost> posts)
+        {
+            var existingPosts = GetCachedPosts().ToList();
+            existingPosts.AddRange(posts);
+            PutPostsToCache(existingPosts);
         }
 
         public IEnumerable<BlogPost> GetCachedPosts()
@@ -45,8 +50,15 @@ namespace Thyme.Web.Models
 
         public void SetCurrentBranchSha(string sha)
         {
-            HttpRuntime.Cache[MasterSha] = sha;            
+            HttpRuntime.Cache[MasterSha] = sha;
         }
 
+        public void RemovePostsByName(IEnumerable<string> foo)
+        {
+            var existingPosts = GetCachedPosts().ToList();
+            var fileNames = foo.ToList();
+            existingPosts.RemoveAll(x => fileNames.Contains(x.FileName));
+            PutPostsToCache(existingPosts);
+        }
     }
 }
