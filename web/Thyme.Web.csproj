@@ -149,6 +149,7 @@
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Data\BlogPostRepo.cs" />
     <Compile Include="Helpers\CacheState.cs" />
+    <Compile Include="Helpers\CacheFingerprint.cs" />
     <Compile Include="Models\GitHubCommit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BlogPost_vm.cs" />
