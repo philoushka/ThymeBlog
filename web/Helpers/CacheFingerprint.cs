@@ -1,27 +1,17 @@
-using System; 
-using System.IO; 
-using System.Web; 
-using System.Web.Caching; 
+using System;
+using System.IO;
 using System.Web.Hosting;
 
 namespace Thyme.Web.Helpers
 {
-public class Fingerprint 
-{ 
-  public static string Tag(string rootRelativePath) 
-  { 
-    if (HttpRuntime.Cache[rootRelativePath] == null) 
-    { 
-      string absolute = HostingEnvironment.MapPath("~" + rootRelativePath);
-
-      DateTime date = File.GetLastWriteTime(absolute); 
-      int index = rootRelativePath.LastIndexOf('/');
-
-      string result = rootRelativePath.Insert(index, "/v-" + date.Ticks); 
-      HttpRuntime.Cache.Insert(rootRelativePath, result, new CacheDependency(absolute)); 
+    public class Fingerprint
+    {
+        public static string Tag(string rootRelativePath)
+        {
+            string absolute = HostingEnvironment.MapPath("~" + rootRelativePath);
+            DateTime date = File.GetLastWriteTime(absolute);
+            int index = rootRelativePath.LastIndexOf('/');
+            return rootRelativePath.Insert(index, "/v-" + date.Ticks);
+        }
     }
-
-      return HttpRuntime.Cache[rootRelativePath] as string; 
-  } 
-}
 }

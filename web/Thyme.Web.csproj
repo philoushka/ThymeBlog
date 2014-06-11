@@ -157,7 +157,8 @@
     <Compile Include="ViewModels\Front_vm.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="devtxtfavicon.ico" />
+    <Content Include="images\devtxtfavicon.ico" />
+    <Content Include="images\creativecommons80x15.png" />
     <Content Include="Styles\bootstrap.min.css" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
