@@ -59,7 +59,7 @@ namespace Thyme.Web.Data
             string masterTreeSha = GetCurrentMasterSha();
             var tree = GetTree(masterTreeSha);
 
-            foreach (var item in tree.Tree.Where(x => x.Path.EndsWith(".md")).Take(4))
+            foreach (var item in tree.Tree.Where(x => x.Path.EndsWith(".md")))
             {
                 yield return ConvertTreeItemToBlogPost(item).Result;
             }
@@ -69,7 +69,6 @@ namespace Thyme.Web.Data
 
         public void SaveTreeItemBlobsToDisk(TreeResponse tree)
         {
-            return;
             foreach (var subTree in tree.Tree.Where(x => x.Type == TreeType.Tree))
             {
                 SaveAllItemsFromTree(subTree);
