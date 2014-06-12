@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Configuration;
 
 namespace Thyme.Web.Helpers
@@ -22,17 +19,20 @@ namespace Thyme.Web.Helpers
                     int numPosts = int.Parse(ConfigurationManager.AppSettings["FrontPageShowNumberPosts"].ToString());
                     return (numPosts > 0) ? numPosts : int.MaxValue;
                 }
-                catch (Exception) { return int.MaxValue; }
+                catch (Exception) { }
+                return int.MaxValue;
             }
         }
 
         public static double CacheTTLHours { get { return double.Parse(ConfigurationManager.AppSettings["RepoTTLInCacheHours"]); } }
-        public static string BlogName { get { return  ConfigurationManager.AppSettings["BlogSiteName"]; } }
+        public static string BlogName { get { return ConfigurationManager.AppSettings["BlogSiteName"]; } }
 
         public static string GitHubRepo { get { return ConfigurationManager.AppSettings["GitHubRepo"]; } }
         public static string GitHubOwner { get { return ConfigurationManager.AppSettings["GitHubOwner"]; } }
 
         public static string MyName { get { return ConfigurationManager.AppSettings["MyName"]; } }
+
+        public static string StackOverflowUserNumber { get { return ConfigurationManager.AppSettings["StackOverflowUserNumber"]; } }
 
         public static string GitHubOAuthToken { get { return ConfigurationManager.AppSettings["GitHubOAuthToken"]; } }
 
