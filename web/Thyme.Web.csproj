@@ -162,6 +162,7 @@
     <Content Include="Styles\bootstrap.min.css" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
+    <Content Include="Styles\LatoFonts.css" />
     <Content Include="Styles\Site.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
