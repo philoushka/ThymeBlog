@@ -20,6 +20,8 @@ namespace Thyme.Web
             routes.MapRoute("PostSearch", "PostSearch", new { controller = "Blog", action = "PostSearch", searchKeywords = string.Empty });
             routes.MapRoute("SearchBlogPosts", "search/{keywords}", new { controller = "Blog", action = "SearchBlogPosts", keywords = string.Empty });
             routes.MapRoute("Error", "Error", new { controller = "Home", action = "Error" });
+            routes.MapRoute("GitHubContributions", "GitHubContributions", new { controller = "Home", action = "GitHubContributions" });
+
             routes.MapRoute(name: "Default", url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Blog", action = "ListRecentPosts" }
             );

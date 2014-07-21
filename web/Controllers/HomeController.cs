@@ -12,9 +12,8 @@ namespace Thyme.Web.Controllers
             return View();
         }
 
-        public ViewResult Error()
-        {
-            return View();
-        }
+        public ViewResult Error() { return View(); }
+
+        public ViewResult GitHubContributions() { return View(); }
     }
 }
