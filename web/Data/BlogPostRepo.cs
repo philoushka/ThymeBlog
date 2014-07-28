@@ -1,11 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Thyme.Web;
+using Thyme.Web.Data;
 
 namespace Thyme.Web.Models
 {
@@ -18,48 +15,106 @@ namespace Thyme.Web.Models
         {
             Cache = new CacheState();
 
-            if (PublishedPosts.IsEmpty() || IsMasterBranchShaMismatch())
+            if (PublishedPosts.IsEmpty() || CacheIsOld())
             {
                 RefreshCachedBlogPosts();
-                 SetMasterShaToCache();
+            }
+
+            if (CachedSha.IsNullorEmpty())
+            {
+                SetMasterShaToCache();
             }
         }
 
-        private  void SetMasterShaToCache()
+        private void SetMasterShaToCache()
         {
             var github = new Data.GitHub();
             string masterSha = github.GetCurrentMasterSha();
-            
+
             CacheState cache = new CacheState();
             cache.SetCurrentBranchSha(masterSha);
         }
 
-
-
-        public bool IsMasterBranchShaMismatch()
+        public bool CacheIsOld()
         {
-            CacheState cache = new CacheState();
+            if (this.CachedSha.IsNullorEmpty())
+            {
+                return false;
+            }
+
             var github = new Data.GitHub();
-            return (cache.GetCurrentBranchSha() != github.GetCurrentMasterSha());
+            return (this.CachedSha != github.GetCurrentMasterSha());
         }
+
+        public string CachedSha
+        {
+            get
+            {
+                CacheState cache = new CacheState();
+                return cache.GetCurrentBranchSha();
+            }
+        }
+
+        /// <summary>
+        /// Gethe the blog post from cache. First try ASP.NET HttpCache, then disk. If not there, then 404.
+        /// </summary>
+        /// <param name="slug"></param>
+        /// <returns></returns>
         public BlogPost GetPost(string slug)
         {
             try
             {
-                return Cache.GetCachedPosts().SingleOrDefault(x => x.UrlSlug.Equals(slug, IgnoreCase));
+                var blogPost = GetBlogPostFromHttpCache(slug);
+                if (blogPost == null)
+                {
+                    //load the post from disk and into the cache.
+                    TryLoadDiskItemToCache(slug);
+                    blogPost = GetBlogPostFromHttpCache(slug);
+                }
+                return blogPost;
             }
-            catch (InvalidOperationException) { throw new System.Web.HttpException(404, "That blog post can't be found right now."); }
             catch (Exception)
             {
-                return null;
+                //this really should be a 404.
+                return new BlogPost { Title = "Oops", Body = "Ya... that either isn't a blog post, or we can't load it right now. So sorry." };
             }
+        }
+
+        private void TryRebuildHttpCacheFromDisk()
+        {
+            var localFileCache = new LocalFileCache();
+            var blogPostsFromDisk = new List<BlogPost>();
+            foreach (var blogFileOnDisk in localFileCache.ListItemsOnDisk())
+            {
+                BlogPost blogPost = BlogPostParsing.ConvertFileToBlogPost(blogFileOnDisk.Key, blogFileOnDisk.Value);
+                blogPostsFromDisk.Add(blogPost);
+            }
+            Cache.AddPostsToCache(blogPostsFromDisk);
+        }
+
+        private void TryLoadDiskItemToCache(string slug)
+        {
+            var localFileCache = new LocalFileCache();
+            FileInfo postOnDisk = localFileCache.GetItemOnDisk(slug);
+            string fileContents = new LocalFileCache().ReadFileContents(postOnDisk.Name);
+
+            var blogPost = BlogPostParsing.ConvertFileToBlogPost(postOnDisk.Name, fileContents);
+
+            var cache = new CacheState();
+            cache.AddPostsToCache(new[] { blogPost });
+        }
+
+        private BlogPost GetBlogPostFromHttpCache(string slug)
+        {
+            return Cache.GetCachedPosts().SingleOrDefault(x => x.UrlSlug.Equals(slug, IgnoreCase));
         }
 
         public void RefreshCachedBlogPosts()
         {
             var github = new Data.GitHub();
             var blogPosts = github.GetAllBlogPosts();
-             Cache.PutPostsToCache(blogPosts);
+            Cache.AddPostsToCache(blogPosts);
+            SetMasterShaToCache();
         }
 
         public IEnumerable<BlogPost> ListRecentBlogPosts(int numToTake)
@@ -76,10 +131,15 @@ namespace Thyme.Web.Models
                     .OrderByDescending(x => x.PublishedOn);
         }
 
-        public IEnumerable<BlogPost> PublishedPosts
+        public IQueryable<BlogPost> PublishedPosts
         {
             get
             {
+                if (Cache.GetCachedPosts().IsEmpty())
+                {
+                    TryRebuildHttpCacheFromDisk();
+                }
+
                 return Cache.GetCachedPosts().Where(x => x.PublishedOn.HasValue && x.PublishedOn.Value <= DateTime.UtcNow.Date);
             }
         }

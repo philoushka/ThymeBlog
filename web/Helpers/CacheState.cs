@@ -10,7 +10,7 @@ namespace Thyme.Web.Models
         private const string BlogPosts = "BlogPosts";
         private const string MasterSha = "MasterSha";
 
-        public void PutPostsToCache(IEnumerable<BlogPost> posts)
+        private void PutPostsToHttpCache(IEnumerable<BlogPost> posts)
         {
             HttpRuntime.Cache[BlogPosts] = posts.ToList();
         }
@@ -19,20 +19,20 @@ namespace Thyme.Web.Models
         {
             var existingPosts = GetCachedPosts().ToList();
             existingPosts.AddRange(posts);
-            PutPostsToCache(existingPosts);
+            PutPostsToHttpCache(existingPosts);
         }
 
-        public IEnumerable<BlogPost> GetCachedPosts()
+        public IQueryable<BlogPost> GetCachedPosts()
         {
             try
             {
                 if (HttpRuntime.Cache.Get(BlogPosts) != null)
                 {
-                    return (HttpRuntime.Cache.Get(BlogPosts) as List<BlogPost>);
+                    return (HttpRuntime.Cache.Get(BlogPosts)as List<BlogPost>).AsQueryable();
                 }
             }
             catch (Exception) { }
-            return Enumerable.Empty<BlogPost>();
+            return Enumerable.Empty<BlogPost>().AsQueryable();
         }
 
         public string GetCurrentBranchSha()
@@ -58,7 +58,7 @@ namespace Thyme.Web.Models
             var existingPosts = GetCachedPosts().ToList();
             var fileNames = foo.ToList();
             existingPosts.RemoveAll(x => fileNames.Contains(x.FileName));
-            PutPostsToCache(existingPosts);
+            PutPostsToHttpCache(existingPosts);
         }
     }
 }

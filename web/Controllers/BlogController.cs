@@ -22,7 +22,17 @@ namespace Thyme.Web.Controllers
                 return View("Front", new Front_vm { RecentBlogPosts = recents });
             }
         }
+
+        public ActionResult ForceRepoRefresh()
+        {
+            using (var repo = new BlogPostRepo())
+            {
+                repo.RefreshCachedBlogPosts();
+                return RedirectToAction("ListRecentPosts");
+            }
+        }
         
+
         public ActionResult ViewPost(string slug)
         {
             using (var repo = new BlogPostRepo())

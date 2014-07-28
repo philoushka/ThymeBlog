@@ -1,7 +1,6 @@
 ﻿using Octokit;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +29,7 @@ namespace Thyme.Web.Data
         {
             var commit = GetCommit(posted.commits.First().id);
             var tree = GetTree(commit.Tree.Sha);
-            foreach (var item in tree.Tree.Where(x => posted.commits.First().ItemsToKeep.Contains(x.Path)))
+            foreach (TreeItem item in tree.Tree.Where(x => posted.commits.First().ItemsToKeep.Contains(x.Path)))
             {
                 yield return ConvertTreeItemToBlogPost(item).Result;
             }
@@ -59,19 +58,29 @@ namespace Thyme.Web.Data
             string masterTreeSha = GetCurrentMasterSha();
             var tree = GetTree(masterTreeSha);
 
-            foreach (var item in tree.Tree.Where(x => x.Path.EndsWith(".md")))
+            foreach (TreeItem item in tree.Tree.Where(x => x.Path.EndsWith(".md", StringComparison.CurrentCultureIgnoreCase)))
             {
+                var blob = GetBlobContents(item.Sha);
+                var blobContents = blob.Result;
+                byte[] blogPostFileBytes = Convert.FromBase64String(blobContents.Content);
+                EnsureExistsOnDisk(new SaveItem { FileContents = blogPostFileBytes, SubDirectory = "", FileName = item.Path });
                 yield return ConvertTreeItemToBlogPost(item).Result;
             }
 
             SaveTreeItemBlobsToDisk(tree);
         }
 
+        public void EnsureExistsOnDisk(SaveItem saveItem)
+        {
+            LocalFileCache local = new LocalFileCache();
+            local.SaveLocalItem(saveItem);
+        }
+
         public void SaveTreeItemBlobsToDisk(TreeResponse tree)
         {
             foreach (var subTree in tree.Tree.Where(x => x.Type == TreeType.Tree))
             {
-                SaveAllItemsFromTree(subTree);
+                Task.WaitAll(SaveAllItemsFromTree(subTree));
             }
         }
 
@@ -84,7 +93,7 @@ namespace Thyme.Web.Data
             {
                 var blob = await GetBlobContents(item.Sha);
 
-                local.SaveLocalItem(new SaveItem { Contents = Convert.FromBase64String(blob.Content), Dir = subTree.Path, FileName = item.Path });
+                local.SaveLocalItem(new SaveItem { FileContents = Convert.FromBase64String(blob.Content), SubDirectory = subTree.Path, FileName = item.Path });
             }
         }
 
@@ -92,22 +101,9 @@ namespace Thyme.Web.Data
         {
             var blob = await GetBlobContents(treeItem.Sha);
             var blobContents = blob;
-
             string fileContents = Encoding.UTF8.GetString(Convert.FromBase64String(blobContents.Content));
 
-            BlogPostMetaProperties metaProps = BlogPostParsing.ParseValuesFromComment(fileContents);
-
-            return new BlogPost
-            {
-                Body = BlogPostParsing.RemovePostHeader(fileContents),
-                FileName = Path.GetFileNameWithoutExtension(treeItem.Path),
-                SHA = treeItem.Sha,
-                Url = treeItem.Url.AbsoluteUri,
-                Title = metaProps.Title,
-                Intro = metaProps.Intro,
-                PublishedOn = (metaProps.PublishedOn.HasValue()) ? DateTime.Parse(metaProps.PublishedOn) : new Nullable<DateTime>(),
-                UrlSlug = Path.GetFileNameWithoutExtension(treeItem.Path)
-            };
+            return BlogPostParsing.ConvertFileToBlogPost(treeItem.Path, fileContents, treeItem.Sha, treeItem.Url.AbsoluteUri);
         }
 
         public async Task<Blob> GetBlobContents(string sha)

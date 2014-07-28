@@ -1,18 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
+using Thyme.Web.Data;
 using Thyme.Web.Models;
 
 namespace Thyme.Web
 {
     public static class BlogPostParsing
     {
+        public static BlogPost ConvertFileToBlogPost(string fileName, string fileContents, string sha = "", string url = "")
+        {
+            BlogPostMetaProperties metaProps = BlogPostParsing.ParseValuesFromComment(fileContents);
+
+            return new BlogPost
+            {
+                Body = BlogPostParsing.RemovePostHeader(fileContents),
+                FileName = Path.GetFileNameWithoutExtension(fileName),
+                SHA = sha,
+                Url = url,
+                Title = metaProps.Title,
+                Intro = metaProps.Intro,
+                PublishedOn = (metaProps.PublishedOn.HasValue()) ? DateTime.Parse(metaProps.PublishedOn) : new Nullable<DateTime>(),
+                UrlSlug = Path.GetFileNameWithoutExtension(fileName)
+            };
+        }
 
         public static BlogPostMetaProperties ParseValuesFromComment(string input)
         {
             try
-            {                
+            {
                 if (input.HasValue())
                 {
                     string metaComment = BlogPostParsing.ExtractMetaComment(input);
