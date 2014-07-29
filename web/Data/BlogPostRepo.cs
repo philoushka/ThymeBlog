@@ -73,6 +73,7 @@ namespace Thyme.Web.Models {
                 BlogPost blogPost = BlogPostParsing.ConvertFileToBlogPost(blogFileOnDisk.Key, blogFileOnDisk.Value);
                 blogPostsFromDisk.Add(blogPost);
             }
+            Cache.Clear();
             Cache.AddPostsToCache(blogPostsFromDisk);
         }
 

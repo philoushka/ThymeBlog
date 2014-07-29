@@ -60,5 +60,9 @@ namespace Thyme.Web.Models
             existingPosts.RemoveAll(x => fileNames.Contains(x.FileName));
             PutPostsToHttpCache(existingPosts);
         }
+
+        public void Clear() {
+            HttpRuntime.Cache.Remove(BlogPosts);
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace Thyme.Web.Controllers {
         /// <returns></returns>
         public ActionResult SyncDiskToCache() {
             using (var repo = new BlogPostRepo()) {
+
                 repo.TryRebuildHttpCacheFromDisk();
                 return RedirectToAction("ListRecentPosts");
             }
