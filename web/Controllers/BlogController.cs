@@ -10,6 +10,8 @@ using Thyme.Web.ViewModels;
 namespace Thyme.Web.Controllers {
     [HandleError]
     public class BlogController : ThymeBaseController {
+
+        [OutputCache(Duration = 60, VaryByParam = "none")]
         public ActionResult ListRecentPosts(bool showAll = false) {
             using (var repo = new BlogPostRepo()) {
                 int numPosts = showAll ? int.MaxValue : Helpers.Config.NumPostsFrontPage;
@@ -42,6 +44,7 @@ namespace Thyme.Web.Controllers {
             }
         }
 
+        [OutputCache(Duration = 30, VaryByParam = "none")]
         public ActionResult ViewPost(string slug) {
             using (var repo = new BlogPostRepo()) {
                 BlogPost bp = repo.GetPost(slug);
