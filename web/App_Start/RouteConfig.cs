@@ -14,6 +14,7 @@ namespace Thyme.Web
             routes.MapRoute("GitHubUpdated", "blog/githubupdated", new { controller = "Update", action = "UpdateCacheFromGitHub" });
             routes.MapRoute("BlogPost", "blog/{slug}", new { controller = "Blog", action = "ViewPost", slug = "" });
             routes.MapRoute("ForceRepoRefresh", "ForceRepoRefresh", new { controller = "Blog", action = "ForceRepoRefresh" });
+            routes.MapRoute("SyncDiskToCache", "SyncDiskToCache", new { controller = "Blog", action = "SyncDiskToCache" });
             routes.MapRoute("Front", "", new { controller = "Blog", action = "ListRecentPosts" });
             routes.MapRoute("About", "about", new { controller = "Home", action = "About" });
             routes.MapRoute("AllPosts", "allposts", new { controller = "Blog", action = "ListRecentPosts", showAll = true });
