@@ -11,7 +11,7 @@ namespace Thyme.Web.Controllers {
     [HandleError]
     public class BlogController : ThymeBaseController {
 
-        [OutputCache(Duration = 60, VaryByParam = "none")]
+        [OutputCache(Duration = 3600, VaryByParam = "none")]
         public ActionResult ListRecentPosts(bool showAll = false) {
             using (var repo = new BlogPostRepo()) {
                 int numPosts = showAll ? int.MaxValue : Helpers.Config.NumPostsFrontPage;
@@ -44,7 +44,7 @@ namespace Thyme.Web.Controllers {
             }
         }
 
-        [OutputCache(Duration = 30, VaryByParam = "none")]
+        [OutputCache(Duration = 3600, VaryByParam = "none")]
         public ActionResult ViewPost(string slug) {
             using (var repo = new BlogPostRepo()) {
                 BlogPost bp = repo.GetPost(slug);
@@ -70,6 +70,8 @@ namespace Thyme.Web.Controllers {
                 return View("SearchResults", new Search_vm { SearchKeywords = keywords, MatchingBlogPosts = matchingPosts });
             }
         }
+
+        [OutputCache(Duration = 21600, VaryByParam = "none")]
         public RssActionResult GenerateRSS() {
             using (var repo = new BlogPostRepo()) {
                 var items = repo.ListRecentBlogPosts(int.MaxValue).Select(x =>
