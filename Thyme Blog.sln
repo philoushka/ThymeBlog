@@ -1,18 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thyme.Web", "web\Thyme.Web.csproj", "{05F7EEBB-8D5B-4771-8669-577BF52ADB45}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thyme.Tests", "UnitTestProject1\Thyme.Tests.csproj", "{72F61E3C-03BC-483B-851C-F1248D9CE7F4}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs17
-		SccProjectUniqueName0 = web\\Thyme.Web.csproj
-		SccProjectName0 = web
-		SccLocalPath0 = web
-		SccLocalPath1 = .
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -22,6 +17,10 @@ Global
 		{05F7EEBB-8D5B-4771-8669-577BF52ADB45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05F7EEBB-8D5B-4771-8669-577BF52ADB45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05F7EEBB-8D5B-4771-8669-577BF52ADB45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72F61E3C-03BC-483B-851C-F1248D9CE7F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72F61E3C-03BC-483B-851C-F1248D9CE7F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72F61E3C-03BC-483B-851C-F1248D9CE7F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72F61E3C-03BC-483B-851C-F1248D9CE7F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

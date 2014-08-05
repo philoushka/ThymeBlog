@@ -1,5 +1,5 @@
 #My own stuff to ignore
-[Bb]log[Ff]iles/
+web/[Bb]log[Ff]iles/*.*
 
 
 #################
