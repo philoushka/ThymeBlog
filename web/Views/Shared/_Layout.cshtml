@@ -3,32 +3,33 @@
 <html>
 <head>
     <title>@ViewBag.Title - @ViewBag.SiteName</title>
-    <link href="@Fingerprint.Tag("/Styles/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Fingerprint.Tag("/Styles/Site.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Fingerprint.Tag("/Styles/bootstrap.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Fingerprint.Tag("/images/devtxtfavicon.ico")" rel="shortcut icon" type="image/x-icon" />
-
+    <link href="@Fingerprint.Tag("/images/devtxtfavicon.ico")" rel="shortcut icon" type="image/x-icon" />    
 </head>
 <body>
-    <div class="navbar navbar-default">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="@Url.RouteUrl("Front" )">@ViewBag.SiteName</a>
-        </div>
-        <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.RouteUrl("Front" )">@ViewBag.SiteName</a>
+            </div>
+            <div class="navbar-collapse collapse navbar-responsive-collapse">
 
-            @using (Html.BeginRouteForm("PostSearch", FormMethod.Post, new { @class = "navbar-form navbar-right" }))
+                @using (Html.BeginRouteForm("PostSearch", FormMethod.Post, new { @class = "navbar-form navbar-right" }))
             {
                 <input type="text" id="searchText" name="searchText" placeholder="Search" class="form-control col-lg-8" value="@ViewBag.SearchKeywords" />
             }
 
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="http://twitter.com/@(ViewBag.TwitterAccountName)">twitter</a></li>
-                <li>@Html.RouteLink("about", "about")</li>
-            </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="http://twitter.com/@(ViewBag.TwitterAccountName)">twitter</a></li>
+                    <li>@Html.RouteLink("about", "about")</li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="container">
@@ -39,19 +40,10 @@
         <footer>
             @DateTime.Now.Year - @ViewBag.MyName<br />
             <a href="http://creativecommons.org/licenses/by/3.0/">
-                <img id="imgCC" alt ="Creative Commons License" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAACrsar///9ERETMzMzu7u53d3eIiIhVVVVmZmYNDg0ODg6UmZOZmZmqqqoREREiIiIzMzMNDQ1ydnHKzsoZGRkgICBbXlshISFna2dCQkIPEA99gn2AgICGhoaHh4ckJSOPkI8nKCcuMC4xMzENDQyzuLJDQ0O7u7vFxsXGysbIzMg5Oznd3d07PTtBQkFLTEu6v7qumA/2AAAAtElEQVR4Xq2TRw7EMAhFAZf0num993b/y814hKJs4/jJKxs9fQEG95BTjBANE/D4SkQxYj0DKxphHBkfG7eIn0VP4XNMDRJGiLd3P2HokcxBKAG5JLFHrDfcXy7qKJzDmXKftM5UkpIOET+X/zsf6pqwAqnMVPyCfugI8XjlhFxml1AEmdIJ6bKd0EqIpUdpBoESUDzotGv30E54HzqecnxYNcLp2sEeYgVL9r0GfX+KU8A5X+INCo9agFfBAAAAAElFTkSuQmCC" />
+                <img id="imgCC" alt="Creative Commons License" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAACrsar///9ERETMzMzu7u53d3eIiIhVVVVmZmYNDg0ODg6UmZOZmZmqqqoREREiIiIzMzMNDQ1ydnHKzsoZGRkgICBbXlshISFna2dCQkIPEA99gn2AgICGhoaHh4ckJSOPkI8nKCcuMC4xMzENDQyzuLJDQ0O7u7vFxsXGysbIzMg5Oznd3d07PTtBQkFLTEu6v7qumA/2AAAAtElEQVR4Xq2TRw7EMAhFAZf0num993b/y814hKJs4/jJKxs9fQEG95BTjBANE/D4SkQxYj0DKxphHBkfG7eIn0VP4XNMDRJGiLd3P2HokcxBKAG5JLFHrDfcXy7qKJzDmXKftM5UkpIOET+X/zsf6pqwAqnMVPyCfugI8XjlhFxml1AEmdIJ6bKd0EqIpUdpBoESUDzotGv30E54HzqecnxYNcLp2sEeYgVL9r0GfX+KU8A5X+INCo9agFfBAAAAAElFTkSuQmCC" />
             </a><br>This blog is licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.<br />In short, share, remix, and respin it mostly as you like, but you've got to provide attribution to me/this site.
         </footer>
     </div>
-     <script type="text/javascript">
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-46720433-1']);
-          _gaq.push(['_trackPageview']);
-          (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          })();
-        </script>
+    <script type="text/javascript">var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-46720433-1']);_gaq.push(['_trackPageview']);(function () {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})();</script>
 </body>
 </html>
