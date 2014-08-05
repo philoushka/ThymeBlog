@@ -159,11 +159,15 @@
   <ItemGroup>
     <Content Include="images\devtxtfavicon.ico" />
     <Content Include="images\creativecommons80x15.png" />
+    <Content Include="images\post.png" />
     <Content Include="Styles\bootstrap.min.css" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="Styles\LatoFonts.css" />
     <Content Include="Styles\Site.css" />
+    <Content Include="Styles\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
