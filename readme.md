@@ -37,13 +37,13 @@ The blog engine converts your Markdown files to HTML as they're requested by the
 
 The Markdown file is assumed to have a bit of **serialized JSON in an HTML comment** as the first line in the Markdown file. Here it reads meta data about the blog post. This meta data is used when listing your posts on the website's front page.
 
-    <!-- {Title:"Your Blog Post Click Bait Headline",
+    <!-- {Title:"Your Blog Post Headline",
          PublishedOn:"2010-08-20 07:17", 
          Intro:"Some description about your post. A teaser, if you will."}-->
          
 **Change the above to be one line!**
 
-    <!-- {Title:"Your Blog Post Click Bait Headline", PublishedOn:"2010-08-20 07:17", Intro:"Some description about your post. A teaser, if you will."}-->
+    <!-- {Title:"Your Blog Post Headline", PublishedOn:"2010-08-20 07:17", Intro:"Some description about your post. A teaser, if you will."}-->
          
 #### Windows Azure
 Unless you have a Windows machine with IIS at your disposal, you're probably thinking you need some hosting. Just use [Windows Azure](http://www.windowsazure.com/en-us/pricing/free-trial/). It's sooo much cheaper than regular shared hosting.
@@ -58,7 +58,21 @@ Unless you have a Windows machine with IIS at your disposal, you're probably thi
 
 
 #### Caching
+So the authoritative data store is a Git repo. I use GitHub, but really it could be any Git repo. This web app has 2 levels of caching. So when the app needs to read a single blog post, or list/search all posts, it will go through these steps, in order:
 
+1. [ASP.NET cache](http://msdn.microsoft.com/en-us/library/system.web.caching.cache.aspx) - for the lifetime of the app, it will load BlogPost objects and put them into memory cache that lives in memory. This is `System.Web.HttpContext.Current.Cache`.
+
+2. Files on disk - a copy of all your markdown files are put on disk on app startup. If local directory is empty, the contents of your Git repo will be downloaded and saved to disk.
+
+##### Reloading
+- You can force the app to rebuild its cache by visiting `example.com/SyncDiskToCache`
+
+- You can force the app to pull all items from your Git repo by visiting `example.com/ForceRepoRefresh`.
 
 #### Tweaks You Must Make
+
+After you publish to Azure, head over to the Configure tab. There are some [values in web.config](http://i.imgur.com/IAukH6F.jpg) that you probably don't want to inherit. It's easier to override those by entering those values in Azure (as you might in IIS), rather than editing web.config, and recommiting to source control.
+
+![](http://i.imgur.com/jXfSz0o.png)
+
 
