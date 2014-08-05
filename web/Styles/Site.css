@@ -1,2 +1,5 @@
-﻿ul.postList {list-style: none;padding: 0;}
+﻿.container {width:1170px;}
+ul.postList {list-style: none;padding: 0;}
+ul.postList li img {margin-right:10px;float:left;}
 #imgCC {border-width: 0;}
+#postTitle {margin-top:80px;}
