@@ -4,7 +4,7 @@ using System.Web.Mvc;
 namespace Thyme.Web.Controllers
 {
     [HandleError]
-    public class ThymeBaseController:AsyncController
+    public class ThymeBaseController : AsyncController
     {
 
         public ThymeBaseController()
@@ -12,6 +12,7 @@ namespace Thyme.Web.Controllers
             ViewBag.TwitterAccountName = ConfigurationManager.AppSettings["TwitterAcct"];
             ViewBag.SiteName = ConfigurationManager.AppSettings["BlogSiteName"];
             ViewBag.MyName = ConfigurationManager.AppSettings["MyName"];
+            ViewBag.GoogleAnalyticsAccountNumber = ConfigurationManager.AppSettings["GoogleAnalyticsAccountNumber"];
         }
     }
 }
