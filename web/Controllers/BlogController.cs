@@ -12,7 +12,7 @@ namespace Thyme.Web.Controllers
     public class BlogController : ThymeBaseController
     {
 
-
+        [OutputCache(CacheProfile = "HalfHour", VaryByParam = "none")]
         public ActionResult ListRecentPosts(bool showAll = false)
         {
             using (var repo = new BlogPostRepo())
@@ -49,6 +49,7 @@ namespace Thyme.Web.Controllers
             }
         }
 
+        [OutputCache(CacheProfile="HalfHour", VaryByParam = "none")]       
         public ActionResult ViewPost(string slug)
         {
             using (var repo = new BlogPostRepo())
