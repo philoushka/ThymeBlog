@@ -75,6 +75,6 @@ So the authoritative data store is a Git repo. I use GitHub, but really it could
 
 After you publish to Azure, head over to the Configure tab. There are some [values in web.config](http://i.imgur.com/IAukH6F.jpg) that you probably don't want to inherit. It's easier to override those by entering those values in Azure (as you might in IIS), rather than editing web.config, and recommiting to source control.
 
-![](http://i.imgur.com/jXfSz0o.png)
+![](http://i.imgur.com/3N41hbA.png)
 
 
