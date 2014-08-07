@@ -120,7 +120,7 @@ namespace Thyme.Web.Models
                     TryRebuildHttpCacheFromDisk();
                 }
 
-                return Cache.GetCachedPosts().Where(x => x.PublishedOn.HasValue && x.PublishedOn.Value <= DateTime.UtcNow.Date);
+                return Cache.GetCachedPosts().Where(x => x.PublishedOn.GetValueOrDefault(DateTime.MaxValue) <= DateTime.UtcNow);
             }
         }
 
