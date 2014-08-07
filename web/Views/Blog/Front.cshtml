@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Tech Blog - Phil Campbell";  
 }
+<h3 id="postTitle"></h3>
 <ul class="postList">
 @foreach (var item in Model.RecentBlogPosts){
       @Html.Partial("_PostList",item)     
