@@ -53,10 +53,10 @@ namespace Thyme.Web.Models
             HttpRuntime.Cache[MasterSha] = sha;
         }
 
-        public void RemovePostsByName(IEnumerable<string> foo)
+        public void RemovePostsByName(IEnumerable<string> postNamesToRemove)
         {
             var existingPosts = GetCachedPosts().ToList();
-            var fileNames = foo.ToList();
+            var fileNames = postNamesToRemove.ToList();
             existingPosts.RemoveAll(x => fileNames.Contains(x.FileName));
             PutPostsToHttpCache(existingPosts);
         }
