@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Web.Mvc;
 using Thyme.Web.Models;
+using System.Linq;
 
 namespace Thyme.Web.Controllers
 {
@@ -24,7 +25,7 @@ namespace Thyme.Web.Controllers
                 GitHubPostedCommit posted = JsonConvert.DeserializeObject<GitHubPostedCommit>(postedJson);
 
                 var gh = new Data.GitHub();
-                var newposts = gh.GetItemsForBranchCommit(posted);
+                var newposts = gh.GetItemsForBranchCommit(posted).ToList();
                 CacheState cache = new CacheState();
                 cache.RemovePostsByName(posted.RemovedPosts);
                 cache.AddPostsToCache(newposts);

@@ -29,7 +29,8 @@ namespace Thyme.Web.Data
         {
             var commit = GetCommit(posted.commits.First().id);
             var tree = GetTree(commit.Tree.Sha);
-            foreach (TreeItem item in tree.Tree.Where(x => posted.commits.First().ItemsToKeep.Contains(x.Path)))
+            var itemsToKeep = posted.commits.First().ItemsToKeep.ToList();
+            foreach (TreeItem item in tree.Tree.Where(x => itemsToKeep.Contains(x.Path)))
             {
                 yield return ConvertTreeItemToBlogPost(item).Result;
             }

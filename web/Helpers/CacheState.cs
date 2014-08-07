@@ -17,9 +17,13 @@ namespace Thyme.Web.Models
 
         public void AddPostsToCache(IEnumerable<BlogPost> posts)
         {
-            var existingPosts = GetCachedPosts().ToList();
-            existingPosts.AddRange(posts);
-            PutPostsToHttpCache(existingPosts);
+            if (posts.Any())
+            {
+                RemovePostsByName(posts.Select(p => p.FileName));//remove any existing files with these names; no dupes wanted.
+                var existingPosts = GetCachedPosts().ToList();
+                existingPosts.AddRange(posts);
+                PutPostsToHttpCache(existingPosts);
+            }
         }
 
         public IQueryable<BlogPost> GetCachedPosts()
@@ -28,7 +32,7 @@ namespace Thyme.Web.Models
             {
                 if (HttpRuntime.Cache.Get(BlogPosts) != null)
                 {
-                    return (HttpRuntime.Cache.Get(BlogPosts)as List<BlogPost>).AsQueryable();
+                    return (HttpRuntime.Cache.Get(BlogPosts) as List<BlogPost>).AsQueryable();
                 }
             }
             catch (Exception) { }
@@ -55,13 +59,17 @@ namespace Thyme.Web.Models
 
         public void RemovePostsByName(IEnumerable<string> postNamesToRemove)
         {
-            var existingPosts = GetCachedPosts().ToList();
-            var fileNames = postNamesToRemove.ToList();
-            existingPosts.RemoveAll(x => fileNames.Contains(x.FileName));
-            PutPostsToHttpCache(existingPosts);
+            if (postNamesToRemove.Any())
+            {
+                var existingPosts = GetCachedPosts().ToList();
+                var fileNames = postNamesToRemove.ToList();
+                existingPosts.RemoveAll(x => fileNames.Contains(x.FileName));
+                PutPostsToHttpCache(existingPosts);
+            }
         }
 
-        public void Clear() {
+        public void Clear()
+        {
             HttpRuntime.Cache.Remove(BlogPosts);
         }
     }
