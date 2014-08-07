@@ -24,15 +24,15 @@ namespace Thyme.Web.Helpers
             }
         }
 
-        public static double CacheTTLHours { get { return double.Parse(ConfigurationManager.AppSettings["RepoTTLInCacheHours"]); } }
         public static string BlogName { get { return ConfigurationManager.AppSettings["BlogSiteName"]; } }
-
         public static string GitHubRepo { get { return ConfigurationManager.AppSettings["GitHubRepo"]; } }
         public static string GitHubOwner { get { return ConfigurationManager.AppSettings["GitHubOwner"]; } }
 
         public static string MyName { get { return ConfigurationManager.AppSettings["MyName"]; } }
 
         public static string StackOverflowUserNumber { get { return ConfigurationManager.AppSettings["StackOverflowUserNumber"]; } }
+
+        public static int OutputCacheSeconds { get { return int.Parse(ConfigurationManager.AppSettings["OutputCacheSeconds"]); } }
 
         public static string GitHubOAuthToken { get { return ConfigurationManager.AppSettings["GitHubOAuthToken"]; } }
 

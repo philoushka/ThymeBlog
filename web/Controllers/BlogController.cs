@@ -6,14 +6,14 @@ using System.Web.Mvc;
 using System.Xml;
 using Thyme.Web.Models;
 using Thyme.Web.ViewModels;
-
+using Thyme.Web.Helpers;
 namespace Thyme.Web.Controllers
 {
     [HandleError]
     public class BlogController : ThymeBaseController
     {
 
-        [OutputCache(Duration = 60, VaryByParam = "none")]
+        [OutputCache(Duration = Config.OutputCacheSeconds, VaryByParam = "none")]
         public ActionResult ListRecentPosts(bool showAll = false)
         {
             using (var repo = new BlogPostRepo())
@@ -50,7 +50,7 @@ namespace Thyme.Web.Controllers
             }
         }
 
-        [OutputCache(Duration = 60, VaryByParam = "none")]
+        [OutputCache(Duration = Config.OutputCacheSeconds, VaryByParam = "none")]
         public ActionResult ViewPost(string slug)
         {
             using (var repo = new BlogPostRepo())
