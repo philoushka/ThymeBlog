@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Search Results: '{0}' - Tech Blog - Phil Campbell".FormatWith(Model.SearchKeywords);  
 }
-<h3>@Model.MatchingBlogPosts.Count() blog posts matched your search for '@Model.SearchKeywords'</h3>
+<h3 id="postTitle">@Model.MatchingBlogPosts.Count() blog posts matched your search for '@Model.SearchKeywords'</h3>
 <ul class="postList">
     @foreach (var item in Model.MatchingBlogPosts)
     {
