@@ -11,8 +11,6 @@ namespace Thyme.Web.Controllers
     [HandleError]
     public class BlogController : ThymeBaseController
     {
-
-        [OutputCache(CacheProfile = "HalfHour", VaryByParam = "none")]
         public ActionResult ListRecentPosts(bool showAll = false)
         {
             using (var repo = new BlogPostRepo())
@@ -49,7 +47,6 @@ namespace Thyme.Web.Controllers
             }
         }
 
-        [OutputCache(CacheProfile="HalfHour", VaryByParam = "none")]       
         public ActionResult ViewPost(string slug)
         {
             using (var repo = new BlogPostRepo())
@@ -112,7 +109,6 @@ namespace Thyme.Web.Controllers
             }
             return Request.Url.GetLeftPart(UriPartial.Authority) + routeUrl;
         }
-
     }
 
     public class RssActionResult : ActionResult
