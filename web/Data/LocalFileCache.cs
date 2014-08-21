@@ -4,12 +4,13 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using Thyme.Web.Models;
+using Thyme.Web.Helpers;
 
 namespace Thyme.Web.Data
 {
     public class LocalFileCache
     {
-        public string LocalFileCachePath { get { return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["BlogFilesDir"].ToString()); } }
+        public string LocalFileCachePath { get { return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Config.BlogFilesDir); } }
 
         public bool HasItemsInCache()
         {
@@ -47,10 +48,10 @@ namespace Thyme.Web.Data
 
         }
 
-        public Dictionary<string,string> ListItemsOnDisk()
+        public Dictionary<string, string> ListItemsOnDisk()
         {
-            var files = new Dictionary<string,string>();
-            foreach (FileInfo file in Directory.GetFiles(LocalFileCachePath, "*.md", SearchOption.TopDirectoryOnly).Select(x=>new FileInfo(x)))
+            var files = new Dictionary<string, string>();
+            foreach (FileInfo file in Directory.GetFiles(LocalFileCachePath, "*.md", SearchOption.TopDirectoryOnly).Select(x => new FileInfo(x)))
             {
                 files.Add(file.Name, ReadFileContents(file.Name));
             }

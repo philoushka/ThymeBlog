@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel.Syndication;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Xml;
 using Thyme.Web.Models;
@@ -38,11 +39,11 @@ namespace Thyme.Web.Controllers
         /// Force get all items from the Git repo.
         /// </summary>
         /// <returns></returns>
-        public ActionResult ForceRepoRefresh()
+        public async Task<ActionResult> ForceRepoRefresh()
         {
             using (var repo = new BlogPostRepo())
             {
-                repo.RefreshCachedBlogPosts();
+              await  repo.RefreshCachedBlogPosts();
                 return RedirectToAction("ListRecentPosts");
             }
         }

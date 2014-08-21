@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Thyme.Web.Data;
 
 namespace Thyme.Web.Models
@@ -16,10 +17,10 @@ namespace Thyme.Web.Models
             Cache = new CacheState();
         }
 
-        private void SetMasterShaToCache()
+        private async Task SetMasterShaToCache()
         {
             var github = new Data.GitHub();
-            string masterSha = github.GetCurrentMasterSha();
+            string masterSha = await github.GetCurrentMasterSha();
 
             CacheState cache = new CacheState();
             cache.SetCurrentBranchSha(masterSha);
@@ -89,12 +90,12 @@ namespace Thyme.Web.Models
             return Cache.GetCachedPosts().SingleOrDefault(x => x.UrlSlug.Equals(slug, IgnoreCase));
         }
 
-        public void RefreshCachedBlogPosts()
+        public async Task RefreshCachedBlogPosts()
         {
             var github = new Data.GitHub();
-            var blogPosts = github.GetAllBlogPosts();
-            Cache.AddPostsToCache(blogPosts);
-            SetMasterShaToCache();
+            var blogPosts = await github.GetAllBlogPosts();
+            Cache.AddPostsToCache(blogPosts );
+            await SetMasterShaToCache();
         }
 
         public IEnumerable<BlogPost> ListRecentBlogPosts(int numToTake)

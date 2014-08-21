@@ -24,6 +24,8 @@ namespace Thyme.Web.Helpers
             }
         }
 
+        public static string TwitterAcct { get { return ConfigurationManager.AppSettings["TwitterAcct"]; } }
+        public static string GoogleAnalyticsAccountNumber { get { return ConfigurationManager.AppSettings["GoogleAnalyticsAccountNumber"]; } }
         public static string BlogName { get { return ConfigurationManager.AppSettings["BlogSiteName"]; } }
         public static string GitHubRepo { get { return ConfigurationManager.AppSettings["GitHubRepo"]; } }
         public static string GitHubOwner { get { return ConfigurationManager.AppSettings["GitHubOwner"]; } }
@@ -50,5 +52,7 @@ namespace Thyme.Web.Helpers
                 catch (Exception) { return "MMM dd YYYY"; }
             }
         }
+
+        public static string BlogFilesDir { get { return ConfigurationManager.AppSettings["BlogFilesDir"]; } }
     }
 }

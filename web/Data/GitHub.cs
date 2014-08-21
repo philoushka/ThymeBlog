@@ -18,11 +18,10 @@ namespace Thyme.Web.Data
             apiConn.Connection.Credentials = new Credentials(Config.GitHubOAuthToken);
         }
 
-        public string GetCurrentMasterSha()
+        public async Task<string> GetCurrentMasterSha()
         {
-            var masterTreeSha = GetMasterTreeSha();
-            Task.WaitAll(masterTreeSha);
-            return masterTreeSha.Result;
+            var masterTreeSha = await GetMasterTreeSha();
+            return masterTreeSha;
         }
 
         public IEnumerable<BlogPost> GetItemsForBranchCommit(GitHubPostedCommit posted)
@@ -54,21 +53,23 @@ namespace Thyme.Web.Data
             return tree.Result;
         }
 
-        public IEnumerable<BlogPost> GetAllBlogPosts()
+        public async Task<IEnumerable<BlogPost>> GetAllBlogPosts()
         {
-            string masterTreeSha = GetCurrentMasterSha();
+            string masterTreeSha = await GetCurrentMasterSha();
             var tree = GetTree(masterTreeSha);
-
+            var posts = new List<BlogPost>();
             foreach (TreeItem item in tree.Tree.Where(x => x.Path.EndsWith(".md", StringComparison.CurrentCultureIgnoreCase)))
             {
-                var blob = GetBlobContents(item.Sha);
-                var blobContents = blob.Result;
-                byte[] blogPostFileBytes = Convert.FromBase64String(blobContents.Content);
+                var blob = await GetBlobContents(item.Sha);
+                byte[] blogPostFileBytes = Convert.FromBase64String(blob.Content);
                 EnsureExistsOnDisk(new SaveItem { FileContents = blogPostFileBytes, SubDirectory = "", FileName = item.Path });
-                yield return ConvertTreeItemToBlogPost(item).Result;
+                BlogPost post = await ConvertTreeItemToBlogPost(item);
+                posts.Add(post);
             }
 
             SaveTreeItemBlobsToDisk(tree);
+
+            return posts;
         }
 
         public void EnsureExistsOnDisk(SaveItem saveItem)
@@ -101,8 +102,8 @@ namespace Thyme.Web.Data
         public async Task<BlogPost> ConvertTreeItemToBlogPost(TreeItem treeItem)
         {
             var blob = await GetBlobContents(treeItem.Sha);
-            var blobContents = blob;
-            string fileContents = Encoding.UTF8.GetString(Convert.FromBase64String(blobContents.Content));
+
+            string fileContents = Encoding.UTF8.GetString(Convert.FromBase64String(blob.Content));
 
             return BlogPostParsing.ConvertFileToBlogPost(treeItem.Path, fileContents, treeItem.Sha, treeItem.Url.AbsoluteUri);
         }
@@ -110,17 +111,17 @@ namespace Thyme.Web.Data
         public async Task<Blob> GetBlobContents(string sha)
         {
             var blobClient = new BlobsClient(apiConn);
-            var blob = blobClient.Get(Config.GitHubOwner, Config.GitHubRepo, sha);
-            Task.WaitAll(blob);
-            return blob.Result;
+            var blob = await blobClient.Get(Config.GitHubOwner, Config.GitHubRepo, sha);
+
+            return blob;
         }
 
         public async Task<string> GetMasterTreeSha()
         {
             var client = new RepositoriesClient(apiConn);
-            var branches = client.GetAllBranches(Config.GitHubOwner, Config.GitHubRepo);
-            Task.WaitAll(branches);
-            return branches.Result.First().Commit.Sha;
+            var branches = await client.GetAllBranches(Config.GitHubOwner, Config.GitHubRepo);
+
+            return branches.First().Commit.Sha;
         }
     }
 }

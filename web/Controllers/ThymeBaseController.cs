@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Web.Mvc;
+using Thyme.Web.Helpers;
 
 namespace Thyme.Web.Controllers
 {
@@ -9,10 +10,10 @@ namespace Thyme.Web.Controllers
 
         public ThymeBaseController()
         {
-            ViewBag.TwitterAccountName = ConfigurationManager.AppSettings["TwitterAcct"];
-            ViewBag.SiteName = ConfigurationManager.AppSettings["BlogSiteName"];
-            ViewBag.MyName = ConfigurationManager.AppSettings["MyName"];
-            ViewBag.GoogleAnalyticsAccountNumber = ConfigurationManager.AppSettings["GoogleAnalyticsAccountNumber"];
+            ViewBag.TwitterAccountName = Config.TwitterAcct;
+            ViewBag.SiteName = Config.BlogName ;
+            ViewBag.MyName = Config.MyName;
+            ViewBag.GoogleAnalyticsAccountNumber = Config.GoogleAnalyticsAccountNumber;
         }
     }
 }
