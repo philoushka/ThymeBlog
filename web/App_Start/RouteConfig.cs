@@ -11,8 +11,8 @@ namespace Thyme.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute("RssFeedRoot", "rss", new { controller = "Blog", action = "GenerateRSS" });
             routes.MapRoute("RssFeedBlog", "blog/rss", new { controller = "Blog", action = "GenerateRSS" });
-            routes.MapRoute("GitHubUpdated", "blog/githubupdated", new { controller = "Update", action = "UpdateCacheFromGitHub" });
             routes.MapRoute("BlogPost", "blog/{slug}", new { controller = "Blog", action = "ViewPost", slug = "" });
+            routes.MapRoute("GitHubUpdated", "GitRepoUpdated", new { controller = "Update", action = "UpdateCacheFromGitHub" });
             routes.MapRoute("ForceRepoRefresh", "ForceRepoRefresh", new { controller = "Blog", action = "ForceRepoRefresh" });
             routes.MapRoute("SyncDiskToCache", "SyncDiskToCache", new { controller = "Blog", action = "SyncDiskToCache" });
             routes.MapRoute("Front", "", new { controller = "Blog", action = "ListRecentPosts" });
