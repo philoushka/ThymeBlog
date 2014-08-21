@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Thyme.Web.Models;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Thyme.Web.Controllers
 {
@@ -31,10 +30,13 @@ namespace Thyme.Web.Controllers
                 cache.RemovePostsByName(posted.RemovedPosts);
                 cache.AddPostsToCache(newposts);
                 cache.SetCurrentBranchSha(posted.after);
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, ex.Message);
+            }
 
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
     }
 
