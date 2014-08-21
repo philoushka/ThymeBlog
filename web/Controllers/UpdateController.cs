@@ -4,6 +4,7 @@ using System.Net;
 using System.Web.Mvc;
 using Thyme.Web.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Thyme.Web.Controllers
 {
@@ -11,7 +12,7 @@ namespace Thyme.Web.Controllers
     public class UpdateController : Controller
     {
         [HttpPost]
-        public ActionResult UpdateCacheFromGitHub()
+        public async Task<ActionResult> UpdateCacheFromGitHub()
         {
             string postedJson = string.Empty;
 
@@ -25,7 +26,7 @@ namespace Thyme.Web.Controllers
                 GitHubPostedCommit posted = JsonConvert.DeserializeObject<GitHubPostedCommit>(postedJson);
 
                 var gh = new Data.GitHub();
-                var newposts = gh.GetItemsForBranchCommit(posted).ToList();
+                var newposts = await gh.GetItemsForBranchCommit(posted) ;
                 CacheState cache = new CacheState();
                 cache.RemovePostsByName(posted.RemovedPosts);
                 cache.AddPostsToCache(newposts);
