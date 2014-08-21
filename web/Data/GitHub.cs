@@ -24,39 +24,40 @@ namespace Thyme.Web.Data
             return masterTreeSha;
         }
 
-        public IEnumerable<BlogPost> GetItemsForBranchCommit(GitHubPostedCommit posted)
+        public async Task<IEnumerable<BlogPost>> GetItemsForBranchCommit(GitHubPostedCommit posted)
         {
-            var commit = GetCommit(posted.commits.First().id);
-            var tree = GetTree(commit.Tree.Sha);
+            var commit = await GetCommit(posted.commits.First().id);
+            var tree = await GetTree(commit.Tree.Sha);
             var itemsToKeep = posted.commits.First().ItemsToKeep.ToList();
+            var posts = new List<BlogPost>();
             foreach (TreeItem item in tree.Tree.Where(x => itemsToKeep.Contains(x.Path)))
             {
-                yield return ConvertTreeItemToBlogPost(item).Result;
+                var post = await ConvertTreeItemToBlogPost(item);
+                posts.Add(post);
             }
-
-            SaveTreeItemBlobsToDisk(tree);
+       
+            return posts;
         }
 
-        public Commit GetCommit(string commitSha)
+        public async Task<Commit> GetCommit(string commitSha)
         {
             var commitClient = new CommitsClient(apiConn);
-            var commit = commitClient.Get(Config.GitHubOwner, Config.GitHubRepo, commitSha);
-            Task.WaitAll(commit);
-            return commit.Result;
+            var commit = await commitClient.Get(Config.GitHubOwner, Config.GitHubRepo, commitSha);
+            return commit;
         }
 
-        public TreeResponse GetTree(string treeSha)
+        public async Task<TreeResponse> GetTree(string treeSha)
         {
             var treesClient = new TreesClient(apiConn);
-            var tree = treesClient.Get(Config.GitHubOwner, Config.GitHubRepo, treeSha);
-            Task.WaitAll(tree);
-            return tree.Result;
+            var tree = await treesClient.Get(Config.GitHubOwner, Config.GitHubRepo, treeSha);
+
+            return tree;
         }
 
         public async Task<IEnumerable<BlogPost>> GetAllBlogPosts()
         {
             string masterTreeSha = await GetCurrentMasterSha();
-            var tree = GetTree(masterTreeSha);
+            var tree = await GetTree(masterTreeSha);
             var posts = new List<BlogPost>();
             foreach (TreeItem item in tree.Tree.Where(x => x.Path.EndsWith(".md", StringComparison.CurrentCultureIgnoreCase)))
             {
@@ -67,7 +68,7 @@ namespace Thyme.Web.Data
                 posts.Add(post);
             }
 
-            SaveTreeItemBlobsToDisk(tree);
+            await SaveTreeItemBlobsToDisk(tree);
 
             return posts;
         }
@@ -78,11 +79,11 @@ namespace Thyme.Web.Data
             local.SaveLocalItem(saveItem);
         }
 
-        public void SaveTreeItemBlobsToDisk(TreeResponse tree)
+        public async Task SaveTreeItemBlobsToDisk(TreeResponse tree)
         {
             foreach (var subTree in tree.Tree.Where(x => x.Type == TreeType.Tree))
             {
-                Task.WaitAll(SaveAllItemsFromTree(subTree));
+                await SaveAllItemsFromTree(subTree);
             }
         }
 

@@ -26,7 +26,7 @@ namespace Thyme.Web.Controllers
                 GitHubPostedCommit posted = JsonConvert.DeserializeObject<GitHubPostedCommit>(postedJson);
 
                 var gh = new Data.GitHub();
-                var newposts = await gh.GetItemsForBranchCommit(posted) ;
+                var newposts = await gh.GetItemsForBranchCommit(posted);
                 CacheState cache = new CacheState();
                 cache.RemovePostsByName(posted.RemovedPosts);
                 cache.AddPostsToCache(newposts);
