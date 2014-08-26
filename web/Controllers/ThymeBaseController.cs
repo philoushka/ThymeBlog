@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Thyme.Web.Helpers;
 
 namespace Thyme.Web.Controllers
@@ -11,9 +10,11 @@ namespace Thyme.Web.Controllers
         public ThymeBaseController()
         {
             ViewBag.TwitterAccountName = Config.TwitterAcct;
-            ViewBag.SiteName = Config.BlogName ;
+            ViewBag.SiteName = Config.BlogName;
             ViewBag.MyName = Config.MyName;
+            ViewBag.GitHubAccountName = Config.GitHubOwner;
             ViewBag.GoogleAnalyticsAccountNumber = Config.GoogleAnalyticsAccountNumber;
+            ViewBag.GooglePlusAccountNumber = Config.GooglePlusAccountNumber;
         }
     }
 }

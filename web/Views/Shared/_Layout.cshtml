@@ -5,7 +5,14 @@
     <title>@ViewBag.Title - @ViewBag.SiteName</title>
     <link href="@Fingerprint.Tag("/Styles/Site.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Fingerprint.Tag("/Styles/bootstrap.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Fingerprint.Tag("/images/devtxtfavicon.ico")" rel="shortcut icon" type="image/x-icon" />    
+    <link href="@Fingerprint.Tag("/images/devtxtfavicon.ico")" rel="shortcut icon" type="image/x-icon" />
+    <link rel="me" type="text/html" href="https://www.twitter.com/@(ViewBag.TwitterAccountName)">
+    <link rel="me" type="text/html" href="https://www.github.com/@(ViewBag.GitHubAccountName)">
+    <link rel="me" type="text/html" href="https://plus.google.com/@(ViewBag.GooglePlusAccountNumber)">    
+    <link rel="alternate" type="application/rss+xml" title="@ViewBag.MyName - @ViewBag.SiteName - RSS" href="@Url.RouteUrl("RssFeedBlog")">  
+    <meta itemprop="name" content="@ViewBag.Title">
+    <meta itemprop="description" content="@ViewBag.PageDescription">
+    @RenderSection("BlogPostMeta", required: false)
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -21,9 +28,11 @@
             <div class="navbar-collapse collapse navbar-responsive-collapse">
 
                 @using (Html.BeginRouteForm("PostSearch", FormMethod.Post, new { @class = "navbar-form navbar-right" }))
-            {
-                <input type="text" id="searchText" name="searchText" placeholder="Search" class="form-control col-lg-8" value="@ViewBag.SearchKeywords" />
-            }
+                {
+                    <div class="row">
+                        <input type="text" id="searchText" name="searchText" placeholder="Search" class="form-control col-lg-8" value="@ViewBag.SearchKeywords" />
+                    </div>
+                }
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="http://twitter.com/@(ViewBag.TwitterAccountName)">twitter</a></li>
@@ -44,6 +53,6 @@
             </a><br>This blog is licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.<br />In short, share, remix, and respin it mostly as you like, but you've got to provide attribution to me/this site.
         </footer>
     </div>
-    <script type="text/javascript">var _gaq = _gaq || [];_gaq.push(['_setAccount', '@ViewBag.GoogleAnalyticsAccountNumber']);_gaq.push(['_trackPageview']);(function () {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})();</script>
+    <script type="text/javascript">var _gaq = _gaq || []; _gaq.push(['_setAccount', '@ViewBag.GoogleAnalyticsAccountNumber']); _gaq.push(['_trackPageview']); (function () { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })();</script>
 </body>
 </html>

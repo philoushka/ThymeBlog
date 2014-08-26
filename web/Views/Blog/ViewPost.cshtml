@@ -1,8 +1,19 @@
 ﻿@model Thyme.Web.ViewModels.BlogPost_vm
 
 @{
-    ViewBag.Title = Model.BlogPost.Title;  
+    ViewBag.Title = Model.BlogPost.Title;    
+    ViewBag.MetaBlogPostIntro = Model.BlogPost.Intro;
 }
+@section BlogPostMeta{
+    <link rel="canonical" href="http://www.devtxt.com/blog/@Model.BlogPost.UrlSlug" />
+    <meta name="twitter:site" content="@ViewBag.SiteName">
+    <meta name="twitter:creator" content="@ViewBag.MyName">
+    <meta name="twitter:creator:id" content="@ViewBag.TwitterAccountName">
+    <meta name="twitter:image:src" content="http://i.stack.imgur.com/rrdlO.jpg?s=128&g=1">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="@ViewBag.Title">
+    <meta name="twitter:description" content="@ViewBag.MetaBlogPostIntro">
+} 
 <h1 id="postTitle">@Html.RouteLink(Model.BlogPost.Title, "BlogPost", new { slug = Model.BlogPost.UrlSlug })</h1>
 <h4>@Model.BlogPost.PublishedOn.PrettyFormat()</h4>
 @Html.Markdown(Model.BlogPost.Body)
