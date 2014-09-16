@@ -22,7 +22,7 @@ namespace Thyme.Web
             routes.MapRoute("SearchBlogPosts", "search/{keywords}", new { controller = "Blog", action = "SearchBlogPosts", keywords = string.Empty });
             routes.MapRoute("Error", "Error", new { controller = "Home", action = "Error" });
             routes.MapRoute("GitHubContributions", "GitHubContributions", new { controller = "Home", action = "GitHubContributions" });
-            routes.MapPageRoute("Slugify", "slugify", "/UserPages/Slugify.htm");
+            routes.MapPageRoute("Slugify", "slugify", "~/UserPages/Slugify.htm");
             routes.MapRoute(name: "Default", url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Blog", action = "ListRecentPosts" }
             );
