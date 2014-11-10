@@ -12,6 +12,8 @@ namespace Thyme.Web.Models
 
         public BlogPostRepo() { }
 
+        public IEnumerable<BlogPost> PublishedPosts { get { return ListBlogPostsOnDisk().Where(x => x.PublishedOn.HasValue && x.PublishedOn <= DateTime.UtcNow); } }
+
         /// <summary>
         /// Get the the blog post from disk 
         /// </summary>
@@ -19,7 +21,7 @@ namespace Thyme.Web.Models
         {
             try
             {
-                var blogPost = ListBlogPostsOnDisk().Single(x => x.UrlSlug == slug);
+                var blogPost = PublishedPosts.Single(x => x.UrlSlug == slug);
                 return blogPost;
             }
             catch (Exception)
@@ -57,7 +59,7 @@ namespace Thyme.Web.Models
         /// </summary>        
         public IEnumerable<BlogPost> ListRecentBlogPosts(int numToTake)
         {
-            return ListBlogPostsOnDisk()
+            return PublishedPosts
                     .OrderByDescending(x => x.PublishedOn)
                     .Take(numToTake);
         }
@@ -67,10 +69,12 @@ namespace Thyme.Web.Models
         /// </summary>        
         public IEnumerable<BlogPost> SearchPosts(string[] keywords)
         {
-            return ListBlogPostsOnDisk()
+            return PublishedPosts
                     .Where(x => keywords.Any(k => x.Body.Contains(k, IgnoreCase)))
                     .OrderByDescending(x => x.PublishedOn);
         }
+
+
 
         public void Dispose() { }
     }
