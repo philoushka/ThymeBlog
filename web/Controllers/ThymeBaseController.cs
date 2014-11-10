@@ -6,7 +6,6 @@ namespace Thyme.Web.Controllers
     [HandleError]
     public class ThymeBaseController : AsyncController
     {
-
         public ThymeBaseController()
         {
             ViewBag.TwitterAccountName = Config.TwitterAcct;
