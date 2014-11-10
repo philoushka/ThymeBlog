@@ -25,7 +25,7 @@ namespace Thyme.Web.Data
         /// 
         /// </summary>
         /// <param name="item"></param>
-        public void SaveLocalItem(SaveItem item)
+        public void SaveLocalItem(DiskSaveItem item)
         {
             FileInfo writeToFile = new FileInfo(Path.Combine(LocalFileCachePath, item.SubDirectory, item.FileName));
             Directory.CreateDirectory(writeToFile.DirectoryName);
@@ -45,7 +45,6 @@ namespace Thyme.Web.Data
                 return new FileInfo(file);
             }
             return null;
-
         }
 
         public Dictionary<string, string> ListItemsOnDisk()
@@ -62,12 +61,23 @@ namespace Thyme.Web.Data
         {
             return File.ReadAllText(Path.Combine(LocalFileCachePath, fileName));
         }
+
+        public void SaveLocalItem(BlogPost post)
+        {
+            FileInfo writeToFile = new FileInfo(Path.Combine(LocalFileCachePath,  post.FileName));
+            Directory.CreateDirectory(writeToFile.DirectoryName);
+            File.WriteAllText(writeToFile.FullName, post.Body);
+        }
+
+        public void RemovePost(string blogPostSlug)
+        {
+            FileInfo blogPostOnDisk= GetItemOnDisk(blogPostSlug);
+            if(blogPostOnDisk.Exists)
+            {
+                blogPostOnDisk.Delete();
+            }
+        }
     }
 
-    public class SaveItem
-    {
-        public string FileName { get; set; }
-        public string SubDirectory { get; set; }
-        public byte[] FileContents { get; set; } //byte array because could be any file: image, binary, text file, etc.
-    }
+
 }

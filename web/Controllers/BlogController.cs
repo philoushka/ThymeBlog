@@ -28,11 +28,7 @@ namespace Thyme.Web.Controllers
         /// <returns></returns>
         public ActionResult SyncDiskToCache()
         {
-            using (var repo = new BlogPostRepo())
-            {
-                repo.TryRebuildHttpCacheFromDisk();
-                return RedirectToAction("ListRecentPosts", new { Refresh = true });
-            }
+            return RedirectToAction("ListRecentPosts", new { Refresh = true });
         }
 
         /// <summary>
@@ -43,7 +39,7 @@ namespace Thyme.Web.Controllers
         {
             using (var repo = new BlogPostRepo())
             {
-              await  repo.RefreshCachedBlogPosts();
+                await repo.RefreshCachedBlogPosts();
                 return RedirectToAction("ListRecentPosts");
             }
         }
@@ -62,9 +58,13 @@ namespace Thyme.Web.Controllers
         {
             string searchTerms = Request.Form["searchText"].ToString().Trim().CreateSlug();
             if (searchTerms.HasValue())
+            {
                 return RedirectToRoute("SearchBlogPosts", new { keywords = searchTerms });
+            }
             else
+            {
                 return RedirectToRoute("Front");
+            }
         }
 
         [HttpGet]

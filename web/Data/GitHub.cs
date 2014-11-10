@@ -32,6 +32,10 @@ namespace Thyme.Web.Data
             var posts = new List<BlogPost>();
             foreach (TreeItem item in tree.Tree.Where(x => itemsToKeep.Contains(x.Path)))
             {
+                var blob = await GetBlobContents(item.Sha);
+                byte[] blogPostFileBytes = Convert.FromBase64String(blob.Content);
+                EnsureExistsOnDisk(new DiskSaveItem { FileContents = blogPostFileBytes, SubDirectory = "", FileName = item.Path });
+
                 var post = await ConvertTreeItemToBlogPost(item);
                 posts.Add(post);
             }
@@ -54,7 +58,11 @@ namespace Thyme.Web.Data
             return tree;
         }
 
-        public async Task<IEnumerable<BlogPost>> GetAllBlogPosts()
+        /// <summary>
+        /// Gets all the blog posts from GitHub. Saves them to disk.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<BlogPost>> SaveAllBlogPostsFromGitHubToDisk()
         {
             string masterTreeSha = await GetCurrentMasterSha();
             var tree = await GetTree(masterTreeSha);
@@ -63,7 +71,7 @@ namespace Thyme.Web.Data
             {
                 var blob = await GetBlobContents(item.Sha);
                 byte[] blogPostFileBytes = Convert.FromBase64String(blob.Content);
-                EnsureExistsOnDisk(new SaveItem { FileContents = blogPostFileBytes, SubDirectory = "", FileName = item.Path });
+                EnsureExistsOnDisk(new DiskSaveItem { FileContents = blogPostFileBytes, SubDirectory = "", FileName = item.Path });
                 BlogPost post = await ConvertTreeItemToBlogPost(item);
                 posts.Add(post);
             }
@@ -73,7 +81,7 @@ namespace Thyme.Web.Data
             return posts;
         }
 
-        public void EnsureExistsOnDisk(SaveItem saveItem)
+        public void EnsureExistsOnDisk(DiskSaveItem saveItem)
         {
             LocalFileCache local = new LocalFileCache();
             local.SaveLocalItem(saveItem);
@@ -96,7 +104,7 @@ namespace Thyme.Web.Data
             {
                 var blob = await GetBlobContents(item.Sha);
 
-                local.SaveLocalItem(new SaveItem { FileContents = Convert.FromBase64String(blob.Content), SubDirectory = subTree.Path, FileName = item.Path });
+                local.SaveLocalItem(new DiskSaveItem { FileContents = Convert.FromBase64String(blob.Content), SubDirectory = subTree.Path, FileName = item.Path });
             }
         }
 

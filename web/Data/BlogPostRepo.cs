@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Thyme.Web.Data;
@@ -10,47 +9,17 @@ namespace Thyme.Web.Models
     public class BlogPostRepo : IDisposable
     {
         StringComparison IgnoreCase = StringComparison.CurrentCultureIgnoreCase;
-        CacheState Cache;
 
-        public BlogPostRepo()
-        {
-            Cache = new CacheState();
-        }
-
-        private async Task SetMasterShaToCache()
-        {
-            var github = new Data.GitHub();
-            string masterSha = await github.GetCurrentMasterSha();
-
-            CacheState cache = new CacheState();
-            cache.SetCurrentBranchSha(masterSha);
-        }
-
-        public string CachedSha
-        {
-            get
-            {
-                CacheState cache = new CacheState();
-                return cache.GetCurrentBranchSha();
-            }
-        }
+        public BlogPostRepo() { }
 
         /// <summary>
-        /// Gethe the blog post from cache. First try ASP.NET HttpCache, then disk. If not there, then 404.
+        /// Get the the blog post from disk 
         /// </summary>
-        /// <param name="slug"></param>
-        /// <returns></returns>
         public BlogPost GetPost(string slug)
         {
             try
             {
-                var blogPost = GetBlogPostFromHttpCache(slug);
-                if (blogPost == null)
-                {
-                    //load the post from disk and into the cache.
-                    TryLoadDiskItemToCache(slug);
-                    blogPost = GetBlogPostFromHttpCache(slug);
-                }
+                var blogPost = ListBlogPostsOnDisk().Single(x => x.UrlSlug == slug);
                 return blogPost;
             }
             catch (Exception)
@@ -60,69 +29,47 @@ namespace Thyme.Web.Models
             }
         }
 
-        public void TryRebuildHttpCacheFromDisk()
+        /// <summary>
+        /// Get all blog posts on disk.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<BlogPost> ListBlogPostsOnDisk()
         {
             var localFileCache = new LocalFileCache();
-            var blogPostsFromDisk = new List<BlogPost>();
+
             foreach (var blogFileOnDisk in localFileCache.ListItemsOnDisk())
             {
-                BlogPost blogPost = BlogPostParsing.ConvertFileToBlogPost(blogFileOnDisk.Key, blogFileOnDisk.Value);
-                blogPostsFromDisk.Add(blogPost);
+                yield return BlogPostParsing.ConvertFileToBlogPost(blogFileOnDisk.Key, blogFileOnDisk.Value);
             }
-            Cache.Clear();
-            Cache.AddPostsToCache(blogPostsFromDisk);
         }
 
-        private void TryLoadDiskItemToCache(string slug)
-        {
-            var localFileCache = new LocalFileCache();
-            FileInfo postOnDisk = localFileCache.GetItemOnDisk(slug);
-            string fileContents = new LocalFileCache().ReadFileContents(postOnDisk.Name);
-
-            var blogPost = BlogPostParsing.ConvertFileToBlogPost(postOnDisk.Name, fileContents);
-
-            var cache = new CacheState();
-            cache.AddPostsToCache(new[] { blogPost });
-        }
-
-        private BlogPost GetBlogPostFromHttpCache(string slug)
-        {
-            return Cache.GetCachedPosts().SingleOrDefault(x => x.UrlSlug.Equals(slug, IgnoreCase));
-        }
-
+        /// <summary>
+        /// Retrieve all posts from the Git repo, and save to disk.
+        /// </summary>        
         public async Task RefreshCachedBlogPosts()
         {
             var github = new Data.GitHub();
-            var blogPosts = await github.GetAllBlogPosts();
-            Cache.AddPostsToCache(blogPosts );
-            await SetMasterShaToCache();
+            await github.SaveAllBlogPostsFromGitHubToDisk();
         }
 
+        /// <summary>
+        /// Get the *n* most recent blog posts by date.
+        /// </summary>        
         public IEnumerable<BlogPost> ListRecentBlogPosts(int numToTake)
         {
-            return PublishedPosts
+            return ListBlogPostsOnDisk()
                     .OrderByDescending(x => x.PublishedOn)
                     .Take(numToTake);
         }
 
+        /// <summary>
+        /// Find posts on disk that contain the keywords supplied
+        /// </summary>        
         public IEnumerable<BlogPost> SearchPosts(string[] keywords)
         {
-            return PublishedPosts
+            return ListBlogPostsOnDisk()
                     .Where(x => keywords.Any(k => x.Body.Contains(k, IgnoreCase)))
                     .OrderByDescending(x => x.PublishedOn);
-        }
-
-        public IQueryable<BlogPost> PublishedPosts
-        {
-            get
-            {
-                if (Cache.GetCachedPosts().IsEmpty())
-                {
-                    TryRebuildHttpCacheFromDisk();
-                }
-
-                return Cache.GetCachedPosts().Where(x => x.PublishedOn.GetValueOrDefault(DateTime.MaxValue) <= DateTime.UtcNow);
-            }
         }
 
         public void Dispose() { }

@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Thyme.Web.Data;
 using Thyme.Web.Models;
 
 namespace Thyme.Web.Controllers
@@ -26,10 +27,14 @@ namespace Thyme.Web.Controllers
 
                 var gh = new Data.GitHub();
                 var newposts = await gh.GetItemsForBranchCommit(posted);
-                CacheState cache = new CacheState();
-                cache.RemovePostsByName(posted.RemovedPosts);
-                cache.AddPostsToCache(newposts);
-                cache.SetCurrentBranchSha(posted.after);
+                var localFileCache = new LocalFileCache();
+
+                //delete items if any.
+                foreach (string blogUrlSlug in posted.RemovedPosts)
+                {
+                    localFileCache.RemovePost(blogUrlSlug);
+                }
+
                 return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
             catch (Exception ex)
