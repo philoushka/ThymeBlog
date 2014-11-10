@@ -165,6 +165,7 @@
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="Styles\LatoFonts.css" />
+    <Content Include="Styles\OpenSans.min.css" />
     <Content Include="Styles\Site.css" />
     <Content Include="Styles\Site.min.css">
       <DependentUpon>Site.css</DependentUpon>
