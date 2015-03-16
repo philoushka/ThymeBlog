@@ -55,5 +55,10 @@ namespace Thyme.Web.Helpers
         }
 
         public static string BlogFilesDir { get { return ConfigurationManager.AppSettings["BlogFilesDir"]; } }
+        public static string AzureSearchIndexName { get { return ConfigurationManager.AppSettings["AzureSearchIndexName"]; } }
+
+        public static string AzureSearchApiKey { get { return ConfigurationManager.AppSettings["AzureSearchApiKey"]; } }
+        public static string AzureSearchService { get { return ConfigurationManager.AppSettings["AzureSearchService"]; } }
+
     }
 }
