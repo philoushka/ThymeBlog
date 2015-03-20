@@ -5,6 +5,7 @@ using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Xml;
+using Thyme.Web.Helpers;
 using Thyme.Web.Models;
 using Thyme.Web.ViewModels;
 namespace Thyme.Web.Controllers
@@ -20,6 +21,17 @@ namespace Thyme.Web.Controllers
                 var recents = repo.ListRecentBlogPosts(numPosts);
                 return View("Front", new Front_vm { RecentBlogPosts = recents });
             }
+        }
+
+        public async Task<ActionResult> RefreshSearchIndex()
+        {
+            var azureIndexer = new BlogPostSearchIndex(Config.AzureSearchService, Config.AzureSearchApiKey);
+            using (var blogPostRepo = new BlogPostRepo())
+            {
+                var blogPostsToIndex = blogPostRepo.PublishedPosts.Select(x => new IndexBlogPost { BlogPostBody = x.Body, Id = x.UrlSlug }).ToArray();
+                await azureIndexer.AddToIndex(blogPostsToIndex);
+            }
+            return RedirectToRoute("Front");
         }
 
         /// <summary>
@@ -40,7 +52,7 @@ namespace Thyme.Web.Controllers
             using (var repo = new BlogPostRepo())
             {
                 await repo.RefreshCachedBlogPosts();
-                return RedirectToAction("ListRecentPosts");
+                return RedirectToRoute("Front");
             }
         }
 
@@ -68,16 +80,24 @@ namespace Thyme.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult SearchBlogPosts(string keywords)
+        public async Task<ActionResult> SearchBlogPosts(string keywords)
         {
+            keywords = keywords.RemoveSlugSeparators();
+            ViewBag.SearchKeywords = keywords;
+            var matchingPosts = new List<BlogPost>();
+            var azureIndexer = new BlogPostSearchIndex(Config.AzureSearchService, Config.AzureSearchApiKey);
+
             using (var repo = new BlogPostRepo())
             {
-                keywords = keywords.RemoveSlugSeparators();
-                IEnumerable<BlogPost> matchingPosts = repo.SearchPosts(keywords.Split(' '));
-                ViewBag.SearchKeywords = keywords;
-                return View("SearchResults", new Search_vm { SearchKeywords = keywords, MatchingBlogPosts = matchingPosts });
+                var results = await azureIndexer.SearchIndex(keywords);
+                foreach (var result in results.OrderByDescending(x => x.Score))
+                {
+                    matchingPosts.Add(repo.GetPost(result.Document.Id));
+                }
             }
+            return View("SearchResults", new Search_vm { SearchKeywords = keywords, MatchingBlogPosts = matchingPosts });
         }
+
 
         [OutputCache(Duration = 21600, VaryByParam = "none")]
         public RssActionResult GenerateRSS()
@@ -85,7 +105,12 @@ namespace Thyme.Web.Controllers
             using (var repo = new BlogPostRepo())
             {
                 var items = repo.ListRecentBlogPosts(int.MaxValue).Select(x =>
-                    new SyndicationItem(title: x.Title, content: x.Intro, lastUpdatedTime: x.PublishedOn.Value, id: GenerateBlogLink(x.UrlSlug), itemAlternateLink: new Uri(GenerateBlogLink(x.UrlSlug)))
+                    new SyndicationItem(
+                    title: x.Title,
+                    content: x.Intro,
+                    lastUpdatedTime: x.PublishedOn.Value,
+                    id: GenerateBlogLink(x.UrlSlug),
+                    itemAlternateLink: new Uri(GenerateBlogLink(x.UrlSlug)))
                     );
 
                 SyndicationFeed feed = new SyndicationFeed
@@ -127,6 +152,4 @@ namespace Thyme.Web.Controllers
             }
         }
     }
-
-
 }

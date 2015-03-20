@@ -1,9 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Thyme.Web.Data;
+using Thyme.Web.Helpers;
 using Thyme.Web.Models;
 
 namespace Thyme.Web.Controllers
@@ -22,11 +25,11 @@ namespace Thyme.Web.Controllers
                 {
                     postedJson = streamReader.ReadToEnd();
                 }
-
                 GitHubPostedCommit posted = JsonConvert.DeserializeObject<GitHubPostedCommit>(postedJson);
 
                 var gh = new Data.GitHub();
                 var newposts = await gh.GetItemsForBranchCommit(posted);
+
                 var localFileCache = new LocalFileCache();
 
                 //delete items if any.
@@ -34,7 +37,7 @@ namespace Thyme.Web.Controllers
                 {
                     localFileCache.RemovePost(blogUrlSlug);
                 }
-
+                await SyncAzureIndex(newposts,posted.RemovedPosts);
                 return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
             catch (Exception ex)
@@ -43,7 +46,11 @@ namespace Thyme.Web.Controllers
             }
 
         }
+        public async Task SyncAzureIndex(IEnumerable<BlogPost> newOrUpdates, IEnumerable<string> deletedPostSlugs)
+        {
+            var azureIndexer = new BlogPostSearchIndex(Config.AzureSearchService, Config.AzureSearchApiKey);
+            await azureIndexer.AddToIndex(newOrUpdates.Select(x => new IndexBlogPost { Id = x.UrlSlug, BlogPostBody = x.Body }).ToArray());
+            await azureIndexer.RemoveFromIndex(deletedPostSlugs.ToArray());
+        }
     }
-
-
 }

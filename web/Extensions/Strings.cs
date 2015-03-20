@@ -75,11 +75,21 @@ namespace Thyme.Web
             return url.ToString();
         }
 
+        /// <summary>
+        /// Remove a given string from the start of this string.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="trimChars">The string to be removed from the start.</param>
         public static string TrimStart(this string target, string trimChars)
         {
             return target.TrimStart(trimChars.ToCharArray());
         }
         
+        /// <summary>
+        /// Remove a given string from the end of this string.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="trimChars">The string to be removed from the end.</param>
         public static string TrimEnd(this string target, string trimChars)
         {
             return target.TrimEnd(trimChars.ToCharArray());

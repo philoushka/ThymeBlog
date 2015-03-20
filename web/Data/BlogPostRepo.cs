@@ -15,7 +15,7 @@ namespace Thyme.Web.Models
         public IEnumerable<BlogPost> PublishedPosts { get { return ListBlogPostsOnDisk().Where(x => x.PublishedOn.HasValue && x.PublishedOn <= DateTime.UtcNow); } }
 
         /// <summary>
-        /// Get the the blog post from disk 
+        /// Get the the blog post from disk
         /// </summary>
         public BlogPost GetPost(string slug)
         {
@@ -47,7 +47,7 @@ namespace Thyme.Web.Models
 
         /// <summary>
         /// Retrieve all posts from the Git repo, and save to disk.
-        /// </summary>        
+        /// </summary>
         public async Task RefreshCachedBlogPosts()
         {
             var github = new Data.GitHub();
@@ -56,7 +56,7 @@ namespace Thyme.Web.Models
 
         /// <summary>
         /// Get the *n* most recent blog posts by date.
-        /// </summary>        
+        /// </summary>
         public IEnumerable<BlogPost> ListRecentBlogPosts(int numToTake)
         {
             return PublishedPosts
@@ -66,7 +66,7 @@ namespace Thyme.Web.Models
 
         /// <summary>
         /// Find posts on disk that contain the keywords supplied
-        /// </summary>        
+        /// </summary>
         public IEnumerable<BlogPost> SearchPosts(string[] keywords)
         {
             return PublishedPosts
