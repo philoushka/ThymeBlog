@@ -27,8 +27,8 @@ namespace Thyme.Web.Controllers
                 }
                 GitHubPostedCommit posted = JsonConvert.DeserializeObject<GitHubPostedCommit>(postedJson);
                 IEnumerable<BlogPost> newposts = Enumerable.Empty<BlogPost>();
-                try
-                {
+                //try
+                //{
                     var gh = new Data.GitHub();
                     newposts = await gh.GetItemsForBranchCommit(posted);
 
@@ -39,8 +39,8 @@ namespace Thyme.Web.Controllers
                     {
                         localFileCache.RemovePost(blogUrlSlug);
                     }
-                }
-                catch (Exception) { }
+                //}
+                //catch (Exception) { }
                 
                 try
                 {
