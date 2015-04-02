@@ -26,18 +26,29 @@ namespace Thyme.Web.Controllers
                     postedJson = streamReader.ReadToEnd();
                 }
                 GitHubPostedCommit posted = JsonConvert.DeserializeObject<GitHubPostedCommit>(postedJson);
-
-                var gh = new Data.GitHub();
-                var newposts = await gh.GetItemsForBranchCommit(posted);
-
-                var localFileCache = new LocalFileCache();
-
-                //delete items if any.
-                foreach (string blogUrlSlug in posted.RemovedPosts)
+                IEnumerable<BlogPost> newposts = Enumerable.Empty<BlogPost>();
+                try
                 {
-                    localFileCache.RemovePost(blogUrlSlug);
+                    var gh = new Data.GitHub();
+                    newposts = await gh.GetItemsForBranchCommit(posted);
+
+                    var localFileCache = new LocalFileCache();
+
+                    //delete items if any.
+                    foreach (string blogUrlSlug in posted.RemovedPosts)
+                    {
+                        localFileCache.RemovePost(blogUrlSlug);
+                    }
                 }
-                await SyncAzureIndex(newposts,posted.RemovedPosts);
+                catch (Exception) { }
+                
+                try
+                {
+                    await SyncAzureIndex(newposts, posted.RemovedPosts);
+                }
+                catch (Exception) { }
+
+
                 return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
             catch (Exception ex)
