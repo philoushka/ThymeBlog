@@ -3,18 +3,26 @@
 <html>
 <head>
     <title>@ViewBag.Title - @ViewBag.SiteName</title>
+
+    <link href="@Fingerprint.Tag("/Styles/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Fingerprint.Tag("/Styles/style.css")" rel="stylesheet">
+    <link href="@Fingerprint.Tag("/Styles/icons.css")" rel="stylesheet">
+    <link href="@Fingerprint.Tag("/Styles/animate.min.css")" rel="stylesheet">
+
     <link href="@Fingerprint.Tag("/Styles/Site.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Fingerprint.Tag("/Styles/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Fingerprint.Tag("/images/devtxtfavicon.ico")" rel="shortcut icon" type="image/x-icon" />
+
     <link rel="me" type="text/html" href="https://www.twitter.com/@(ViewBag.TwitterAccountName)">
     <link rel="me" type="text/html" href="https://www.github.com/@(ViewBag.GitHubAccountName)">
-    <link rel="me" type="text/html" href="https://plus.google.com/@(ViewBag.GooglePlusAccountNumber)">    
-    <link rel="alternate" type="application/rss+xml" title="@ViewBag.MyName - @ViewBag.SiteName - RSS" href="@Url.RouteUrl("RssFeedBlog")">  
+    <link rel="me" type="text/html" href="https://plus.google.com/@(ViewBag.GooglePlusAccountNumber)">
+    <link rel="alternate" type="application/rss+xml" title="@ViewBag.MyName - @ViewBag.SiteName - RSS" href="@Url.RouteUrl("RssFeedBlog")">
     <meta itemprop="name" content="@ViewBag.Title">
     <meta itemprop="description" content="@ViewBag.PageDescription">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     @RenderSection("BlogPostMeta", required: false)
 </head>
-<body>
+<body id="home">
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -41,21 +49,92 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        @RenderBody()
-        <br />
-        <hr />
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <ins class="adsbygoogle"      style="display:inline-block;width:728px;height:90px"      data-ad-client="ca-pub-5755628217423786"     data-ad-slot="4405859356"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        <br />
+
+    <div id="wrap">
+        <div id="main-nav" class="">
+            <div class="container">
+                <div class="nav-header">
+                    <a class="nav-brand" href="index.html"><i class="icon-eye"></i>DevTxt</a>
+
+                </div>
+            </div>
+        </div>
+        <section id="hero" class="light-typo">
+            <div id="cover-image" class="image-bg animated fadeIn"></div>
+            <div class="container welcome-content">
+                <div class="middle-text">
+                    <h1>Phil Campbell</h1>
+                </div>
+            </div>
+        </section>
+        <div id="start" class="container content">
+            <div class="row">
+                @RenderBody()                
+            </div><!-- end row -->
+        </div>
+
+        <div id="mid" class="container content">
+            <div class="row">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5755628217423786" data-ad-slot="4405859356"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </div>
+
         <footer>
-            @DateTime.Now.Year - @ViewBag.MyName<br />
-            <a href="http://creativecommons.org/licenses/by/3.0/">
-                <img id="imgCC" alt="Creative Commons License" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAACrsar///9ERETMzMzu7u53d3eIiIhVVVVmZmYNDg0ODg6UmZOZmZmqqqoREREiIiIzMzMNDQ1ydnHKzsoZGRkgICBbXlshISFna2dCQkIPEA99gn2AgICGhoaHh4ckJSOPkI8nKCcuMC4xMzENDQyzuLJDQ0O7u7vFxsXGysbIzMg5Oznd3d07PTtBQkFLTEu6v7qumA/2AAAAtElEQVR4Xq2TRw7EMAhFAZf0num993b/y814hKJs4/jJKxs9fQEG95BTjBANE/D4SkQxYj0DKxphHBkfG7eIn0VP4XNMDRJGiLd3P2HokcxBKAG5JLFHrDfcXy7qKJzDmXKftM5UkpIOET+X/zsf6pqwAqnMVPyCfugI8XjlhFxml1AEmdIJ6bKd0EqIpUdpBoESUDzotGv30E54HzqecnxYNcLp2sEeYgVL9r0GfX+KU8A5X+INCo9agFfBAAAAAElFTkSuQmCC" />
-            </a><br>This blog is licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.<br />In short, share, remix, and respin it mostly as you like, but you've got to provide attribution to me/this site.
+            <div class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 footer-widget">
+                            <h3>Statistics</h3>
+                            <span>Fun Stats!</span>
+                            <div class="stats">
+                                <div class="line">
+                                    <span class="counter">27</span>
+                                    <span class="caption">Posts Per Month</span>
+                                </div>
+                                <div class="line">
+                                    <span class="counter">208</span>
+                                    <span class="caption">Words Per Post</span>
+                                </div>
+                                <div class="line">
+                                    <span class="counter">2</span>
+                                    <span class="caption">Vistis Per Day</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 footer-widget">
+                            @Html.Partial("_RecentPosts", (List<RecentPost>)ViewBag.RecentPosts)
+                        </div>
+                        <div class="col-sm-4 col-md-4 footer-widget clearfix">
+                            @Html.Partial("_Tags", (List<string>)ViewBag.Tags)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <div class="container">
+                    <p class="pull-left">Written by @Html.RouteLink("Phil Campbell", "About")</p> <p>
+                        &copy;  @DateTime.Now.Year - @ViewBag.MyName<br />
+                        <a href="http://creativecommons.org/licenses/by/3.0/">
+                            <img id="imgCC" alt="Creative Commons License" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAACrsar///9ERETMzMzu7u53d3eIiIhVVVVmZmYNDg0ODg6UmZOZmZmqqqoREREiIiIzMzMNDQ1ydnHKzsoZGRkgICBbXlshISFna2dCQkIPEA99gn2AgICGhoaHh4ckJSOPkI8nKCcuMC4xMzENDQyzuLJDQ0O7u7vFxsXGysbIzMg5Oznd3d07PTtBQkFLTEu6v7qumA/2AAAAtElEQVR4Xq2TRw7EMAhFAZf0num993b/y814hKJs4/jJKxs9fQEG95BTjBANE/D4SkQxYj0DKxphHBkfG7eIn0VP4XNMDRJGiLd3P2HokcxBKAG5JLFHrDfcXy7qKJzDmXKftM5UkpIOET+X/zsf6pqwAqnMVPyCfugI8XjlhFxml1AEmdIJ6bKd0EqIpUdpBoESUDzotGv30E54HzqecnxYNcLp2sEeYgVL9r0GfX+KU8A5X+INCo9agFfBAAAAAElFTkSuQmCC" />
+                        </a>
+                        <br>This blog and its contents are licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.<br />In short, share, remix, and respin it mostly as you like, but you've got to provide attribution to me/this site.
+                    </p>See more of my work:
+                    <ul class="social-links pull-right">
+                        <li><a href="https://www.twitter.com/@(ViewBag.TwitterAccountName)"><i class="icon-twitter"></i>Twitter</a></li>
+                        <li><a href="https://www.github.com/@(ViewBag.GitHubAccountName)"><i class="icon-github"></i>GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
         </footer>
     </div>
+
     <script type="text/javascript">var _gaq = _gaq || []; _gaq.push(['_setAccount', '@ViewBag.GoogleAnalyticsAccountNumber']); _gaq.push(['_trackPageview']); (function () { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })();</script>
+    <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/jquery-1.9.1.min.js")"></script>
+    <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/bootstrap.min.js")"></script>
+    <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/placeholders.min.js")"></script>
+    <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/wow.min.js")"></script>
+    <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/custom.js")"></script>
 </body>
 </html>
