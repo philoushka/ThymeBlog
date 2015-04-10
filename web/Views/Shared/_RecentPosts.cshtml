@@ -1,18 +1,19 @@
-﻿@model Thyme.Web.ViewModels.RecentPosts_vm
+﻿@model IEnumerable<BlogPost>
 @using Thyme.Web.Helpers
+@using Thyme.Web.Models
 
 <h3>Recent posts</h3>
 <div class="post-recent-widget">
     <div class="row">
         <div class="col-sm-12">
 
-            @foreach (var recentPost in Model.RecentBlogPosts)
+            @foreach (var recentPost in Model)
             {
                 <div class="media">
-                    <a class="pull-left" href="@Url.HttpRouteUrl("BlogPost", new { slug = recentPost.Slug })"><img class="media-object" src="@Fingerprint.Tag("/images/img2.jpg")" width="80" alt=""></a>
+                    <a class="pull-left" href="@Url.RouteUrl("BlogPost", new { slug = recentPost.UrlSlug })"><img class="media-object" src="@Fingerprint.Tag("/images/img2.jpg")" width="80" alt=""></a>
                     <div class="media-body">
-                        <h4 class="media-heading">@Html.RouteLink(recentPost.Title, "BlogPost", new { slug = recentPost.Slug })</h4>
-                        <p class="post-date">@recentPost.PostedOnDateTime.PrettyFormat()</p>
+                        <h4 class="media-heading">@Html.RouteLink(recentPost.Title, "BlogPost", new { slug = recentPost.UrlSlug })</h4>
+                        <p class="post-date">@recentPost.PublishedOn.PrettyFormat()</p>
                     </div>
                 </div>
             }

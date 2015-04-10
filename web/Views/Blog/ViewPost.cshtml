@@ -1,7 +1,9 @@
 ﻿@model Thyme.Web.ViewModels.BlogPost_vm
 
 @{
+    ViewBag.PageTitle = Model.BlogPost.Title;
     ViewBag.Title = Model.BlogPost.Title;
+    ViewBag.PageSubHeading= Model.BlogPost.Intro;
     ViewBag.MetaBlogPostIntro = Model.BlogPost.Intro;
 }
 @section BlogPostMeta{
@@ -14,33 +16,26 @@
     <meta name="twitter:title" content="@ViewBag.Title">
     <meta name="twitter:description" content="@ViewBag.MetaBlogPostIntro">
 }
-<h1 id="postTitle">@Html.RouteLink(Model.BlogPost.Title, "BlogPost", new { slug = Model.BlogPost.UrlSlug })</h1>
-<h4>@Model.BlogPost.PublishedOn.PrettyFormat()</h4>
-@Html.Markdown(Model.BlogPost.Body)
-<br />
-<h3>Comments?</h3>
-@Html.Partial("_TweetComment")
-
 <div class="col-md-10 col-md-offset-1">
-
     <div class="post-date">
         @Model.BlogPost.PublishedOn.PrettyFormat() | @Html.RouteLink((string)ViewBag.MyName, "About")
     </div>
-
+    @Html.Markdown(Model.BlogPost.Body)
+    <h3>Comments?</h3>
+    @Html.Partial("_TweetComment")
     <div class="post-date">
         tags | @Model.WriteTags()
         <span>
         </span>
     </div>
     <ul class="social-links outline text-center">
-        <li><a href="https://www.twitter.com/@Model.TwitterAccountName"><i class="icon-twitter"></i></a></li>
-
+        <li><a href="https://www.twitter.com/@ViewBag.TwitterAccountName"><i class="icon-twitter"></i></a></li>
     </ul>
     <div id="author" class="clearfix">
         <img class="img-circle" alt="" src="@Fingerprint.Tag("/images/author-phil.jpg")" height="96" width="96">
         <div class="author-info">
             <h3>@ViewBag.MyName</h3>
-            <p>If rubbin' frozen dirt in your crotch is wrong, hey I don't wanna be right. You can follow me on <a href="https://www.twitter.com/@Model.TwitterAccountName">Twitter</a>.</p>
+            <p>You can follow me on <a href="https://www.twitter.com/@ViewBag.TwitterAccountName">Twitter</a>.</p>
         </div>
     </div>
 </div>

@@ -13,13 +13,47 @@ namespace Thyme.Web.Controllers
     [HandleError]
     public class BlogController : ThymeBaseController
     {
+        public BlogController()
+        {
+            ViewBag.AllTags = GetTopBlogPostTags();
+            ViewBag.RecentPosts = GetFeaturedRecentPosts();
+
+        }
+
+        public IEnumerable<string> GetTopBlogPostTags()
+        {
+            using (var repo = new BlogPostRepo())
+            {
+                var alltags = repo.PublishedPosts.SelectMany(x => x.Tags);
+
+                var topTags = from t in alltags
+                              group t by t into g
+                              select new { Tag = g.Key, NumPosts = g.Count() };
+
+                return topTags
+                    .OrderByDescending(x => x.NumPosts)
+                    .Take(10)
+                    .Select(x => x.Tag).ToList();
+            }
+        }
+
+
+
         public ActionResult ListRecentPosts(bool showAll = false)
         {
             using (var repo = new BlogPostRepo())
             {
                 int numPosts = showAll ? int.MaxValue : Helpers.Config.NumPostsFrontPage;
-                var recents = repo.ListRecentBlogPosts(numPosts);
+                var recents = repo.ListRecentBlogPosts(numPosts).ToList();
                 return View("Front", new Front_vm { RecentBlogPosts = recents });
+            }
+        }
+
+        public IEnumerable<BlogPost> GetFeaturedRecentPosts()
+        {
+            using (var repo = new BlogPostRepo())
+            {
+                return repo.ListRecentBlogPosts(3).ToList();
             }
         }
 

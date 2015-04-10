@@ -1,6 +1,0 @@
-﻿@model Thyme.Web.Models.BlogPost
-<li>
-    <a href="@Url.RouteUrl("BlogPost", new { slug = Model.UrlSlug })"><img src="@Fingerprint.Tag("/images/post.png")" alt="post" /></a>
-    <span class="lead">@Html.RouteLink(Model.Title, "BlogPost", new { slug = Model.UrlSlug })</span><br />
-    <span class="text-primary"><strong>@Model.PublishedOn.PrettyFormat()</strong></span>&nbsp;<span class="text-muted">@Model.Intro</span><hr />
-</li>

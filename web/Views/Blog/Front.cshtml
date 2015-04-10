@@ -2,7 +2,9 @@
 @using Thyme.Web.Models
 
 @{
-    ViewBag.Title = "Tech Blog - Phil Campbell";
+    ViewBag.PageTitle = "Phil Campbell";
+    ViewBag.PageSubHeading = "I'm kind of amazed you're even here.";
+    ViewBag.Title = "DevTxt - Phil Campbell";
 }
  <div class="col-md-10 col-md-offset-1">
 
@@ -12,9 +14,9 @@
             <div class="post-date">
                 @post.PublishedOn.PrettyFormat() | <a href="">@ViewBag.MyName</a>
             </div>
-            <h2>@Html.RouteLink(post.Title, new { slug = post.UrlSlug })</h2>
+            <h2>@Html.RouteLink(post.Title,"BlogPost", new { slug = post.UrlSlug })</h2>
             <p>
-                @post.Intro @Html.RouteLink("Read more", new { slug = post.UrlSlug })
+                @post.Intro @Html.RouteLink("Read more", "BlogPost", new { slug = post.UrlSlug })
             </p>
         </article>
     }
@@ -22,6 +24,4 @@
     <script>
         $("article.clearfix:last").addClass("last");
     </script>
-      
 </div>
- 

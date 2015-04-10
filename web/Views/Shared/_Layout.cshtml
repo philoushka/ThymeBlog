@@ -1,4 +1,4 @@
-﻿@using System.Configuration;
+﻿@using Thyme.Web.Models
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,24 +63,24 @@
             <div id="cover-image" class="image-bg animated fadeIn"></div>
             <div class="container welcome-content">
                 <div class="middle-text">
-                    <h1>Phil Campbell</h1>
+                    <h1>@ViewBag.PageTitle</h1>
+                    <h2>@ViewBag.PageSubHeading</h2>
                 </div>
             </div>
         </section>
         <div id="start" class="container content">
             <div class="row">
-                @RenderBody()                
+                @RenderBody()
             </div><!-- end row -->
         </div>
 
-        <div id="mid" class="container content">
+        <div id="mid" class="container" style="background-color:lightgray;">
             <div class="row">
-                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                @*<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                 <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5755628217423786" data-ad-slot="4405859356"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>*@
             </div>
         </div>
-
         <footer>
             <div class="footer">
                 <div class="container">
@@ -104,10 +104,10 @@
                             </div>
                         </div>
                         <div class="col-sm-4 col-md-4 footer-widget">
-                            @Html.Partial("_RecentPosts", (List<RecentPost>)ViewBag.RecentPosts)
+                            @Html.Partial("_RecentPosts", (List<BlogPost>)ViewBag.RecentPosts)
                         </div>
                         <div class="col-sm-4 col-md-4 footer-widget clearfix">
-                            @Html.Partial("_Tags", (List<string>)ViewBag.Tags)
+                            @Html.Partial("_Tags", (List<string>)ViewBag.AllTags)
                         </div>
                     </div>
                 </div>
@@ -122,8 +122,8 @@
                         <br>This blog and its contents are licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.<br />In short, share, remix, and respin it mostly as you like, but you've got to provide attribution to me/this site.
                     </p>See more of my work:
                     <ul class="social-links pull-right">
-                        <li><a href="https://www.twitter.com/@(ViewBag.TwitterAccountName)"><i class="icon-twitter"></i>Twitter</a></li>
-                        <li><a href="https://www.github.com/@(ViewBag.GitHubAccountName)"><i class="icon-github"></i>GitHub</a></li>
+                        <li><a href="https://www.twitter.com/@(ViewBag.TwitterAccountName)"><i class="icon-twitter"></i></a></li>
+                        <li><a href="https://www.github.com/@(ViewBag.GitHubAccountName)"><i class="icon-github"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -131,7 +131,7 @@
     </div>
 
     <script type="text/javascript">var _gaq = _gaq || []; _gaq.push(['_setAccount', '@ViewBag.GoogleAnalyticsAccountNumber']); _gaq.push(['_trackPageview']); (function () { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })();</script>
-    <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/jquery-1.9.1.min.js")"></script>
+    <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/jquery-2.1.3.min.js")"></script>
     <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/bootstrap.min.js")"></script>
     <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/placeholders.min.js")"></script>
     <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/wow.min.js")"></script>
