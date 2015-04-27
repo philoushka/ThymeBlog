@@ -12,7 +12,7 @@
     {
         <article class="clearfix">
             <div class="post-date">
-                @post.PublishedOn.PrettyFormat() | <a href="">@ViewBag.MyName</a>
+                @post.PublishedOn.PrettyFormat() | @Html.RouteLink((string)ViewBag.MyName, routeName: "About")
             </div>
             <h2>@Html.RouteLink(post.Title,"BlogPost", new { slug = post.UrlSlug })</h2>
             <p>

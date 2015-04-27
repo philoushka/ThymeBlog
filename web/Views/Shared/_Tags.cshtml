@@ -1,7 +1,8 @@
-﻿<h3>Tags</h3>
+﻿@model IEnumerable<string>
+<h3>Tags</h3>
 <ul class="tags">
-    @foreach (string tag in new[] { "C#", "SQL", "ASP.NET MVC" })
+    @foreach (string tag in Model)
     {
-        <li><a href="#@tag">@tag</a></li>
+        <li>@Html.RouteLink(tag, "AllPostsForTag", new {tag=tag }, new {@class="tag" })</li>
     }
 </ul>

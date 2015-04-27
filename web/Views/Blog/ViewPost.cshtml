@@ -3,7 +3,7 @@
 @{
     ViewBag.PageTitle = Model.BlogPost.Title;
     ViewBag.Title = Model.BlogPost.Title;
-    ViewBag.PageSubHeading= Model.BlogPost.Intro;
+    ViewBag.PageSubHeading = Model.BlogPost.Intro;
     ViewBag.MetaBlogPostIntro = Model.BlogPost.Intro;
 }
 @section BlogPostMeta{
@@ -18,13 +18,16 @@
 }
 <div class="col-md-10 col-md-offset-1">
     <div class="post-date">
-        @Model.BlogPost.PublishedOn.PrettyFormat() | @Html.RouteLink((string)ViewBag.MyName, "About")
+        @Model.BlogPost.PublishedOn.PrettyFormat() | @Html.RouteLink((string)ViewBag.MyName, routeName: "About")
     </div>
     @Html.Markdown(Model.BlogPost.Body)
     <h3>Comments?</h3>
     @Html.Partial("_TweetComment")
     <div class="post-date">
-        tags | @Model.WriteTags()
+        tags | @foreach (string tag in Model.BlogPost.Tags)
+        {
+         @Html.RouteLink(tag, "AllPostsForTag", new {tag=tag }, new {@class="tag" })
+        }
         <span>
         </span>
     </div>

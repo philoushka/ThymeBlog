@@ -1,17 +1,16 @@
 ﻿@{
-    ViewBag.Title = "About Me";
+    ViewBag.Title =  "About Me - " + ViewBag.MyName;
 }
-<h2>This Blog</h2>
-<p>This blog is meant to exercise my writing and documentation skills. It's not meant to be read by anybody.</p>
-<h2>About Me</h2>
-<p>I'm a software developer. I like learning new things and new ways of doing things.</p>
-<h3>Contributions/Projects</h3>
-<table style="width:75%; border:none"   >
-    <tr>
-        <td>
-            <h4>StackOverflow</h4>
-            <p>
 
+<div class="col-md-10 col-md-offset-1">
+    <div class="row">
+        <div class="col-sm-9 col-md-8 ">
+            <div class="post-intro">I'm a softare developer in Kelowna, BC, Canada. I'm constantly learning new technologies, tools, patterns, and practices in software development.</div>
+            <p>I've been a developer in the Microsoft stack since 1999.</p>
+            <h3>Contributions/Projects</h3>
+
+            <h4>Stack Overflow</h4>
+            <p>
                 @if (ViewBag.StackOverflowUserNumber != "")
                 {
                     <a href="http://stackoverflow.com/u/@(ViewBag.StackOverflowUserNumber)">
@@ -19,25 +18,27 @@
                     </a>
                 }
             </p>
-        </td>
-        <td>
+
             <h4>Open Source Projects</h4>
             <ul>
                 <li><a href="http://github.com/philoushka">GitHub</a></li>
                 <li><a href="http://www.codeplex.com/site/users/view/philoushka">CodePlex</a></li>
 
             </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
+
             <h4>Extension Methods</h4>
             I've contributed a few <a href="http://extensionmethod.net/Author/phil-campbell">extension methods at ExtensionMethod.net</a>
-        </td>
-        <td><a title="I'm on Google +" href="https://plus.google.com/@ViewBag.GooglePlusAccountNumber?rel=author">I'm on <img src="http://i.imgur.com/so6NHDO.png" /></a></td>
-    </tr>
-</table>
-
+        </div>
+        <div class="col-sm-3 col-md-4">
+            <img src="@Fingerprint.Tag("/images/author-phil.jpg")" class="img-responsive img-circle about-portrait" alt="">
+            <ul class="social-links outline text-center">
+                <li><a href="http://twitter.com/@(ViewBag.TwitterAccountName)"><i class="icon-twitter"></i></a></li>
+                <li><a href="https://plus.google.com/@ViewBag.GooglePlusAccountNumber?rel=author"><i class="icon-googleplus"></i></a></li>
+            </ul>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d164476.21493762123!2d-119.45466244961503!3d49.8999136438846!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x537d8cb6e3c730b3%3A0x4ef8e53ddab4c4f7!2sKelowna%2C+BC%2C+Canada!5e0!3m2!1sen!2s!4v1430111704536" width="400" height="300" frameborder="0" style="border:0"></iframe>
+        </div>
+    </div>
+</div>
 
 
 

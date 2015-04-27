@@ -196,6 +196,7 @@
     <Compile Include="Models\GitHubCommit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BlogPost_vm.cs" />
+    <Compile Include="ViewModels\PostsWithTag_vm.cs" />
     <Compile Include="ViewModels\RecentPosts_vm.cs" />
     <Compile Include="ViewModels\Search_vm.cs" />
     <Compile Include="ViewModels\Front_vm.cs" />
@@ -271,6 +272,9 @@
   <ItemGroup>
     <Content Include="Views\Shared\_RecentPosts.cshtml" />
     <Content Include="Views\Shared\_Tags.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Blog\PostsWithTag.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

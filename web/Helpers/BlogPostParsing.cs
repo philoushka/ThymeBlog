@@ -20,6 +20,7 @@ namespace Thyme.Web
                 FileName = Path.GetFileNameWithoutExtension(fileName),
                 SHA = sha,
                 Url = url,
+                Tags= metaProps.Tags??Enumerable.Empty<string>(),
                 Title = metaProps.Title,
                 Intro = metaProps.Intro,
                 PublishedOn = (metaProps.PublishedOn.HasValue()) ? DateTime.Parse(metaProps.PublishedOn) : new Nullable<DateTime>(),

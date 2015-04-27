@@ -77,5 +77,10 @@ namespace Thyme.Web.Models
 
 
         public void Dispose() { }
+
+        public IEnumerable<BlogPost> ListPostsWithTag(string tag)
+        {
+            return PublishedPosts.Where(x => x.Tags.Contains(tag, StringComparer.InvariantCultureIgnoreCase));
+        }
     }
 }

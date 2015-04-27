@@ -15,16 +15,29 @@ namespace Thyme.Web.Controllers
     {
         public BlogController()
         {
-            ViewBag.AllTags = GetTopBlogPostTags();
-            ViewBag.RecentPosts = GetFeaturedRecentPosts();
 
+        }
+
+        public ActionResult GetTopTags()
+        {
+            var topTags = GetTopBlogPostTags();
+            return PartialView("_Tags", topTags);
+        }
+
+        public ActionResult GetFeaturedRecentPosts()
+        {
+            using (var repo = new BlogPostRepo())
+            {
+                var recents = repo.ListRecentBlogPosts(3).ToList();
+                return PartialView("_RecentPosts", recents);
+            }
         }
 
         public IEnumerable<string> GetTopBlogPostTags()
         {
             using (var repo = new BlogPostRepo())
             {
-                var alltags = repo.PublishedPosts.SelectMany(x => x.Tags);
+                var alltags = repo.PublishedPosts.SelectMany(x => x.Tags).ToList();
 
                 var topTags = from t in alltags
                               group t by t into g
@@ -36,9 +49,7 @@ namespace Thyme.Web.Controllers
                     .Select(x => x.Tag).ToList();
             }
         }
-
-
-
+        
         public ActionResult ListRecentPosts(bool showAll = false)
         {
             using (var repo = new BlogPostRepo())
@@ -48,15 +59,7 @@ namespace Thyme.Web.Controllers
                 return View("Front", new Front_vm { RecentBlogPosts = recents });
             }
         }
-
-        public IEnumerable<BlogPost> GetFeaturedRecentPosts()
-        {
-            using (var repo = new BlogPostRepo())
-            {
-                return repo.ListRecentBlogPosts(3).ToList();
-            }
-        }
-
+        
         public async Task<ActionResult> RefreshSearchIndex()
         {
             var azureIndexer = new BlogPostSearchIndex(Config.AzureSearchService, Config.AzureSearchApiKey);
@@ -75,6 +78,15 @@ namespace Thyme.Web.Controllers
         public ActionResult SyncDiskToCache()
         {
             return RedirectToAction("ListRecentPosts", new { Refresh = true });
+        }
+
+        public async Task<ActionResult> ListPostsForTag(string tag)
+        {
+            using (var repo = new BlogPostRepo())
+            {
+                var postsWithTag = repo.ListPostsWithTag(tag.Trim()).ToList();
+                return View("PostsWithTag", new PostsWithTag_vm { Tag = tag.Trim(), Posts = postsWithTag });
+            }
         }
 
         /// <summary>
