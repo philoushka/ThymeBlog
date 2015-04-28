@@ -1,6 +1,6 @@
 ﻿@model Thyme.Web.ViewModels.PostsWithTag_vm
 @{
-    ViewBag.Title = $"Blog Posts tagged '{Model.Tag}' - Tech Blog - Phil Campbell";
+    ViewBag.Title = "Blog Posts tagged '"+Model.Tag+' - Tech Blog - Phil Campbell";
 }
 <h3 id="postTitle">@Model.Posts.Count() blog posts tagged with '@Model.Tag'</h3>
 <ul class="postList">

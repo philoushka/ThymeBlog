@@ -77,8 +77,8 @@
         <div id="mid" class="container" style="background-color:lightgray;">
             <div class="row">
                 @*<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5755628217423786" data-ad-slot="4405859356"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>*@
+                    <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5755628217423786" data-ad-slot="4405859356"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>*@
             </div>
         </div>
         <footer>
@@ -110,7 +110,8 @@
             </div>
             <div class="copyright">
                 <div class="container">
-                    <p class="pull-left">Written by @Html.RouteLink("Phil Campbell", "About")<br />
+                    <p class="pull-left">
+                        Written by @Html.RouteLink("Phil Campbell", "About")<br />
                         &copy;  @DateTime.Now.Year - @ViewBag.MyName<br />
                         <a href="http://creativecommons.org/licenses/by/3.0/">
                             <img id="imgCC" alt="Creative Commons License" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAACrsar///9ERETMzMzu7u53d3eIiIhVVVVmZmYNDg0ODg6UmZOZmZmqqqoREREiIiIzMzMNDQ1ydnHKzsoZGRkgICBbXlshISFna2dCQkIPEA99gn2AgICGhoaHh4ckJSOPkI8nKCcuMC4xMzENDQyzuLJDQ0O7u7vFxsXGysbIzMg5Oznd3d07PTtBQkFLTEu6v7qumA/2AAAAtElEQVR4Xq2TRw7EMAhFAZf0num993b/y814hKJs4/jJKxs9fQEG95BTjBANE/D4SkQxYj0DKxphHBkfG7eIn0VP4XNMDRJGiLd3P2HokcxBKAG5JLFHrDfcXy7qKJzDmXKftM5UkpIOET+X/zsf6pqwAqnMVPyCfugI8XjlhFxml1AEmdIJ6bKd0EqIpUdpBoESUDzotGv30E54HzqecnxYNcLp2sEeYgVL9r0GfX+KU8A5X+INCo9agFfBAAAAAElFTkSuQmCC" />
@@ -119,6 +120,7 @@
                     </p>See more of my work:
                     <ul class="social-links pull-right">
                         <li><a href="https://www.twitter.com/@(ViewBag.TwitterAccountName)"><i class="icon-twitter"></i></a></li>
+                        <li><a href="https://www.stackoverflow.com/@(ViewBag.StackOverflowUserNumber)"><i class="icon-stackoverflow"></i></a></li>
                         <li><a href="https://www.github.com/@(ViewBag.GitHubAccountName)"><i class="icon-github"></i></a></li>
                     </ul>
                 </div>
@@ -135,7 +137,8 @@
     <script type="text/javascript">
         $(function () {
             loadTopTags();
-            loadFeaturedRecentPosts()
+            loadFeaturedRecentPosts();
+            randomizeHeaderImg();
         });
 
 
@@ -145,12 +148,24 @@
             });
         }
 
-        function loadFeaturedRecentPosts()
-        {
+        function loadFeaturedRecentPosts() {
             $.get('@Url.RouteUrl("GetFeaturedRecentPosts")', function (data) {
                 $('#recentPosts').html(data);
             });
         }
+
+        function randomizeHeaderImg(){
+            var bgArray = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
+            var randImg = bgArray[Math.floor(Math.random() * bgArray.length)];
+            var imgPath = "url(" + "../images/header/" + todaySeason() + randImg +")";
+            $('#cover-image').css("background-image", imgPath);
+
+        }
+
+        function todaySeason(){
+            return "winter";
+        }
+
     </script>
 </body>
 </html>
