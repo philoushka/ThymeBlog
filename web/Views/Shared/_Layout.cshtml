@@ -142,7 +142,6 @@
             randomizeHeaderImg();
         });
 
-
         function loadTopTags() {
             $.get('@Url.RouteUrl("GetTopTags")', function (data) {
                 $('#topTags').html(data);
@@ -154,19 +153,25 @@
                 $('#recentPosts').html(data);
             });
         }
-
+        
         function randomizeHeaderImg(){
             var bgArray = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
             var randImg = bgArray[Math.floor(Math.random() * bgArray.length)];
             var imgPath = "url(" + "../images/header/" + todaySeason() + randImg +")";
             $('#cover-image').css("background-image", imgPath);
-
         }
 
+        Number.prototype.between  = function (min, max) {
+            return this >= min && this <= max;
+        };
+ 
         function todaySeason(){
+            var currMonth = (new Date()).getMonth()+1;
+            if(currMonth.between(3,5)){return "spring";}
+            if(currMonth.between(6,8)){return "summer";}
+            if(currMonth.between(9,10)){return "autumn";}
             return "winter";
         }
-
     </script>
 </body>
 </html>
