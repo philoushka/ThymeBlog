@@ -103,7 +103,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-4 footer-widget" id="recentPosts">                        </div>
+                        <div class="col-sm-4 col-md-4 footer-widget" id="recentPosts"></div>
                         <div class="col-sm-4 col-md-4 footer-widget clearfix" id="topTags"></div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                     <p class="pull-left">
                         Written by @Html.RouteLink("Phil Campbell", "About")<br />
                         &copy;  @DateTime.Now.Year - @ViewBag.MyName<br />
-                        Header images courtesy <a href="https://instagram.com/JayMartens">Jay Martens</a>
+                        Header images courtesy <a href="https://instagram.com/JayMartens">Jay Martens</a><br />
                         <a href="http://creativecommons.org/licenses/by/3.0/">
                             <img id="imgCC" alt="Creative Commons License" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAACrsar///9ERETMzMzu7u53d3eIiIhVVVVmZmYNDg0ODg6UmZOZmZmqqqoREREiIiIzMzMNDQ1ydnHKzsoZGRkgICBbXlshISFna2dCQkIPEA99gn2AgICGhoaHh4ckJSOPkI8nKCcuMC4xMzENDQyzuLJDQ0O7u7vFxsXGysbIzMg5Oznd3d07PTtBQkFLTEu6v7qumA/2AAAAtElEQVR4Xq2TRw7EMAhFAZf0num993b/y814hKJs4/jJKxs9fQEG95BTjBANE/D4SkQxYj0DKxphHBkfG7eIn0VP4XNMDRJGiLd3P2HokcxBKAG5JLFHrDfcXy7qKJzDmXKftM5UkpIOET+X/zsf6pqwAqnMVPyCfugI8XjlhFxml1AEmdIJ6bKd0EqIpUdpBoESUDzotGv30E54HzqecnxYNcLp2sEeYgVL9r0GfX+KU8A5X+INCo9agFfBAAAAAElFTkSuQmCC" />
                         </a>
@@ -123,6 +123,7 @@
                         <li><a href="https://www.twitter.com/@(ViewBag.TwitterAccountName)"><i class="icon-twitter"></i></a></li>
                         <li><a href="https://www.stackoverflow.com/@(ViewBag.StackOverflowUserNumber)"><i class="icon-stackoverflow"></i></a></li>
                         <li><a href="https://www.github.com/@(ViewBag.GitHubAccountName)"><i class="icon-github"></i></a></li>
+                        <li><a href="https://linkedin.com"><i class="icon-linkedin"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -155,9 +156,9 @@
         }
         
         function randomizeHeaderImg(){
-            var bgArray = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
+            var bgArray = [1,2,3,4];
             var randImg = bgArray[Math.floor(Math.random() * bgArray.length)];
-            var imgPath = "url(" + "../images/header/" + todaySeason() + randImg +")";
+            var imgPath = "url(" + "../images/header/" + todaySeason() + randImg +".jpg)";
             $('#cover-image').css("background-image", imgPath);
         }
 
