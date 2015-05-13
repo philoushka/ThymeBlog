@@ -1,16 +1,11 @@
 ﻿@model Thyme.Web.ViewModels.Search_vm
 @{
-    ViewBag.Title = "Search Results: '{0}' - Tech Blog - Phil Campbell".FormatWith(Model.SearchKeywords);  
+    ViewBag.Title = "'{0}' posts - Tech Blog - Phil Campbell".FormatWith(Model.SearchKeywords);
+    ViewBag.PageTitle = "{0} post{2} for '{1}'".FormatWith(Model.MatchingBlogPosts.Count(),
+        Model.SearchKeywords, (Model.MatchingBlogPosts.Count()==1?"":"s"));
 }
-<h3 id="postTitle">@Model.MatchingBlogPosts.Count() blog posts matched your search for '@Model.SearchKeywords'</h3>
-<ul class="postList">
-    @foreach (var item in Model.MatchingBlogPosts)
-    {
-        @Html.Partial("_PostList",item)        
-    }
-</ul>
-<br />
-@Html.RouteLink("View All Posts","AllPosts")
+<h2 id="postTitle">@Model.MatchingBlogPosts.Count() blog posts matched your search for '@Model.SearchKeywords'</h2>
+@Html.Partial("_PostList", Model.MatchingBlogPosts)
 <script type="text/javascript">
-    document.getElementById('searchText').select();
+    $('#searchText').select();
 </script>

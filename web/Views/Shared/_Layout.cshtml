@@ -70,8 +70,10 @@
         </section>
         <div id="start" class="container content">
             <div class="row">
-                @RenderBody()
-            </div><!-- end row -->
+                <div class="col-md-10 col-md-offset-1">
+                    @RenderBody()
+                </div>
+            </div>
         </div>
 
         <div id="mid" class="container" style="background-color:lightgray;">
@@ -118,7 +120,7 @@
                             <img id="imgCC" alt="Creative Commons License" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAACrsar///9ERETMzMzu7u53d3eIiIhVVVVmZmYNDg0ODg6UmZOZmZmqqqoREREiIiIzMzMNDQ1ydnHKzsoZGRkgICBbXlshISFna2dCQkIPEA99gn2AgICGhoaHh4ckJSOPkI8nKCcuMC4xMzENDQyzuLJDQ0O7u7vFxsXGysbIzMg5Oznd3d07PTtBQkFLTEu6v7qumA/2AAAAtElEQVR4Xq2TRw7EMAhFAZf0num993b/y814hKJs4/jJKxs9fQEG95BTjBANE/D4SkQxYj0DKxphHBkfG7eIn0VP4XNMDRJGiLd3P2HokcxBKAG5JLFHrDfcXy7qKJzDmXKftM5UkpIOET+X/zsf6pqwAqnMVPyCfugI8XjlhFxml1AEmdIJ6bKd0EqIpUdpBoESUDzotGv30E54HzqecnxYNcLp2sEeYgVL9r0GfX+KU8A5X+INCo9agFfBAAAAAElFTkSuQmCC" />
                         </a>
                         <br>This blog and its contents are licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.<br />In short, share, remix, and respin it mostly as you like, but you've got to provide attribution to me/this site.
-                    </p>See more of my work:
+                    </p>
                     <ul class="social-links pull-right">
                         <li><a href="https://www.twitter.com/@(ViewBag.TwitterAccountName)"><i class="icon-twitter"></i></a></li>
                         <li><a href="https://www.stackoverflow.com/@(ViewBag.StackOverflowUserNumber)"><i class="icon-stackoverflow"></i></a></li>
@@ -141,6 +143,7 @@
             loadTopTags();
             loadFeaturedRecentPosts();
             randomizeHeaderImg();
+            activateBlogPostIntrosAsLinks();
         });
 
         function loadTopTags() {
@@ -154,25 +157,34 @@
                 $('#recentPosts').html(data);
             });
         }
-        
-        function randomizeHeaderImg(){
-            var bgArray = [1,2,3,4];
+
+        function randomizeHeaderImg() {
+            var bgArray = [1, 2, 3, 4];
             var randImg = bgArray[Math.floor(Math.random() * bgArray.length)];
-            var imgPath = "url(" + "../images/header/" + todaySeason() + randImg +".jpg)";
+            var imgPath = "url(" + "../images/header/" + todaySeason() + randImg + ".jpg)";
             $('#cover-image').css("background-image", imgPath);
         }
 
-        Number.prototype.between  = function (min, max) {
+        Number.prototype.between = function (min, max) {
             return this >= min && this <= max;
         };
- 
-        function todaySeason(){
-            var currMonth = (new Date()).getMonth()+1;
-            if(currMonth.between(3,5)){return "spring";}
-            if(currMonth.between(6,8)){return "summer";}
-            if(currMonth.between(9,10)){return "autumn";}
+
+        function todaySeason() {
+            var currMonth = (new Date()).getMonth() + 1;
+            if (currMonth.between(3, 5)) { return "spring"; }
+            if (currMonth.between(6, 8)) { return "summer"; }
+            if (currMonth.between(9, 10)) { return "autumn"; }
             return "winter";
         }
+
+        function activateBlogPostIntrosAsLinks()
+        {
+            $(".postIntro").click(function () {
+                var url = $(this).parent().find("a:first").attr("href");
+                window.location.href = url;                
+            });
+        }
     </script>
+    @RenderSection("PageLoad",required:false)
 </body>
 </html>

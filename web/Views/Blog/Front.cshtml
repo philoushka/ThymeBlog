@@ -7,20 +7,7 @@
     ViewBag.Title = "DevTxt - Phil Campbell";
 }
  <div class="col-md-10 col-md-offset-1">
-
-    @foreach (BlogPost post in Model.RecentBlogPosts)
-    {
-        <article class="clearfix">
-            <div class="post-date">
-                @post.PublishedOn.PrettyFormat() | @Html.RouteLink((string)ViewBag.MyName, routeName: "About")
-            </div>
-            <h2>@Html.RouteLink(post.Title,"BlogPost", new { slug = post.UrlSlug })</h2>
-            <p>
-                @post.Intro @Html.RouteLink("Read more", "BlogPost", new { slug = post.UrlSlug })
-            </p>
-        </article>
-    }
-
+    @Html.Partial("_PostList", Model.RecentBlogPosts)
     <script>
         $("article.clearfix:last").addClass("last");
     </script>
