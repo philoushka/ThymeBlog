@@ -21,19 +21,16 @@
     @Model.BlogPost.PublishedOn.PrettyFormat() | @Html.RouteLink((string)ViewBag.MyName, routeName: "About")
 </div>
 @Html.Markdown(Model.BlogPost.Body)
-<h3>Comments?</h3>
-@Html.Partial("_TweetComment")
 <div class="post-date">
-    tags | @foreach (string tag in Model.BlogPost.Tags)
+    tagged in category | @foreach (string tag in Model.BlogPost.Tags)
     {
         @Html.RouteLink(tag, "AllPostsForTag", new { tag = tag }, new { @class = "tag" })
     }
-    <span>
-    </span>
 </div>
-<ul class="social-links outline text-center">
-    <li><a href="https://www.twitter.com/@ViewBag.TwitterAccountName"><i class="icon-twitter"></i></a></li>
-</ul>
+<h3>Comments?</h3>
+
+<a href="https://www.twitter.com/@ViewBag.TwitterAccountName">Tweet me a comment about this post.</a>
+
 <div id="author" class="clearfix">
     <img class="img-circle" alt="" src="@Fingerprint.Tag("/images/author-phil.jpg")" height="96" width="96">
     <div class="author-info">

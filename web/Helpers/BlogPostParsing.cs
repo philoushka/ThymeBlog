@@ -71,7 +71,7 @@ namespace Thyme.Web
 
         public static IEnumerable<string> ConvertStringToLines(string input)
         {
-            return input.Trim().Split(Environment.NewLine.ToCharArray()).ToList();
+            return input.Trim().Replace("\r","").Split(Environment.NewLine.ToCharArray()).ToList();
         }
 
         public static bool StringIsHtmlComment(string input)

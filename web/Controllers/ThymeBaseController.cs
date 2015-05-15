@@ -14,6 +14,7 @@ namespace Thyme.Web.Controllers
             ViewBag.GitHubAccountName = Config.GitHubOwner;
             ViewBag.GoogleAnalyticsAccountNumber = Config.GoogleAnalyticsAccountNumber;
             ViewBag.GooglePlusAccountNumber = Config.GooglePlusAccountNumber;
+            ViewBag.StackOverflowUserNumber = Config.StackOverflowUserNumber;
         }
     }
 }

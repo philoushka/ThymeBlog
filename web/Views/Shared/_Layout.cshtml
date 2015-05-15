@@ -23,39 +23,44 @@
     @RenderSection("BlogPostMeta", required: false)
 </head>
 <body id="home">
-    <div class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="@Url.RouteUrl("Front" )">@ViewBag.SiteName</a>
-            </div>
-            <div class="navbar-collapse collapse navbar-responsive-collapse">
+    @*<div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="@Url.RouteUrl("Front" )">@ViewBag.SiteName</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
 
-                @using (Html.BeginRouteForm("PostSearch", FormMethod.Post, new { @class = "navbar-form navbar-right" }))
-                {
-                    <div class="row">
-                        <input type="text" id="searchText" name="searchText" placeholder="Search" class="form-control col-lg-8" value="@ViewBag.SearchKeywords" />
-                    </div>
-                }
+                    @using (Html.BeginRouteForm("PostSearch", FormMethod.Post, new { @class = "navbar-form navbar-right" }))
+                    {
+                        <div class="row">
+                            <input type="text" id="searchText" name="searchText" placeholder="Search" class="form-control col-lg-8" value="@ViewBag.SearchKeywords" />
+                        </div>
+                    }
 
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="http://twitter.com/@(ViewBag.TwitterAccountName)">twitter</a></li>
-                    <li>@Html.RouteLink("about", "about")</li>
-                </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="http://twitter.com/@(ViewBag.TwitterAccountName)">twitter</a></li>
+                        <li>@Html.RouteLink("about", "about")</li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </div>
+        </div>*@
 
     <div id="wrap">
         <div id="main-nav" class="">
             <div class="container">
                 <div class="nav-header">
                     <a class="nav-brand" href="@Url.RouteUrl("Front")"><i class="icon-eye"></i>DevTxt</a>
-
+                    @using (Html.BeginRouteForm("PostSearch", FormMethod.Post, new { @class = "navbar-form navbar-right" }))
+                    {
+                        <div class="row">
+                            <input type="text" id="searchText" name="searchText" placeholder="Search" class="form-control col-lg-8" value="@ViewBag.SearchKeywords" />
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -113,17 +118,16 @@
             <div class="copyright">
                 <div class="container">
                     <p class="pull-left">
-                        Written by @Html.RouteLink("Phil Campbell", "About")<br />
-                        &copy;  @DateTime.Now.Year - @ViewBag.MyName<br />
+                        &copy;  @DateTime.Now.Year @Html.RouteLink("Phil Campbell", "About")<br />
                         Header images courtesy <a href="https://instagram.com/JayMartens">Jay Martens</a><br />
                         <a href="http://creativecommons.org/licenses/by/3.0/">
                             <img id="imgCC" alt="Creative Commons License" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAACrsar///9ERETMzMzu7u53d3eIiIhVVVVmZmYNDg0ODg6UmZOZmZmqqqoREREiIiIzMzMNDQ1ydnHKzsoZGRkgICBbXlshISFna2dCQkIPEA99gn2AgICGhoaHh4ckJSOPkI8nKCcuMC4xMzENDQyzuLJDQ0O7u7vFxsXGysbIzMg5Oznd3d07PTtBQkFLTEu6v7qumA/2AAAAtElEQVR4Xq2TRw7EMAhFAZf0num993b/y814hKJs4/jJKxs9fQEG95BTjBANE/D4SkQxYj0DKxphHBkfG7eIn0VP4XNMDRJGiLd3P2HokcxBKAG5JLFHrDfcXy7qKJzDmXKftM5UkpIOET+X/zsf6pqwAqnMVPyCfugI8XjlhFxml1AEmdIJ6bKd0EqIpUdpBoESUDzotGv30E54HzqecnxYNcLp2sEeYgVL9r0GfX+KU8A5X+INCo9agFfBAAAAAElFTkSuQmCC" />
                         </a>
-                        <br>This blog and its contents are licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.<br />In short, share, remix, and respin it mostly as you like, but you've got to provide attribution to me/this site.
+                        This blog and its contents are licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.In short: share, remix, and respin it as you like, but you must provide attribution to me by name (Phil Campbell), and you must link to this page.
                     </p>
                     <ul class="social-links pull-right">
                         <li><a href="https://www.twitter.com/@(ViewBag.TwitterAccountName)"><i class="icon-twitter"></i></a></li>
-                        <li><a href="https://www.stackoverflow.com/@(ViewBag.StackOverflowUserNumber)"><i class="icon-stackoverflow"></i></a></li>
+                        <li><a href="https://www.stackoverflow.com/users/@(ViewBag.StackOverflowUserNumber)"><i class="icon-stackoverflow"></i></a></li>
                         <li><a href="https://www.github.com/@(ViewBag.GitHubAccountName)"><i class="icon-github"></i></a></li>
                         <li><a href="https://linkedin.com"><i class="icon-linkedin"></i></a></li>
                     </ul>
@@ -177,14 +181,13 @@
             return "winter";
         }
 
-        function activateBlogPostIntrosAsLinks()
-        {
+        function activateBlogPostIntrosAsLinks() {
             $(".postIntro").click(function () {
                 var url = $(this).parent().find("a:first").attr("href");
-                window.location.href = url;                
+                window.location.href = url;
             });
         }
     </script>
-    @RenderSection("PageLoad",required:false)
+    @RenderSection("PageLoad", required: false)
 </body>
 </html>
