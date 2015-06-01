@@ -8,7 +8,6 @@ namespace Thyme.Web.Controllers
     {
         public ActionResult About()
         {
-            ViewBag.StackOverflowUserNumber = Config.StackOverflowUserNumber;
             return View();
         }
 

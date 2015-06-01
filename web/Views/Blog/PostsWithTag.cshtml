@@ -1,0 +1,10 @@
+﻿@model Thyme.Web.ViewModels.PostsWithTag_vm
+@{
+    ViewBag.Title = "Blog Posts tagged '" + Model.Tag + "' - Tech Blog - Phil Campbell";
+    ViewBag.PageTitle = "{0} post{2} for '{1}'".FormatWith(Model.Posts.Count(),
+        Model.Tag, (Model.Posts.Count() == 1 ? "" : "s"));
+}
+@Html.Partial("_PostList", Model.Posts)
+<script type="text/javascript">
+    $('#searchText').select();
+</script>

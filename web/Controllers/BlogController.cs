@@ -13,12 +13,28 @@ namespace Thyme.Web.Controllers
     [HandleError]
     public class BlogController : ThymeBaseController
     {
+        public BlogController()
+        {
+
+        }
+
+      
+
+        public ActionResult GetFeaturedRecentPosts()
+        {
+            using (var repo = new BlogPostRepo())
+            {
+                var recents = repo.ListRecentBlogPosts(3).ToList();
+                return PartialView("_RecentPosts", recents);
+            }
+        }        
+
         public ActionResult ListRecentPosts(bool showAll = false)
         {
             using (var repo = new BlogPostRepo())
             {
                 int numPosts = showAll ? int.MaxValue : Helpers.Config.NumPostsFrontPage;
-                var recents = repo.ListRecentBlogPosts(numPosts);
+                var recents = repo.ListRecentBlogPosts(numPosts).ToList();
                 return View("Front", new Front_vm { RecentBlogPosts = recents });
             }
         }
@@ -42,6 +58,8 @@ namespace Thyme.Web.Controllers
         {
             return RedirectToAction("ListRecentPosts", new { Refresh = true });
         }
+
+     
 
         /// <summary>
         /// Force get all items from the Git repo.

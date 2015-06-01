@@ -1,0 +1,12 @@
+﻿@model BloggingStats_vm
+<h3>My Stats</h3>
+
+<div class="stats">
+    @foreach (var item in Model.Statistics)
+    {
+        <div class="line">
+            <span class="counter">@item.Value</span>
+            <span class="caption">@item.Key</span>
+        </div>
+    }
+</div>

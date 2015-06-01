@@ -12,7 +12,7 @@ namespace Thyme.Web.Models
 
         public BlogPostRepo() { }
 
-        public IEnumerable<BlogPost> PublishedPosts { get { return ListBlogPostsOnDisk().Where(x => x.PublishedOn.HasValue && x.PublishedOn <= DateTime.UtcNow); } }
+        public IEnumerable<BlogPost> PublishedPosts => ListBlogPostsOnDisk().Where(x => x.PublishedOn.HasValue && x.PublishedOn <= DateTime.UtcNow);
 
         /// <summary>
         /// Get the the blog post from disk
@@ -77,5 +77,10 @@ namespace Thyme.Web.Models
 
 
         public void Dispose() { }
+
+        public IEnumerable<BlogPost> ListPostsWithTag(string tag)
+        {
+            return PublishedPosts.Where(x => x.Tags.Contains(tag, StringComparer.InvariantCultureIgnoreCase));
+        }
     }
 }

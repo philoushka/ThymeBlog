@@ -1,0 +1,8 @@
+﻿@model IEnumerable<string>
+<h3>Tags</h3>
+<ul class="tags">
+    @foreach (string tag in Model)
+    {
+        <li>@Html.RouteLink(tag, "AllPostsForTag", new {tag=tag }, new {@class="tag" })</li>
+    }
+</ul>

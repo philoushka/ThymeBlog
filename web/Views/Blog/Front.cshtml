@@ -1,12 +1,14 @@
 ﻿@model Thyme.Web.ViewModels.Front_vm
+@using Thyme.Web.Models
+
 @{
-    ViewBag.Title = "Tech Blog - Phil Campbell";  
+    ViewBag.PageTitle = "Phil Campbell";
+    ViewBag.PageSubHeading = ViewBag.FunQuote;
+    ViewBag.Title = "Phil Campbell - Software Developer";
 }
-<h3 id="postTitle"></h3>
-<ul class="postList">
-@foreach (var item in Model.RecentBlogPosts){
-      @Html.Partial("_PostList",item)     
-}
-</ul>
-<br />
-@Html.RouteLink("View All Posts","AllPosts")
+ <div class="col-md-10 col-md-offset-1">
+    @Html.Partial("_PostList", Model.RecentBlogPosts)
+    <script>
+        $("article.clearfix:last").addClass("last");
+    </script>
+</div>
