@@ -3,8 +3,8 @@
 
 @{
     ViewBag.PageTitle = "Phil Campbell";
-    ViewBag.PageSubHeading = "I'm kind of amazed you're even here.";
-    ViewBag.Title = "DevTxt - Phil Campbell";
+    ViewBag.PageSubHeading = ViewBag.FunQuote;
+    ViewBag.Title = "Phil Campbell - Software Developer";
 }
  <div class="col-md-10 col-md-offset-1">
     @Html.Partial("_PostList", Model.RecentBlogPosts)

@@ -17,11 +17,12 @@ namespace Thyme.Web
             routes.MapRoute("SyncDiskToCache", "SyncDiskToCache", new { controller = "Blog", action = "SyncDiskToCache" });
             routes.MapRoute("Front", "", new { controller = "Blog", action = "ListRecentPosts" });
             routes.MapRoute("About", "about", new { controller = "Home", action = "About" });
-            routes.MapRoute("GetTopTags", "TopTags", new { controller = "Blog", action = "GettopTags" });
+            routes.MapRoute("GetTopTags", "TopTags", new { controller = "Tags", action = "GetTopTags" });
             routes.MapRoute("GetFeaturedRecentPosts", "GetFeaturedRecentPosts", new { controller = "Blog", action = "GetFeaturedRecentPosts" });
             routes.MapRoute("AllPosts", "allposts", new { controller = "Blog", action = "ListRecentPosts", showAll = true });
-            routes.MapRoute("AllPostsForTag", "tagged/{tag}", new { controller = "Blog", action = "ListPostsForTag"  });
-
+            routes.MapRoute("GetBloggingStats", "bloggingStats", new { controller = "Stats", action = "BloggingStats"  });
+            routes.MapRoute("AllPostsForTag", "tagged/{tag}", new { controller = "Tags", action = "ListPostsForTag"  });
+            
             routes.MapRoute("PostSearch", "PostSearch", new { controller = "Blog", action = "PostSearch", searchKeywords = string.Empty });
             routes.MapRoute("RefreshSearch", "RefreshSearch", new { controller = "Blog", action = "RefreshSearchIndex" });
             routes.MapRoute("SearchBlogPosts", "search/{keywords}", new { controller = "Blog", action = "SearchBlogPosts", keywords = string.Empty });

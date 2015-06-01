@@ -12,7 +12,7 @@ namespace Thyme.Web.Models
 
         public BlogPostRepo() { }
 
-        public IEnumerable<BlogPost> PublishedPosts { get { return ListBlogPostsOnDisk().Where(x => x.PublishedOn.HasValue && x.PublishedOn <= DateTime.UtcNow); } }
+        public IEnumerable<BlogPost> PublishedPosts => ListBlogPostsOnDisk().Where(x => x.PublishedOn.HasValue && x.PublishedOn <= DateTime.UtcNow);
 
         /// <summary>
         /// Get the the blog post from disk

@@ -1,13 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 
 namespace Thyme.Web.Helpers
 {
     public static class Config
     {
-
+        public static string TwitterAcct => ConfigurationManager.AppSettings[nameof(TwitterAcct)];
+        public static string GoogleAnalyticsAccountNumber => ConfigurationManager.AppSettings[nameof(GoogleAnalyticsAccountNumber)];
+        public static string GooglePlusAccountNumber => ConfigurationManager.AppSettings[nameof(GooglePlusAccountNumber)];
+        public static string BlogSiteName => ConfigurationManager.AppSettings[nameof(BlogSiteName)];
+        public static string GitHubRepo => ConfigurationManager.AppSettings[nameof(GitHubRepo)];
+        public static string GitHubOwner => ConfigurationManager.AppSettings[nameof(GitHubOwner)];
+        public static string MyName => ConfigurationManager.AppSettings[nameof(MyName)];
+        public static string StackOverflowUserNumber => ConfigurationManager.AppSettings[nameof(StackOverflowUserNumber)];
+        public static int OutputCacheSeconds => int.Parse(ConfigurationManager.AppSettings[nameof(OutputCacheSeconds)]);
+        public static string GitHubOAuthToken => ConfigurationManager.AppSettings[nameof(GitHubOAuthToken)];
+        public static string[] Quotes => ConfigurationManager.AppSettings[nameof(Quotes)].Split('|');
+        public static string BlogFilesDir => ConfigurationManager.AppSettings[nameof(BlogFilesDir)];
+        public static string AzureSearchIndexName => ConfigurationManager.AppSettings[nameof(AzureSearchIndexName)];
+        public static string AzureSearchApiKey => ConfigurationManager.AppSettings[nameof(AzureSearchApiKey)];
+        public static string AzureSearchService => ConfigurationManager.AppSettings[nameof(AzureSearchService)];
         /// <summary>
-        /// Gets the number of posts to show on the front page of the blog site. If any exception occurs, 
+        /// Gets the number of posts to show on the front page of the blog site. If any exception occurs,
         /// a large number will be returned (int.maxvalue) and allow basically all posts to be shown.
         /// </summary>
         public static int NumPostsFrontPage
@@ -24,21 +39,6 @@ namespace Thyme.Web.Helpers
             }
         }
 
-        public static string TwitterAcct { get { return ConfigurationManager.AppSettings["TwitterAcct"]; } }
-        public static string GoogleAnalyticsAccountNumber { get { return ConfigurationManager.AppSettings["GoogleAnalyticsAccountNumber"]; } }
-        public static string GooglePlusAccountNumber { get { return ConfigurationManager.AppSettings["GooglePlusAccountNumber"]; } }
-        public static string BlogName { get { return ConfigurationManager.AppSettings["BlogSiteName"]; } }
-        public static string GitHubRepo { get { return ConfigurationManager.AppSettings["GitHubRepo"]; } }
-        public static string GitHubOwner { get { return ConfigurationManager.AppSettings["GitHubOwner"]; } }
-
-        public static string MyName { get { return ConfigurationManager.AppSettings["MyName"]; } }
-
-        public static string StackOverflowUserNumber { get { return ConfigurationManager.AppSettings["StackOverflowUserNumber"]; } }
-
-        public static int OutputCacheSeconds { get { return int.Parse(ConfigurationManager.AppSettings["OutputCacheSeconds"]); } }
-
-        public static string GitHubOAuthToken { get { return ConfigurationManager.AppSettings["GitHubOAuthToken"]; } }
-
         /// <summary>
         /// Gets the datetime format from config. If config setting is missing, or any exception, the default MMM dd YYYY format will be returned.
         /// </summary>
@@ -54,11 +54,6 @@ namespace Thyme.Web.Helpers
             }
         }
 
-        public static string BlogFilesDir { get { return ConfigurationManager.AppSettings["BlogFilesDir"]; } }
-        public static string AzureSearchIndexName { get { return ConfigurationManager.AppSettings["AzureSearchIndexName"]; } }
-
-        public static string AzureSearchApiKey { get { return ConfigurationManager.AppSettings["AzureSearchApiKey"]; } }
-        public static string AzureSearchService { get { return ConfigurationManager.AppSettings["AzureSearchService"]; } }
 
     }
 }

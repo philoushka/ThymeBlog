@@ -13,18 +13,20 @@ namespace Thyme.Web
         public static BlogPost ConvertFileToBlogPost(string fileName, string fileContents, string sha = "", string url = "")
         {
             BlogPostMetaProperties metaProps = BlogPostParsing.ParseValuesFromComment(fileContents);
-
+            string urlSlug = Path.GetFileNameWithoutExtension(fileName);
+            string body = BlogPostParsing.RemovePostHeader(fileContents);
+            string file = Path.GetFileNameWithoutExtension(fileName);
             return new BlogPost
             {
-                Body = BlogPostParsing.RemovePostHeader(fileContents),
-                FileName = Path.GetFileNameWithoutExtension(fileName),
+                Body = body,
+                FileName = file,
                 SHA = sha,
                 Url = url,
                 Tags= metaProps.Tags??Enumerable.Empty<string>(),
                 Title = metaProps.Title,
                 Intro = metaProps.Intro,
                 PublishedOn = (metaProps.PublishedOn.HasValue()) ? DateTime.Parse(metaProps.PublishedOn) : new Nullable<DateTime>(),
-                UrlSlug = Path.GetFileNameWithoutExtension(fileName)
+                UrlSlug = urlSlug
             };
         }
 
@@ -41,7 +43,7 @@ namespace Thyme.Web
                 }
             }
             catch (Exception) { }
-            return new BlogPostMetaProperties { Title = "Blog Post", Intro = "Blog Intro", PublishedOn = DateTime.Now.ToString() };
+            return new BlogPostMetaProperties { Title = "Blog Post", Intro = "Blog Intro", PublishedOn = DateTime.Now.ToString()  };
         }
 
         public static string ExtractMetaComment(string fileContents)
