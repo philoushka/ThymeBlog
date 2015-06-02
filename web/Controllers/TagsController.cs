@@ -9,7 +9,7 @@ using Thyme.Web.ViewModels;
 
 namespace Thyme.Web.Controllers
 {
-    public class TagsController : Controller
+    public class TagsController : ThymeBaseController
     {
         public ActionResult GetTopTags()
         {
