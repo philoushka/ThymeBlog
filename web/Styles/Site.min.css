@@ -1,1 +1,4 @@
 ﻿.container{width:1170px}ul.postList{list-style:none;padding:0}ul.postList li img{margin-right:15px;float:left}#imgCC{border-width:0}#postTitle{margin-top:80px}.tag {margin-left:5px;margin-right:5px;}
+.postIntro {
+    cursor:pointer;
+}

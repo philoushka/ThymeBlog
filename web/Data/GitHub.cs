@@ -14,7 +14,7 @@ namespace Thyme.Web.Data
         ApiConnection apiConn;
         public GitHub()
         {
-            apiConn = new ApiConnection(new Connection(new Octokit.ProductHeaderValue(Config.BlogName.CreateSlug())));
+            apiConn = new ApiConnection(new Connection(new Octokit.ProductHeaderValue(Config.BlogSiteName.CreateSlug())));
             apiConn.Connection.Credentials = new Credentials(Config.GitHubOAuthToken);
         }
 
