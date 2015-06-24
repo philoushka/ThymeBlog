@@ -2,10 +2,12 @@
 @{
     ViewBag.Title = "'{0}' posts - Tech Blog - Phil Campbell".FormatWith(Model.SearchKeywords);
     ViewBag.PageTitle = "{0} post{2} for '{1}'".FormatWith(Model.MatchingBlogPosts.Count(),
-        Model.SearchKeywords, (Model.MatchingBlogPosts.Count()==1?"":"s"));
+        Model.SearchKeywords, (Model.MatchingBlogPosts.Count() == 1 ? "" : "s"));
 }
 <h2 id="postTitle">@Model.MatchingBlogPosts.Count() blog posts matched your search for '@Model.SearchKeywords'</h2>
 @Html.Partial("_PostList", Model.MatchingBlogPosts)
-<script type="text/javascript">
-    $('#searchText').select();
-</script>
+@section PageLoad{
+    <script type="text/javascript">
+        $('#searchText').select();
+    </script>
+}

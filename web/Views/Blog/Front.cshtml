@@ -6,9 +6,24 @@
     ViewBag.PageSubHeading = ViewBag.FunQuote;
     ViewBag.Title = "Phil Campbell - Software Developer";
 }
- <div class="col-md-10 col-md-offset-1">
-    @Html.Partial("_PostList", Model.RecentBlogPosts)
+<div class="col-md-10 col-md-offset-1">
+    @*@Html.Partial("_PostList", Model.RecentBlogPosts)*@
+    @foreach (BlogPost post in Model.RecentBlogPosts)
+    {
+        <article class="clearfix">
+            <div class="post-date">
+                @post.PublishedOn.PrettyFormat() | @Html.RouteLink((string)ViewBag.MyName, routeName: "About")
+            </div>
+            <h2>@Html.RouteLink(post.Title, "BlogPost", new { slug = post.UrlSlug })</h2>
+            <p>
+                <span class="postIntro">@post.Intro &hellip;</span>  @Html.RouteLink("Read more", "BlogPost", new { slug = post.UrlSlug }, new { @class = "readMoreLink" })
+            </p>
+        </article>
+    }
+</div>
+
+@section PageLoad{
     <script>
         $("article.clearfix:last").addClass("last");
     </script>
-</div>
+}
