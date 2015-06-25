@@ -152,7 +152,7 @@ pre {
 	background: rgba(0, 0, 0, 0.2);
 }
 
-.image-bg {
+/*.image-bg {
 	background-image: url('../img/img5.jpg');
 }
 .image-bg2 {
@@ -166,7 +166,7 @@ pre {
 }
 .image-bg5 {
 	background-image: url('../img/img3.jpg');  
-}
+}*/
 
 /* ------------------------ animations ------------------------ */
 .tags a,article h2 a, 
