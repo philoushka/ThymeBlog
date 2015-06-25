@@ -1,7 +1,16 @@
-﻿.container {width:1170px;}
-#imgCC {border-width: 0;}
-#postTitle {margin-top:80px;}
-.tag {padding-right:10px;}
+﻿
+#imgCC {
+    border-width: 0;
+}
+
+#postTitle {
+    margin-top: 80px;
+}
+
+.tag {
+    padding-right: 10px;
+}
+
 .postIntro {
-    cursor:pointer;
+    cursor: pointer;
 }
