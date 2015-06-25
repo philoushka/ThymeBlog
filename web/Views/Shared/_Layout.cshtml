@@ -4,13 +4,13 @@
 <head>
     <title>@ViewBag.Title - @ViewBag.SiteName</title>
 
-    <link href="@Fingerprint.Tag("/Styles/bootstrap.min.css")" rel="stylesheet">
-    <link href="@Fingerprint.Tag("/Styles/style.css")" rel="stylesheet">
-    <link href="@Fingerprint.Tag("/Styles/icons.css")" rel="stylesheet">
-    <link href="@Fingerprint.Tag("/Styles/animate.min.css")" rel="stylesheet">
+    <link href="@Fingerprint.Tag("/Styles/bootstrap.min.css")" rel="stylesheet" type="text/css" >
+    <link href="@Fingerprint.Tag("/Styles/style.css")" rel="stylesheet" type="text/css" >
+    <link href="@Fingerprint.Tag("/Styles/icons.css")" rel="stylesheet" type="text/css" >
+    <link href="@Fingerprint.Tag("/Styles/animate.min.css")" rel="stylesheet" type="text/css" >
 
-    <link href="@Fingerprint.Tag("/Styles/Site.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Fingerprint.Tag("/images/devtxtfavicon.ico")" rel="shortcut icon" type="image/x-icon" />
+    <link href="@Fingerprint.Tag("/Styles/Site.min.css")" rel="stylesheet" type="text/css" >
+    <link href="@Fingerprint.Tag("/images/devtxtfavicon.ico")" rel="shortcut icon" type="image/x-icon" >
 
     <link rel="me" type="text/html" href="https://www.twitter.com/@(ViewBag.TwitterAccountName)">
     <link rel="me" type="text/html" href="https://www.github.com/@(ViewBag.GitHubAccountName)">
@@ -81,7 +81,7 @@
                             <img id="imgCC" alt="Creative Commons License" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAACrsar///9ERETMzMzu7u53d3eIiIhVVVVmZmYNDg0ODg6UmZOZmZmqqqoREREiIiIzMzMNDQ1ydnHKzsoZGRkgICBbXlshISFna2dCQkIPEA99gn2AgICGhoaHh4ckJSOPkI8nKCcuMC4xMzENDQyzuLJDQ0O7u7vFxsXGysbIzMg5Oznd3d07PTtBQkFLTEu6v7qumA/2AAAAtElEQVR4Xq2TRw7EMAhFAZf0num993b/y814hKJs4/jJKxs9fQEG95BTjBANE/D4SkQxYj0DKxphHBkfG7eIn0VP4XNMDRJGiLd3P2HokcxBKAG5JLFHrDfcXy7qKJzDmXKftM5UkpIOET+X/zsf6pqwAqnMVPyCfugI8XjlhFxml1AEmdIJ6bKd0EqIpUdpBoESUDzotGv30E54HzqecnxYNcLp2sEeYgVL9r0GfX+KU8A5X+INCo9agFfBAAAAAElFTkSuQmCC" />
                         </a>
                         This blog and its contents are licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.In short: share, remix, and respin it as you like, but you must provide attribution to me by name (Phil Campbell), and you must link to this page.
-                        <p>If you see an error, typo, or something that you'd like to correct, <a href="https://github.com/philoushka/blog">send me a pull request on GitHub</a>.</p>
+                        <br />If you see an error, typo, or something that you'd like to correct, <a href="https://github.com/philoushka/blog">send me a pull request on GitHub</a>.
                     </p>
                     <ul class="social-links pull-right">
                         <li><a href="https://www.twitter.com/@(ViewBag.TwitterAccountName)"><i class="icon-twitter"></i></a></li>
@@ -95,11 +95,11 @@
     </div>
 
     <script type="text/javascript">var _gaq = _gaq || []; _gaq.push(['_setAccount', '@ViewBag.GoogleAnalyticsAccountNumber']); _gaq.push(['_trackPageview']); (function () { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })();</script>
-    <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/jquery-2.1.3.min.js")"></script>
-    <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/bootstrap.min.js")"></script>
-    <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/placeholders.min.js")"></script>
-    <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/wow.min.js")"></script>
-    <script type="text/javascript" src="@Fingerprint.Tag("/Scripts/custom.js")"></script>
+    <script type="text/javascript" src='@Fingerprint.Tag("/Scripts/jquery-2.1.3.min.js")'></script>
+    <script type="text/javascript" src='@Fingerprint.Tag("/Scripts/bootstrap.min.js")'></script>
+    <script type="text/javascript" src='@Fingerprint.Tag("/Scripts/placeholders.min.js)'></script>
+    <script type="text/javascript" src='@Fingerprint.Tag("/Scripts/wow.min.js")'></script>
+    <script type="text/javascript" src='@Fingerprint.Tag("/Scripts/custom.js")'></script>
     <script type="text/javascript">
         $(function () {
             loadTopTags();
